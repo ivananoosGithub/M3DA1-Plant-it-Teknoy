@@ -1,4 +1,4 @@
- .u-section-1 {
+.u-section-1 {
   background-image: none;
 }
 
@@ -325,7 +325,7 @@
   width: 335px;
   height: 335px;
   box-shadow: 5px 5px 20px 0 rgba(186,138,40,0.4);
-  background-image: url("images/news.svg");
+  background-image: url("/static/images/news.svg");
   background-position: 50% 50%;
   --animation-custom_in-translate_x: -200px;
   --animation-custom_in-translate_y: 0px;
@@ -604,7 +604,7 @@
   width: 320px;
   height: 320px;
   box-shadow: 5px 5px 20px 0 rgba(186,138,40,0.4);
-  background-image: url("images/calendar.svg");
+  background-image: url("/static/images/calendar.svg");
   background-position: 50% 50%;
   --animation-custom_in-translate_x: 300px;
   --animation-custom_in-translate_y: 0px;
@@ -751,7 +751,7 @@
   width: 335px;
   height: 335px;
   box-shadow: 5px 5px 20px 0 rgba(186,138,40,0.4);
-  background-image: url("images/reminder.svg");
+  background-image: url("/static/images/reminder.svg");
   background-position: 50% 50%;
   --animation-custom_in-translate_x: -200px;
   --animation-custom_in-translate_y: 0px;
@@ -953,7 +953,7 @@
   width: 335px;
   height: 335px;
   box-shadow: 5px 5px 20px 0 rgba(186,138,40,0.4);
-  background-image: url("images/schedule.svg");
+  background-image: url("/static/images/schedule.svg");
   background-position: 50% 50%;
   --animation-custom_in-translate_x: 300px;
   --animation-custom_in-translate_y: 0px;
@@ -1078,7 +1078,7 @@
   width: 335px;
   height: 335px;
   box-shadow: 5px 5px 20px 0 rgba(186,138,40,0.4);
-  background-image: url("images/planner.svg");
+  background-image: url("/static/images/planner.svg");
   background-position: 50% 50%;
   --animation-custom_in-translate_x: -200px;
   --animation-custom_in-translate_y: 0px;
@@ -1280,7 +1280,7 @@
   width: 335px;
   height: 335px;
   box-shadow: 5px 5px 20px 0 rgba(186,138,40,0.4);
-  background-image: url("images/document1.svg");
+  background-image: url("/static/images/document1.svg");
   background-position: 50% 50%;
   --animation-custom_in-translate_x: 300px;
   --animation-custom_in-translate_y: 0px;
@@ -1426,7 +1426,7 @@
   width: 335px;
   height: 335px;
   box-shadow: 5px 5px 20px 0 rgba(186,138,40,0.4);
-  background-image: url("images/guide.svg");
+  background-image: url("/static/images/guide.svg");
   background-position: 50% 50%;
   --animation-custom_in-translate_x: -200px;
   --animation-custom_in-scale: 1;

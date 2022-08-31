@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html style="font-size: 16px;">
 
@@ -7,10 +9,10 @@
   <meta name="keywords" content="">
   <meta name="description" content="">
   <title>Contact</title>
-  <link rel="stylesheet" href="nicepage.css" media="screen">
-  <link rel="stylesheet" href="Contact.css" media="screen">
-  <script class="u-script" type="text/javascript" src="jquery.js" defer=""></script>
-  <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
+  <link rel="stylesheet" href="{% static 'css/nicepage.css' %}" media="screen">
+  <link rel="stylesheet" href="{% static 'css/Contact.css' %}" media="screen">
+  <script class="u-script" type="text/javascript" src="{% static 'js/jquery.js' %}" defer=""></script>
+  <script class="u-script" type="text/javascript" src="{% static 'js/nicepage.js' %}" defer=""></script>
   <meta name="generator" content="Nicepage 4.12.5, nicepage.com">
   <link id="u-theme-google-font" rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
@@ -46,9 +48,9 @@
   <header class="u-clearfix u-custom-color-1 u-header u-header" id="sec-0955">
     <div class="u-clearfix u-sheet u-sheet-1">
       <div class="u-border-2 u-border-white u-hidden-md u-hidden-sm u-hidden-xs u-line u-line-vertical u-line-1"></div>
-      <a href="Home.html" data-page-id="225305269" class="u-image u-logo u-image-1" data-image-width="634"
+      <a href="{% url 'Home' %}" data-page-id="225305269" class="u-image u-logo u-image-1" data-image-width="634"
         data-image-height="182" title="Home">
-        <img src="images/logo.PNG" class="u-logo-image u-logo-image-1">
+        <img src="{% static 'images/logo.PNG' %}" class="u-logo-image u-logo-image-1">
       </a>
       <nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1">
         <div class="menu-collapse u-custom-font u-font-montserrat" style="font-size: 1rem; letter-spacing: 0px;">
@@ -71,15 +73,15 @@
           <ul class="u-custom-font u-font-montserrat u-nav u-unstyled u-nav-1">
             <li class="u-nav-item"><a
                 class="u-button-style u-nav-link u-text-active-custom-color-3 u-text-hover-custom-color-3"
-                href="Home.html" style="padding: 10px 20px;">Home</a>
+                href="{% url 'Home' %}" style="padding: 10px 20px;">Home</a>
             </li>
             <li class="u-nav-item"><a
                 class="u-button-style u-nav-link u-text-active-custom-color-3 u-text-hover-custom-color-3"
-                href="About.html" style="padding: 10px 20px;">About</a>
+                href="{% url 'About' %}" style="padding: 10px 20px;">About</a>
             </li>
             <li class="u-nav-item"><a
                 class="u-button-style u-nav-link u-text-active-custom-color-3 u-text-hover-custom-color-3"
-                href="Contact.html" style="padding: 10px 20px;">Contact</a>
+                href="{% url 'Contact' %}" style="padding: 10px 20px;">Contact</a>
             </li>
           </ul>
         </div>
@@ -88,11 +90,11 @@
             <div class="u-inner-container-layout u-sidenav-overflow">
               <div class="u-menu-close"></div>
               <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2">
-                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="Home.html">Home</a>
+                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="{% url 'Home' %}">Home</a>
                 </li>
-                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="About.html">About</a>
+                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="{% url 'About' %}">About</a>
                 </li>
-                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="Contact.html">Contact</a>
+                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="{% url 'Contact' %}">Contact</a>
                 </li>
               </ul>
             </div>
@@ -118,9 +120,9 @@
         </button>
         <input class="u-search-input" type="search" name="search" value="" placeholder="Search">
       </form><span class="u-file-icon u-hidden-md u-hidden-sm u-hidden-xs u-icon u-text-white u-icon-1"
-        data-href="Home.html" data-page-id="225305269"><img src="images/5.png" alt=""></span><span
+        data-href="Home.html" data-page-id="225305269"><img src="{% static 'images/5.png' %}" alt=""></span><span
         class="u-file-icon u-hidden-md u-hidden-sm u-hidden-xs u-icon u-text-white u-icon-2" data-href="Home.html"
-        data-page-id="225305269"><img src="images/6.png" alt=""></span>
+        data-page-id="225305269"><img src="{% static 'images/6.png' %}" alt=""></span>
     </div>
   </header>
   <section class="u-clearfix u-section-1" id="sec-04c4">
@@ -171,7 +173,7 @@
             <div
               class="u-container-style u-layout-cell u-size-29-lg u-size-29-md u-size-29-sm u-size-29-xs u-size-34-xl u-layout-cell-2">
               <div class="u-container-layout u-valign-top-lg u-valign-top-md u-container-layout-2">
-                <img class="u-expanded-width-sm u-expanded-width-xs u-image u-image-1" src="images/contact.svg"
+                <img class="u-expanded-width-sm u-expanded-width-xs u-image u-image-1" src="{% static 'images/contact.svg' %}"
                   data-image-width="406" data-image-height="306" data-animation-name="customAnimationIn"
                   data-animation-duration="2000" data-animation-out="0">
               </div>
@@ -187,41 +189,41 @@
     <div class="u-clearfix u-sheet u-valign-top-sm u-valign-top-xs u-sheet-1">
       <div class="u-container-style u-expanded-width u-group u-group-1">
         <div class="u-container-layout u-container-layout-1">
-          <a href="https://nicepage.com" class="u-image u-logo u-image-1" data-image-width="395"
+          <a href="{% url 'Home' %}" class="u-image u-logo u-image-1" data-image-width="395"
             data-image-height="415">
-            <img src="images/noteknoy.png" class="u-logo-image u-logo-image-1">
+            <img src="{% static 'images/noteknoy.png' %}" class="u-logo-image u-logo-image-1">
           </a>
           <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-default u-text-1">Legal</h6>
           <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-default u-text-2">Explore</h6>
           <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-default u-text-3">Visit</h6>
-          <img class="u-image u-image-default u-image-2" src="images/teknoy.png" alt="" data-image-width="462"
+          <img class="u-image u-image-default u-image-2" src="{% static 'images/teknoy.png' %}" alt="" data-image-width="462"
             data-image-height="60">
           <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-4">
             <a class="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-palette-1-base u-btn-1"
-              href="https://cit.edu/"> Natalio B. Bacalso Ave, Cebu City, 6000 Cebu</a>
+              href="https://cit.edu/" target="_blank"> Natalio B. Bacalso Ave, Cebu City, 6000 Cebu</a>
           </h6>
           <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-default u-text-5">
             <a class="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-palette-1-base u-btn-2"
-              href="Home.html" data-page-id="225305269">Terms</a>
+              href="{% url 'Home' %}" data-page-id="225305269">Terms</a>
           </h6>
           <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-default u-text-6">
             <a class="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-palette-1-base u-btn-3"
-              href="Home.html" data-page-id="225305269">Home</a>
+              href="{% url 'Home' %}" data-page-id="225305269">Home</a>
           </h6>
           <p
             class="u-align-center-sm u-align-center-xs u-align-left-lg u-align-left-md u-align-left-xl u-custom-font u-font-montserrat u-text u-text-7">
             Your place to stay organized, creative and get work done.</p>
           <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-default u-text-8">
             <a class="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-palette-1-base u-btn-4"
-              href="About.html" data-page-id="61720688">About</a>
+              href="{% url 'About' %}" data-page-id="61720688">About</a>
           </h6>
           <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-default u-text-9">
             <a class="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-palette-1-base u-btn-5"
-              href="Home.html" data-page-id="225305269">Privacy</a>
+              href="{% url 'Home' %}" data-page-id="225305269">Privacy</a>
           </h6>
           <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-default u-text-10">
             <a class="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-palette-1-base u-btn-6"
-              href="Contact.html" data-page-id="299810311">Contact</a>
+              href="{% url 'Contact' %}" data-page-id="299810311">Contact</a>
           </h6>
           <div
             class="u-border-1 u-border-white u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xl u-line u-line-horizontal u-line-1">
@@ -280,7 +282,7 @@
             </a>
           </div>
           <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-default u-text-11">2022 Plan'it Teknoy.
-            All Rights Reserved.</h6><span class="u-file-icon u-icon u-text-white u-icon-5"><img src="images/9.png"
+            All Rights Reserved.</h6><span class="u-file-icon u-icon u-text-white u-icon-5"><img src="{% static 'images/9.png' %}"
               alt=""></span>
         </div>
       </div>
