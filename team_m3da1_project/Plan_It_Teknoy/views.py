@@ -17,3 +17,11 @@ def about(response):
 # Contact Us page
 def contact(response):
     return render(response, "Plan_It_Teknoy/User/Contact.html", {})
+
+# Sign in page
+def signin(response):
+    return render(response, "Plan_It_Teknoy/User/signin.html", {})
+
+# Sign up page
+def signup(response):
+    return render(response, "Plan_It_Teknoy/User/signup.html", {})

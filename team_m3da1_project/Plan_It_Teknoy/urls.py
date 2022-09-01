@@ -10,6 +10,8 @@ urlpatterns = [
     path('', views.home, name="Home"),
     path("About", views.about, name="About"),
     path("Contact", views.contact, name="Contact"),
+    path("Sign in", views.signin, name="Sign in"),
+    path("Sign up", views.signup, name="Sign up"),
 
     # End of user pages
 
