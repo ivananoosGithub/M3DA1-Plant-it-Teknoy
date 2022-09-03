@@ -12,24 +12,38 @@
 </head>
 <body id="bgOverlay">
     <div class="container">
+        {% for message in messages %}
+    <div id="errorDiv"style="margin: auto; width: 300px; border-radius: 5px; position: absolute;
+              background-color: white; z-index: 1; transform: translate(158%, 128%);">
+    <p class="{{ message.tags }}" 
+      style="color: rgb(201, 44, 44); font-weight: bold; text-align: center;
+             font-family: Arial; margin-top: 10px; padding: 5px;">
+      {% if 'login' in message.tags %}
+        {{ message }}
+      {% else %}
+        {{ message }}
+      {% endif %}
+      </p></div>
+    {% endfor %}
         <div class="row">
             <div class="col-sm">
 
             </div>
             <div class="col-sm">
                 <img id="logo" src="{% static 'images/LogoMain.png' %}" alt="">
-                <form>
+                <form id="form1" action="" method="POST" autocomplete="off" enctype="multipart/form-data">
+                {% csrf_token %}
                     <div class="form-group">
                         <!-- IDN -->
-                      <input type="text" class="form-control" id="inputIDN" placeholder="Student ID Number" required>
+                      <input type="text" class="form-control" id="id_number" name ="id_number"  placeholder="Student ID Number" required>
                     </div>
                     <div class="form-group">
                         <!-- Email -->
-                        <input type="email" class="form-control" id="inputEmail" placeholder="Institutional Email" required>
+                        <input type="email" class="form-control" id="email" name = "email" placeholder="Institutional Email" required>
                       </div>
                     <div class="form-group">
                         <!-- PW -->
-                      <input type="password" class="form-control" id="inputPassword" placeholder="Password" required>
+                      <input type="password" class="form-control" id="password" name = "password" placeholder="Password" required>
                     </div>
                     <br>
                     <!-- sign in button -->

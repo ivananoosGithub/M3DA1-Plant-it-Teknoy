@@ -10,8 +10,8 @@ urlpatterns = [
     # Start of user pages
     path('', views.home, name="Home"),
     path("About/", views.about, name="About"),
-    path("Contact/", views.contact, name="Contact"),
-    path("SignIn/", views.signin, name="signin"),
+    path("Contact/", views.contactView.as_view(), name="contact_view"),
+    path("SignIn/", views.SignInView.as_view(), name="signin_view"),
     path("SignUp/", views.SignUpView.as_view(), name="signup_view"),
     # End of user pages
 

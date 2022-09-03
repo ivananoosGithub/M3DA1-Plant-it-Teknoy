@@ -15,19 +15,7 @@
         <img src="{% static 'images/LogoMain.png' %}" alt="">
     </div>
 
-    {% for message in messages %}
-    <div id="errorDiv"style="margin: auto; width: 300px; border-radius: 5px; position: absolute;
-              background-color: white; z-index: 1; transform: translate(158%, 128%);">
-    <p class="{{ message.tags }}" 
-      style="color: rgb(201, 44, 44); font-weight: bold; text-align: center;
-             font-family: Arial; margin-top: 10px; padding: 5px;">
-      {% if 'login' in message.tags %}
-        {{ message }}
-      {% else %}
-        {{ message }}
-      {% endif %}
-      </p></div>
-    {% endfor %}
+    
 
     <div class="container">
         <div class="col text-center">
@@ -69,7 +57,7 @@
                     </div>
                     <div class="col text-center signin">
                         <!-- sign in anchor -->
-                        <p>Already have an account? <a href="{% url 'Plan_It_Teknoy:signin' %}">Sign in</a></p>
+                        <p>Already have an account? <a href="{% url 'Plan_It_Teknoy:signin_view' %}">Sign in</a></p>
                     </div>
                   </form>
             </div>
