@@ -53,7 +53,7 @@
                         <button type="submit" class="btn btn-primary" id="signinBtn">Sign in</button>
                         <!-- forgot pw anchor -->
                         <br><br>
-                        <a href="#">forgot password?</a>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#forgotPWModal">forgot password?</a>
                     </div>
                     <div class="col text-center signup">
                         <!-- sign up anchor -->
@@ -68,5 +68,43 @@
         </div>
         <!-- end class row -->
     </div>
+
+        <!-- forgot pw modal -->
+        <div class="modal fade" id="forgotPWModal" tabindex="-1" aria-labelledby="forgotPWModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="forgotPWModalLabel">What's my password?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="text-center">
+                      <br>
+                      <p>Fellow Technologian, don't worry! Resetting your password is easy. Just type in the email you registered to Plan'it Teknoy</p>
+                      <br>
+                        <div class="panel-body">
+                            <fieldset>
+                                <div class="form-group">
+                                  <!-- email -->
+                                    <input class="form-control" placeholder="Institutional Email" name="email" type="email">
+                                </div>
+                                  <!-- Submit button -->
+                                  <button class="btn btn-danger btn-lg" value="Reset password" type="submit">Request Password Reset</button>
+                                  <br><br>
+                            </fieldset>
+                        </div>
+                  </div>
+  
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end modal -->
+
+           <!-- JavaScript Bundle with Popper -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+
 </body>
 </html>
