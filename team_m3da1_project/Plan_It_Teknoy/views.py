@@ -17,7 +17,12 @@ def home(response):
 # About Us Page
 def about(response):
     return render(response, "About.html", {})
-    
+
+# Select Role Page
+class SelectRoleView(View):
+    def get(self, request):
+        return render(request, 'signup-role.html', {})
+
 # Contact Us page
 class contactView(View):
     def get(self, request): 
@@ -113,3 +118,8 @@ class SignUpView(View):
             print(form.errors)
             messages.info(request, 'Account already exists! Please try another unique one.', extra_tags='try')
             return redirect('Plan_It_Teknoy:signup_view')
+
+# Select Role Page
+class SignupTeacherView(View):
+    def get(self, request):
+        return render(request, 'signup-teacher.html', {})

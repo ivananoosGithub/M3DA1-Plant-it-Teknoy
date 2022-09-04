@@ -13,6 +13,9 @@ urlpatterns = [
     path("Contact/", views.contactView.as_view(), name="contact_view"),
     path("SignIn/", views.SignInView.as_view(), name="signin_view"),
     path("SignUp/", views.SignUpView.as_view(), name="signup_view"),
+    path("SignUpTeacher/", views.SignupTeacherView.as_view(), name="signupT_view"),
+    # Select Role url
+    path("SelectRole/", views.SelectRoleView.as_view(), name="select_view"),
     # End of user pages
 
     # # icon browser tab

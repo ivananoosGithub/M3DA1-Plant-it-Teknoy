@@ -30,7 +30,9 @@
 
             </div>
             <div class="col-sm">
+              <a href="{% url 'Plan_It_Teknoy:Home' %}">
                 <img id="logo" src="{% static 'images/LogoMain.png' %}" alt="">
+              </a>
                 <form id="form1" action="" method="POST" autocomplete="off" enctype="multipart/form-data">
                 {% csrf_token %}
                     <div class="form-group">
@@ -56,7 +58,7 @@
                     <div class="col text-center signup">
                         <!-- sign up anchor -->
                         <br><br>
-                        <p>Don't have an account? <a href="{% url 'Plan_It_Teknoy:signup_view' %}">Sign up</a></p>
+                        <p>Don't have an account? <a href="{% url 'Plan_It_Teknoy:select_view' %}">Sign up</a></p>
                     </div>
                   </form>
             </div>
