@@ -5,3 +5,8 @@ class UsersForm(forms.ModelForm):
     class Meta:
         model = Users
         exclude = []
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        exclude = []

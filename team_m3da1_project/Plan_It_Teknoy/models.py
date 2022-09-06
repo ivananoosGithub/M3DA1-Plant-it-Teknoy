@@ -1,3 +1,4 @@
+import email
 from django.db import models
 
 # Create your models here.
@@ -50,3 +51,14 @@ class Teachers(models.Model):
 
     def __str__(self):
         return self.teacher
+
+class Contact(models.Model):
+    name = models.CharField(max_length = 50, default="Not set")
+    email= models.CharField(max_length = 50)
+    message = models.CharField(max_length = 250)
+
+    class meta:
+        db_table = 'Contact'
+    
+    def __str__(self):
+        return self.contact
