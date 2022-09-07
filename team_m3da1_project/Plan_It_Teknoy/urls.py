@@ -9,11 +9,12 @@ urlpatterns = [
 
     # Start of user pages
     path('', views.home, name="Home"),
+    path('logout/', views.logout, name='logout'),
     path("About/", views.about, name="About"),
     path("Contact/", views.contactView.as_view(), name="contact_view"),
     path("SignIn/", views.SignInView.as_view(), name="signin_view"),
-    path("SignUp/", views.SignUpView.as_view(), name="signup_view"),
-    path("SignUpTeacher/", views.SignupTeacherView.as_view(), name="signupT_view"),
+    path("StudentSignUp/", views.SignUpStudentView.as_view(), name="signupS_view"),
+    path("TeacherSignUp/", views.SignUpTeacherView.as_view(), name="signupT_view"),
     # Select Role url
     path("SelectRole/", views.SelectRoleView.as_view(), name="select_view"),
     # End of user pages
