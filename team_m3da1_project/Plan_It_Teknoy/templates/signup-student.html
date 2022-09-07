@@ -21,6 +21,8 @@
         <img src="{% static 'images/LogoMain.png' %}" alt="">
     </div>
 
+    
+
     <div class="container">
         <div class="col text-center">
             <br>
@@ -75,9 +77,9 @@
   <!-- Error Message (account existing) -->
   {% for message in messages %}
   <div id="errorDiv" style="margin: auto; width: 300px; border-radius: 5px; position: absolute;
-              background-color: white; z-index: 1; transform: translate(158%, 128%);">
+          background-color: white; z-index: 1; transform: translate(158%, 128%);">
     <p class="{{ message.tags }}" style="color: rgb(201, 44, 44); font-weight: bold; text-align: center;
-             font-family: Raleway; margin-top: 10px; padding: 5px;">
+         font-family: Raleway; margin-top: 10px; padding: 5px;">
       {% if 'login' in message.tags %}
       {{ message }}
       {% else %}
@@ -187,15 +189,15 @@
                         </select>
                       </div>
                       <!-- Year -->
-                      <!-- <div class="col-12 col-sm-6 mt-4 mt-sm-0">
-                          <select class="multisteps-form__select form-control" id="level" name="level" required>
-                            <option value="" disabled selected>Level</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                          </select>
-                        </div> -->
+                      <div class="col-12 col-sm-6 mt-4 mt-sm-0">
+                        <select class="multisteps-form__select form-control" id="year_level" name="year_level" required>
+                          <option value="" disabled selected>Year Level</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                        </select>
+                      </div>
                     </div>
                     <div class="button-row d-flex mt-4">
                       <!-- Return to home button -->
@@ -269,7 +271,7 @@
                       </div>
                     </div>
                     <div class="button-row d-flex mt-4">
-                      <button class="btn btn-danger js-btn-prev" type="button" title="Prev">Previos</button>
+                      <button class="btn btn-danger js-btn-prev" type="button" title="Prev">Previous</button>
                       <!-- Submit Button -->
                       <button class="btn btn-danger ml-auto" type="submit" title="Register">Sign up</button>
                     </div>
