@@ -12,24 +12,40 @@
 </head>
 <body id="bgOverlay">
     <div class="container">
+        {% for message in messages %}
+    <div id="errorDiv"style="margin: auto; width: 300px; border-radius: 5px; position: absolute;
+              background-color: white; z-index: 1; transform: translate(158%, 128%);">
+    <p class="{{ message.tags }}" 
+      style="color: rgb(201, 44, 44); font-weight: bold; text-align: center;
+             font-family: Arial; margin-top: 10px; padding: 5px;">
+      {% if 'login' in message.tags %}
+        {{ message }}
+      {% else %}
+        {{ message }}
+      {% endif %}
+      </p></div>
+    {% endfor %}
         <div class="row">
             <div class="col-sm">
 
             </div>
             <div class="col-sm">
+              <a href="{% url 'Plan_It_Teknoy:Home' %}">
                 <img id="logo" src="{% static 'images/LogoMain.png' %}" alt="">
-                <form>
+              </a>
+                <form id="form1" action="" method="POST" autocomplete="off" enctype="multipart/form-data">
+                {% csrf_token %}
                     <div class="form-group">
                         <!-- IDN -->
-                      <input type="text" class="form-control" id="inputIDN" placeholder="Student ID Number" required>
+                      <input type="text" class="form-control" id="id_number" name ="id_number"  placeholder="Student ID Number" required>
                     </div>
                     <div class="form-group">
                         <!-- Email -->
-                        <input type="email" class="form-control" id="inputEmail" placeholder="Institutional Email" required>
+                        <input type="email" class="form-control" id="email" name = "email" placeholder="Institutional Email" required>
                       </div>
                     <div class="form-group">
                         <!-- PW -->
-                      <input type="password" class="form-control" id="inputPassword" placeholder="Password" required>
+                      <input type="password" class="form-control" id="password" name = "password" placeholder="Password" required>
                     </div>
                     <br>
                     <!-- sign in button -->
@@ -37,12 +53,12 @@
                         <button type="submit" class="btn btn-primary" id="signinBtn">Sign in</button>
                         <!-- forgot pw anchor -->
                         <br><br>
-                        <a href="#">Forgot Password?</a>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#forgotPWModal">Forgot password?</a>
                     </div>
                     <div class="col text-center signup">
                         <!-- sign up anchor -->
                         <br><br>
-                        <p>Don't have an account? <a href="{% url 'Plan_It_Teknoy:signup_view' %}">Sign up</a></p>
+                        <p>Don't have an account? <a href="{% url 'Plan_It_Teknoy:select_view' %}">Sign up</a></p>
                     </div>
                   </form>
             </div>
@@ -52,5 +68,43 @@
         </div>
         <!-- end class row -->
     </div>
+
+        <!-- forgot pw modal -->
+        <div class="modal fade" id="forgotPWModal" tabindex="-1" aria-labelledby="forgotPWModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="forgotPWModalLabel">What's my password?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="text-center">
+                      <br>
+                      <p>Fellow Technologian, don't worry! Resetting your password is easy. Just type in the email you registered to Plan'it Teknoy</p>
+                      <br>
+                        <div class="panel-body">
+                            <fieldset>
+                                <div class="form-group">
+                                  <!-- email -->
+                                    <input class="form-control" placeholder="Institutional Email" name="email" type="email">
+                                </div>
+                                  <!-- Submit button -->
+                                  <button class="btn btn-danger btn-lg" value="Reset password" type="submit">Request Password Reset</button>
+                                  <br><br>
+                            </fieldset>
+                        </div>
+                  </div>
+  
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end modal -->
+
+           <!-- JavaScript Bundle with Popper -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+
 </body>
 </html>

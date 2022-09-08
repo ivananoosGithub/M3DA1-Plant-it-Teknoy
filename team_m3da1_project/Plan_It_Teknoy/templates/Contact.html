@@ -81,7 +81,7 @@
             </li>
             <li class="u-nav-item"><a
                 class="u-button-style u-nav-link u-text-active-custom-color-3 u-text-hover-custom-color-3"
-                href="{% url 'Plan_It_Teknoy:Contact' %}" style="padding: 10px 20px;">Contact</a>
+                href="{% url 'Plan_It_Teknoy:contact_view' %}" style="padding: 10px 20px;">Contact</a>
             </li>
           </ul>
         </div>
@@ -94,7 +94,7 @@
                 </li>
                 <li class="u-nav-item"><a class="u-button-style u-nav-link" href="{% url 'Plan_It_Teknoy:About' %}">About</a>
                 </li>
-                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="{% url 'Plan_It_Teknoy:Contact' %}">Contact</a>
+                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="{% url 'Plan_It_Teknoy:contact_view' %}">Contact</a>
                 </li>
               </ul>
             </div>
@@ -123,6 +123,12 @@
         data-href="{% url 'Plan_It_Teknoy:Home' %}"" data-page-id="225305269"><img src="{% static 'images/5.png' %}" alt=""></span><span
         class="u-file-icon u-hidden-md u-hidden-sm u-hidden-xs u-icon u-text-white u-icon-2" data-href="{% url 'Plan_It_Teknoy:Home' %}""
         data-page-id="225305269"><img src="{% static 'images/6.png' %}" alt=""></span>
+
+        {% if current_user %}  <!-- Palihog ko og design <3 -- -->
+          <h3><a href="{% url 'Plan_It_Teknoy:logout' %}">LOGOUT</a></h3>
+          {% else %}
+          {% endif %}
+
     </div>
   </header>
   <section class="u-clearfix u-section-1" id="sec-04c4">
@@ -137,23 +143,24 @@
                 <h1 class="u-custom-font u-font-montserrat u-text u-text-default-lg u-text-default-xl u-text-1"
                   data-animation-out="0">GET IN TOUCH!</h1>
                 <div class="u-expanded-width-xs u-form u-form-1">
-                  <form action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form"
+                  <form id ="form1" action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form"
                     style="padding: 10px" source="email" name="form">
+                    {% csrf_token %}
                     <div class="u-form-group u-form-name u-label-none">
                       <label for="name-3b9a" class="u-label">Name</label>
-                      <input type="text" placeholder="Name" id="name-3b9a" name="name"
+                      <input type="text" placeholder="Name" id="name" name="name"
                         class="u-border-1 u-border-grey-40 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-14 u-white u-input-1"
                         required="">
                     </div>
                     <div class="u-form-email u-form-group u-label-none">
                       <label for="email-3b9a" class="u-label">Email</label>
-                      <input type="email" placeholder="Email" id="email-3b9a" name="email"
+                      <input type="email" placeholder="Email" id="email" name="email"
                         class="u-border-1 u-border-grey-40 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-14 u-white u-input-2"
                         required="">
                     </div>
                     <div class="u-form-group u-form-message u-label-none">
                       <label for="message-3b9a" class="u-label">Message</label>
-                      <textarea placeholder="Message" rows="4" cols="50" id="message-3b9a" name="message"
+                      <textarea placeholder="Message" rows="4" cols="50" id="message" name="message"
                         class="u-border-1 u-border-grey-40 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-14 u-white u-input-3"
                         required=""></textarea>
                     </div>
@@ -162,8 +169,8 @@
                         class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-10 u-btn-1">Submit</a>
                       <input type="submit" value="submit" class="u-form-control-hidden">
                     </div>
-                    <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
-                    <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors
+                    <div class="u-form-send-message u-form-send-success u"> Thank you! Your message has been sent. </div>
+                   <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors
                       then try again. </div>
                     <input type="hidden" value="" name="recaptchaResponse">
                   </form>
@@ -223,7 +230,7 @@
           </h6>
           <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-default u-text-10">
             <a class="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-palette-1-base u-btn-6"
-              href="{% url 'Plan_It_Teknoy:Contact' %}" data-page-id="299810311">Contact</a>
+              href="{% url 'Plan_It_Teknoy:contact_view' %}" data-page-id="299810311">Contact</a>
           </h6>
           <div
             class="u-border-1 u-border-white u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xl u-line u-line-horizontal u-line-1">
