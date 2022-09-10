@@ -53,19 +53,23 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Event Title:</label>
-                                    {{ form.title }}
+                                    <input type="text" name="title" id="title" placeholder="">
+                                    <!-- {{ form.title }} -->
                                 </div>
                                 <div class="form-group">
                                     <label for="message-text" class="col-form-label">Description:</label>
-                                    {{ form.description }}
+                                    <input type="text" name="desc" id="desc" placeholder="">
+                                    <!-- {{ form.description }} -->
                                 </div>
                                 <div class="form-group">
                                     <label for="message-text" class="col-form-label">Start Date:</label>
-                                    {{ form.start_time }}
+                                    <input type="date" name="startDate" id="startDate">
+                                    <!-- {{ form.start_time }} -->
                                 </div>
                                 <div class="form-group">
                                     <label for="message-text" class="col-form-label">End Date:</label>
-                                    {{ form.end_time }}
+                                    <input type="date" name="endDate" id="endDate">
+                                    <!-- {{ form.end_time }} -->
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -81,8 +85,8 @@
 </div>
 {% endblock content %}
 
-<!-- NOTICE!!! Cannot render calendarapp -->
 {% block extrascripts %}
+  <link href="{% static 'calender/main.css' %}" rel="stylesheet" />
   <script src="{% static 'calender/main.js' %}"></script>
   <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -111,9 +115,10 @@
               arg.event.remove()
             }
           },
-          editable: true,
-          dayMaxEvents: true, // allow "more" link when too many events
-          events: {{ events|safe }},
+          editable: false, //drag drag drag drag!!!
+          dayMaxEvents: true,
+          // Line 117 caused the the calendar to not render
+          // events: {{ events|safe }},
 
           // insert google calendar api from created CIT-U's google calendar
           googleCalendarApiKey: 'AIzaSyCqTHFS2DPRDGYrDqdAwd9v2bPVJxRXr4U',
@@ -135,4 +140,5 @@
         eventModal.style.display = 'none';
       });
   </script>
+
 {% endblock extrascripts %}

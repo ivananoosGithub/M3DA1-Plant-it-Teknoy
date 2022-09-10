@@ -230,11 +230,6 @@ class SignUpTeacherView(View):
             messages.info(request, 'Account already exists! Please try another unique one.', extra_tags='try')
             return redirect('Plan_It_Teknoy:signupT_view')
 
-# Main
-# class CalendarView(View):
-#     def get(self, request):
-#         return render(request, 'calendarapp/calendar.html', {})
-
 # Calendar ViewNew
 class CalendarViewNew(View):
     def get(self, request):

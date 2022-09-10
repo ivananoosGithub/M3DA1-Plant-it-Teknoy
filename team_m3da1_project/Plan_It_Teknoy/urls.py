@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path
 from Plan_It_Teknoy import views
 
+
 app_name = 'Plan_It_Teknoy'
 
 urlpatterns = [
