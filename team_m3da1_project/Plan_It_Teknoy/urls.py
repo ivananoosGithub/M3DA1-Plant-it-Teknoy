@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path
 from Plan_It_Teknoy import views
 
+
 app_name = 'Plan_It_Teknoy'
 
 urlpatterns = [
@@ -17,6 +18,11 @@ urlpatterns = [
     path("TeacherSignUp/", views.SignUpTeacherView.as_view(), name="signupT_view"),
     # Select Role url
     path("SelectRole/", views.SelectRoleView.as_view(), name="select_view"),
+    # Main Page url
+    path("Calendar/", views.CalendarViewNew.as_view(), name="calendar"),
+    # Dashboard url
+    path("Dashboard/", views.DashboardView.as_view(), name="dashboard"),
+
     # End of user pages
 
     # # icon browser tab

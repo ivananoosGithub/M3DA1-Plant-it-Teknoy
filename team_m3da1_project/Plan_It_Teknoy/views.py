@@ -5,6 +5,7 @@ from django.views.generic import View
 from .forms import *
 from .models import *
 from passlib.hash import pbkdf2_sha256
+# Calendarapp Imports
 
 
 #################################### Start of user pages ###################################
@@ -228,3 +229,13 @@ class SignUpTeacherView(View):
             print(form1.errors,form2.errors)
             messages.info(request, 'Account already exists! Please try another unique one.', extra_tags='try')
             return redirect('Plan_It_Teknoy:signupT_view')
+
+# Calendar ViewNew
+class CalendarViewNew(View):
+    def get(self, request):
+        return render(request, 'calendarapp/calendar.html', {})
+
+# DashboardView
+class DashboardView(View):
+    def get(self, request):
+        return render(request, 'calendarapp/dashboard.html', {})
