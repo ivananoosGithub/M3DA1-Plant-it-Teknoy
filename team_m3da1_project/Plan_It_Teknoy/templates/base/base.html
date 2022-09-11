@@ -127,7 +127,7 @@
                         </li>
                         <!-- Signout Button -->
                         <li>
-                            <a class="dropdown-item" href="#"><i class="fa fa-sign-out fa-lg"></i> Sign Out</a>
+                            <a class="dropdown-item" href="{% url 'Plan_It_Teknoy:logout' %}"><i class="fa fa-sign-out fa-lg"></i> Sign Out</a>
                         </li>
                     </ul>
                 </li>
@@ -138,19 +138,22 @@
         <aside class="app-sidebar">
             <div class="app-sidebar__user">
                 <img class="app-sidebar__user-avatar" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80" alt="User Image" height="50px" width="50px"/>
+                
                 <div>
                     <!-- User Name -->
-                    <p class="app-sidebar__user-name">Friendly User</p>
+                    {% for student_records in student_record %}
+                    <p class="app-sidebar__user-name">{{student_records.first_name}} {{student_records.last_name}}</p>
                     <!-- User Program -->
-                    <p class="app-sidebar__user-designation">BSIT Student</p>
+                    <p class="app-sidebar__user-designation">{{student_records.program}}</p>
+                    {% endfor %}
                 </div>
             </div>
             <ul class="app-menu">
                 <li>
-                    <a class="app-menu__item" href="{% url 'Plan_It_Teknoy:dashboard' %}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a>
+                    <a class="app-menu__item" href="{% url 'Plan_It_Teknoy:dashboard_view' %}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a>
                 </li>
                 <li>
-                    <a class="app-menu__item" href="{% url 'Plan_It_Teknoy:calendar' %}"><i class="app-menu__icon fa fa-calendar"></i><span class="app-menu__label">Calendar</span></a>
+                    <a class="app-menu__item" href="{% url 'Plan_It_Teknoy:calendar_view' %}"><i class="app-menu__icon fa fa-calendar"></i><span class="app-menu__label">Calendar</span></a>
                 </li>
                 <li class="treeview">
                     <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Events</span><i class="treeview-indicator fa fa-angle-right"></i></a>

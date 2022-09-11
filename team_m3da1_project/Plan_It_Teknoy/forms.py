@@ -1,5 +1,7 @@
 from django import forms
 from .models import *
+from django.core.exceptions import ValidationError
+from django.contrib.auth.password_validation import validate_password
 
 class UsersForm(forms.ModelForm):
     class Meta:
@@ -23,3 +25,4 @@ class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
         exclude = []
+

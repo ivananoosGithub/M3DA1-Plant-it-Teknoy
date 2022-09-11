@@ -77,7 +77,7 @@ class SignInView(View):
                 'teachers' : teachers,
                 'users' : users,
             }
-            return render(request, 'Home.html', context)
+            return render(request, 'signin.html', context)
         else:
             return render(request, 'signin.html', {})
     
@@ -93,7 +93,7 @@ class SignInView(View):
             if check_id and dec_password and check_email:
                 request.session['user'] = id_number
                 if Users.objects.filter(id_number=id_number).count()>0:
-                    return redirect('Plan_It_Teknoy:Home')
+                    return redirect('Plan_It_Teknoy:dashboard_view')
             else:
                 messages.info(request, 'Incorrect ID Number and Email and Password!')
                 return redirect('Plan_It_Teknoy:signin_view') 
@@ -233,9 +233,39 @@ class SignUpTeacherView(View):
 # Calendar ViewNew
 class CalendarViewNew(View):
     def get(self, request):
-        return render(request, 'calendarapp/calendar.html', {})
+
+        if 'user' in request.session:
+            current_user = request.session['user']
+            confirm_user_id = Users(id_number=current_user)
+            current_student = Students(StudentID=confirm_user_id)
+            
+            #accessing all student records in the database
+            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
+            
+            context = {"student_record" : student_record}
+
+        return render(request, 'calendarapp/calendar.html', context)
 
 # DashboardView
 class DashboardView(View):
     def get(self, request):
-        return render(request, 'calendarapp/dashboard.html', {})
+        if 'user' in request.session:
+            current_user = request.session['user']
+            confirm_user_id = Users(id_number=current_user)
+            current_student = Students(StudentID=confirm_user_id)
+            
+            #accessing all student records in the database
+            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
+            
+            context = {"student_record" : student_record}
+
+            return render(request, 'calendarapp/dashboard.html', context)
+    
+
+
+        
+
+
+        
+
+    

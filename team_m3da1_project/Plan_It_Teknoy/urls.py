@@ -19,9 +19,9 @@ urlpatterns = [
     # Select Role url
     path("SelectRole/", views.SelectRoleView.as_view(), name="select_view"),
     # Main Page url
-    path("Calendar/", views.CalendarViewNew.as_view(), name="calendar"),
+    path("Calendar/", views.CalendarViewNew.as_view(), name="calendar_view"),
     # Dashboard url
-    path("Dashboard/", views.DashboardView.as_view(), name="dashboard"),
+    path("Dashboard/", views.DashboardView.as_view(), name="dashboard_view"),
 
     # End of user pages
 

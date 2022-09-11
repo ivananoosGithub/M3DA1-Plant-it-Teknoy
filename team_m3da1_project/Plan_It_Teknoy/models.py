@@ -11,7 +11,7 @@ class Users(models.Model):
         db_table = 'Users'
 
     def __str__(self):
-        return self.user
+        return self.id_number
 
 class Students(models.Model):
     StudentID = models.OneToOneField(Users, to_field='id_number', on_delete = models.CASCADE, primary_key=True, unique=True)
@@ -31,7 +31,7 @@ class Students(models.Model):
         db_table = 'Students'
 
     def __str__(self):
-        return self.student
+        return self.StudentID
 
 class Teachers(models.Model):
     TeacherID = models.OneToOneField(Users, to_field='id_number', on_delete = models.CASCADE, primary_key=True, unique=True)
@@ -50,7 +50,7 @@ class Teachers(models.Model):
         db_table = 'Teachers'
 
     def __str__(self):
-        return self.teacher
+        return self.TeacherID
 
 class Contact(models.Model):
     name = models.CharField(max_length = 50, default="Not set")
@@ -61,4 +61,4 @@ class Contact(models.Model):
         db_table = 'Contact'
     
     def __str__(self):
-        return self.contact
+        return self.email
