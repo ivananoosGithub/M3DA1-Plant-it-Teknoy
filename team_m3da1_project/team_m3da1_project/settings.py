@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # "calendarapp.apps.CalendarappConfig",
+    "calendarapp.apps.CalendarappConfig",
     'Plan_It_Teknoy.apps.PlanItTeknoyConfig',
 ]
 

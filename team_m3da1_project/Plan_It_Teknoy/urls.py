@@ -2,6 +2,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from Plan_It_Teknoy import views
+from django.views.generic.base import RedirectView
+from django.contrib.staticfiles.storage import staticfiles_storage
 
 
 app_name = 'Plan_It_Teknoy'
@@ -25,8 +27,8 @@ urlpatterns = [
 
     # End of user pages
 
-    # # icon browser tab
-    # path("favicon.ico", RedirectView.as_view(
-    #     url=staticfiles_storage.url("favicon.ico"))),
+    # icon browser tab
+    path("favicon.ico", RedirectView.as_view(
+        url=staticfiles_storage.url("favicon.ico"))),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -9,7 +9,8 @@
   <meta name="keywords"
     content="Welcome to Plan&amp;apos;it Teknoy, ​Organize everything in life​, ​Get reminded anytime, anywhere​, ​Flexible Calendar​, ​Announcements and Events, ​In the Right Path, ​Ready to be a more productive Teknoy?">
   <meta name="description" content="">
-  <title>Home Page</title>
+  <title>Plan'it Teknoy | Home</title>
+  <link rel="icon" href="{% static 'images/favicon.ico' %}">
   <link rel="stylesheet" href="{% static 'css/nicepage.css' %}" media="screen">
   <link rel="stylesheet" href="{% static 'css/Home.css' %}" media="screen">
   <script class="u-script" type="text/javascript" src="{% static 'js/jquery.js' %}" defer=""></script>
@@ -49,8 +50,8 @@
   <header class="u-clearfix u-custom-color-1 u-header u-header" id="sec-0955">
     <div class="u-clearfix u-sheet u-sheet-1">
       <div class="u-border-2 u-border-white u-hidden-md u-hidden-sm u-hidden-xs u-line u-line-vertical u-line-1"></div>
-      <a href="{% url 'Plan_It_Teknoy:Home' %}" data-page-id="225305269" class="u-image u-logo u-image-1" data-image-width="634"
-        data-image-height="182" title="Home">
+      <a href="{% url 'Plan_It_Teknoy:Home' %}" data-page-id="225305269" class="u-image u-logo u-image-1"
+        data-image-width="634" data-image-height="182" title="Home">
         <img src="{% static 'images/logo.PNG' %}" class="u-logo-image u-logo-image-1">
       </a>
       <nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1">
@@ -91,11 +92,14 @@
             <div class="u-inner-container-layout u-sidenav-overflow">
               <div class="u-menu-close"></div>
               <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2">
-                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="{% url 'Plan_It_Teknoy:Home' %}">Home</a>
+                <li class="u-nav-item"><a class="u-button-style u-nav-link"
+                    href="{% url 'Plan_It_Teknoy:Home' %}">Home</a>
                 </li>
-                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="{% url 'Plan_It_Teknoy:About' %}">About</a>
+                <li class="u-nav-item"><a class="u-button-style u-nav-link"
+                    href="{% url 'Plan_It_Teknoy:About' %}">About</a>
                 </li>
-                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="{% url 'Plan_It_Teknoy:contact_view' %}">Contact</a>
+                <li class="u-nav-item"><a class="u-button-style u-nav-link"
+                    href="{% url 'Plan_It_Teknoy:contact_view' %}">Contact</a>
                 </li>
               </ul>
             </div>
@@ -121,15 +125,16 @@
         </button>
         <input class="u-search-input" type="search" name="search" value="" placeholder="Search">
       </form><span class="u-file-icon u-hidden-md u-hidden-sm u-hidden-xs u-icon u-text-white u-icon-1"
-        data-href="{% url 'Plan_It_Teknoy:Home' %}" data-page-id="225305269"><img src="{% static 'images/5.png' %}" alt=""></span><span
-        class="u-file-icon u-hidden-md u-hidden-sm u-hidden-xs u-icon u-text-white u-icon-2" data-href="{% url 'Plan_It_Teknoy:signin_view' %}"
-        data-page-id="225305269"><img src="{% static 'images/6.png' %}" alt=""></span>
+        data-href="{% url 'Plan_It_Teknoy:Home' %}" data-page-id="225305269"><img src="{% static 'images/5.png' %}"
+          alt=""></span><span class="u-file-icon u-hidden-md u-hidden-sm u-hidden-xs u-icon u-text-white u-icon-2"
+        data-href="{% url 'Plan_It_Teknoy:signin_view' %}" data-page-id="225305269"><img
+          src="{% static 'images/6.png' %}" alt=""></span>
 
-         {% if current_user %}
-        <h3><a href="{% url 'Plan_It_Teknoy:logout' %}">LOGOUT</a></h3>
-        {% else %}
-        {% endif %}
-        
+      {% if current_user %}
+      <h3><a href="{% url 'Plan_It_Teknoy:logout' %}">LOGOUT</a></h3>
+      {% else %}
+      {% endif %}
+
     </div>
   </header>
   <section class="u-clearfix u-section-1" id="sec-67d6">
@@ -159,9 +164,10 @@
             </div>
             <div class="u-container-style u-hidden-md u-hidden-sm u-hidden-xs u-layout-cell u-size-30 u-layout-cell-2">
               <div class="u-container-layout u-valign-middle-lg u-valign-middle-xl u-container-layout-2">
-                <img class="u-image u-image-default u-image-2" src="{% static 'images/hello.svg' %}" alt="" data-image-width="979"
-                  data-image-height="424" data-animation-name="customAnimationIn" data-animation-duration="1500"
-                  data-animation-direction="" data-animation-out="0" data-animation-delay="500">
+                <img class="u-image u-image-default u-image-2" src="{% static 'images/hello.svg' %}" alt=""
+                  data-image-width="979" data-image-height="424" data-animation-name="customAnimationIn"
+                  data-animation-duration="1500" data-animation-direction="" data-animation-out="0"
+                  data-animation-delay="500">
               </div>
             </div>
           </div>
@@ -217,8 +223,9 @@
                   data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="0"
                   data-animation-out="0"> Get reminded anytime, anywhere <br>
                 </h1>
-                <img class="u-image u-image-1" src="{% static 'images/reminder.svg' %}" data-image-width="905" data-image-height="561"
-                  data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-out="0">
+                <img class="u-image u-image-1" src="{% static 'images/reminder.svg' %}" data-image-width="905"
+                  data-image-height="561" data-animation-name="customAnimationIn" data-animation-duration="1500"
+                  data-animation-out="0">
                 <h6 class="u-align-center-sm u-align-center-xs u-custom-font u-font-montserrat u-text u-text-2"
                   data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-out="0"> Set a
                   reminder to ease your mind off worrying about missing deadlines from now on.</h6>
@@ -279,9 +286,9 @@
             <div class="u-container-style u-layout-cell u-size-30 u-layout-cell-2">
               <div
                 class="u-container-layout u-valign-middle-lg u-valign-middle-md u-valign-top-sm u-container-layout-2">
-                <img class="u-image u-image-default u-image-1" src="{% static 'images/news.svg' %}" alt="" data-image-width="871"
-                  data-image-height="793" data-animation-name="customAnimationIn" data-animation-duration="1500"
-                  data-animation-out="0">
+                <img class="u-image u-image-default u-image-1" src="{% static 'images/news.svg' %}" alt=""
+                  data-image-width="871" data-image-height="793" data-animation-name="customAnimationIn"
+                  data-animation-duration="1500" data-animation-out="0">
               </div>
             </div>
           </div>
@@ -297,9 +304,9 @@
             <div class="u-container-style u-layout-cell u-size-30 u-layout-cell-1">
               <div
                 class="u-container-layout u-valign-middle-lg u-valign-middle-md u-valign-middle-xl u-container-layout-1">
-                <img class="u-image u-image-default u-image-1" src="{% static 'images/path.svg' %}" alt="" data-image-width="630"
-                  data-image-height="532" data-animation-name="customAnimationIn" data-animation-duration="1500"
-                  data-animation-out="0">
+                <img class="u-image u-image-default u-image-1" src="{% static 'images/path.svg' %}" alt=""
+                  data-image-width="630" data-image-height="532" data-animation-name="customAnimationIn"
+                  data-animation-duration="1500" data-animation-out="0">
               </div>
             </div>
             <div class="u-container-style u-layout-cell u-size-30 u-layout-cell-2">
@@ -348,11 +355,11 @@
           <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-default u-text-1">Legal</h6>
           <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-default u-text-2">Explore</h6>
           <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-default u-text-3">Visit</h6>
-          <img class="u-image u-image-default u-image-2" src="{% static 'images/teknoy.png' %}" alt="" data-image-width="462"
-            data-image-height="60">
+          <img class="u-image u-image-default u-image-2" src="{% static 'images/teknoy.png' %}" alt=""
+            data-image-width="462" data-image-height="60">
           <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-4">
             <a class="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-palette-1-base u-btn-1"
-              href="https://cit.edu/" target="_blank" > Natalio B. Bacalso Ave, Cebu City, 6000 Cebu</a>
+              href="https://cit.edu/" target="_blank"> Natalio B. Bacalso Ave, Cebu City, 6000 Cebu</a>
           </h6>
           <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-default u-text-5">
             <a class="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-palette-1-base u-btn-2"
@@ -434,8 +441,8 @@
             </a>
           </div>
           <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-default u-text-11">2022 Plan'it Teknoy.
-            All Rights Reserved.</h6><span class="u-file-icon u-icon u-text-white u-icon-5"><img src="{% static 'images/9.png' %}"
-              alt=""></span>
+            All Rights Reserved.</h6><span class="u-file-icon u-icon u-text-white u-icon-5"><img
+              src="{% static 'images/9.png' %}" alt=""></span>
         </div>
       </div>
     </div>

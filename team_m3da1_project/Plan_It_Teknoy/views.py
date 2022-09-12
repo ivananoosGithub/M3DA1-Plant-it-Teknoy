@@ -5,6 +5,8 @@ from django.views.generic import View
 from .forms import *
 from .models import *
 from passlib.hash import pbkdf2_sha256
+from calendarapp.models import EventMember, Event
+from calendarapp.forms import EventForm
 # Calendarapp Imports
 
 
@@ -230,10 +232,23 @@ class SignUpTeacherView(View):
             messages.info(request, 'Account already exists! Please try another unique one.', extra_tags='try')
             return redirect('Plan_It_Teknoy:signupT_view')
 
-# Calendar ViewNew
+# Calendar View
 class CalendarViewNew(View):
-    def get(self, request):
 
+    def get(self, request):
+        form = EventForm(request.POST or None)
+        if request.POST and form.is_valid():
+            title = form.cleaned_data["title"]
+            description = form.cleaned_data["description"]
+            start_time = form.cleaned_data["start_time"]
+            end_time = form.cleaned_data["end_time"]
+            Event.objects.get_or_create(
+                user=request.user,
+                title=title,
+                description=description,
+                start_time=start_time,
+                end_time=end_time,
+            )
         if 'user' in request.session:
             current_user = request.session['user']
             confirm_user_id = Users(id_number=current_user)
@@ -242,10 +257,9 @@ class CalendarViewNew(View):
             #accessing all student records in the database
             student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
             
-            context = {"student_record" : student_record}
-
-        return render(request, 'calendarapp/calendar.html', context)
-
+            context = {"student_record" : student_record, "form": form}
+            return render(request, 'calendarapp/calendar.html', context)
+    
 # DashboardView
 class DashboardView(View):
     def get(self, request):

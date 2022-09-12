@@ -19,6 +19,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <!-- Main CSS-->
+        <link rel="icon" href="{% static 'images/favicon.ico' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
         <!-- Font-icon css-->
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -28,7 +29,7 @@
     <body class="app sidebar-mini">
         <!-- Navbar-->
         <header class="app-header">
-            <a class="app-header__logo" href="#"><img src="{% static 'images/LogoMain.png' %}" width="90%" alt="application logo"></a>
+            <a class="app-header__logo" href="{% url 'Plan_It_Teknoy:dashboard_view' %}"><img src="{% static 'images/LogoMain.png' %}" width="90%" alt="application logo"></a>
             <!-- Sidebar toggle button-->
             <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
             <!-- Navbar Right Menu-->
@@ -142,9 +143,17 @@
                 <div>
                     <!-- User Name -->
                     {% for student_records in student_record %}
-                    <p class="app-sidebar__user-name">{{student_records.first_name}} {{student_records.last_name}}</p>
-                    <!-- User Program -->
-                    <p class="app-sidebar__user-designation">{{student_records.program}}</p>
+                        <p class="app-sidebar__user-name">{{student_records.first_name}} {{student_records.last_name}}</p>
+                        <!-- User Program -->
+                        {% if student_records.year_level == 1 %}
+                        <p class="app-sidebar__user-designation">{{student_records.year_level}}st Year {{student_records.program}}</p>
+                        {% elif students_records.year_level == 2 %}
+                        <p class="app-sidebar__user-designation">{{student_records.year_level}}nd Year {{student_records.program}}</p>
+                        {% elif students_records.year_level == 3 %}
+                        <p class="app-sidebar__user-designation">{{student_records.year_level}}rd Year {{student_records.program}}</p>
+                        {% else %}
+                        <p class="app-sidebar__user-designation">{{student_records.year_level}}th Year {{student_records.program}}</p>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
