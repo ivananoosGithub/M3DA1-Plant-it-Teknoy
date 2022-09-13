@@ -20,7 +20,7 @@
         <div class="widget-small primary coloured-icon">
             <i class="icon fa fa-files-o fa-3x"></i>
             <div class="info">
-                <h4>Total Completed Events</h4>
+                <h4>Total Events</h4>
                 <p><b>{{ total_event }}</b></p>
             </div>
         </div>
@@ -34,7 +34,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-lg-3">
+    <!-- <div class="col-md-6 col-lg-3">
         <div class="widget-small warning coloured-icon">
             <i class="icon fa fa-users fa-3x"></i>
             <div class="info">
@@ -42,8 +42,8 @@
                 <p><b>10</b></p>
             </div>
         </div>
-    </div>
-    <div class="col-md-6 col-lg-3">
+    </div> -->
+    <!-- <div class="col-md-6 col-lg-3">
         <div class="widget-small danger coloured-icon">
             <i class="icon fa fa-star fa-3x"></i>
             <div class="info">
@@ -51,7 +51,7 @@
                 <p><b>500</b></p>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="col-md-12">
         <div class="tile">
             <div class="tile-body">
@@ -62,14 +62,14 @@
                                 <table class="table table-hover table-bordered dataTable no-footer" id="sampleTable" role="grid" aria-describedby="sampleTable_info">
                                     <thead>
                                         <tr role="row">
-                                            <th class="sorting_asc" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 261.641px;">SL</th>
+                                            <th class="sorting_asc" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 261.641px;">Event Number</th>
                                             <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 417.312px;">Event Name</th>
                                             <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 189.281px;">Start Time</th>
                                             <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 102.141px;">End Time</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for event in latest_events %}
+                                        {% for event in event %}
                                             <tr role="row" class="odd">
                                                 <td class="sorting_1">{{ forloop.counter }}</td>
                                                 <td>{{ event.title }}</td>

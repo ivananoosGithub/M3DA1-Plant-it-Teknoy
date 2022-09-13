@@ -66,6 +66,25 @@ class Contact(models.Model):
     def __str__(self):
         return self.email
 
+
+
+class EventManager(models.Manager):
+    """ Event manager """
+
+    def get_all_events(self, StudentID):
+        events = Event.objects.filter(StudentID=StudentID)
+        return events
+
+    def get_running_events(self, StudentID):
+        running_events = Event.objects.filter(
+            StudentID=StudentID,
+            # is_active=True,
+            # is_deleted=False,
+            end_time__gte=datetime.now().date(),
+        ).order_by("start_time")
+        return running_events
+
+
 class Event(models.Model):
     EventID = models.AutoField(primary_key=True, unique=True)
     StudentID = models.CharField(max_length = 50, default="Not set")
@@ -74,8 +93,11 @@ class Event(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
 
+    objects = EventManager()
+
     class meta:
         db_table = 'Event'
 
     def __str__(self):
         return self.EventID
+

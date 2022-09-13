@@ -273,16 +273,28 @@ class CalendarViewNew(View):
 
 # DashboardView
 class DashboardView(View):
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
+        form = EventForm(request.POST or None)
+
         if 'user' in request.session:
             current_user = request.session['user']
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
+            event = Event.objects.all()
+
+            # filter [Total Events, Running Events,]
+            events = Event.objects.get_all_events(StudentID=current_user)
+            running_events = Event.objects.get_running_events(StudentID=current_user)
+            # latest_events = Event.objects.filter(StudentID=current_user).order_by("-StudentID")[:10]
             
-            #accessing all student records in the database
+            # accessing all student records in the database
             student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
             
-            context = {"student_record" : student_record}
+            context = {
+                        "student_record" : student_record, "form":form, "event":event, "total_event": events.count(),
+                        "running_events": running_events,
+                        # "latest_events": latest_events
+                        }
 
             return render(request, 'calendarapp/dashboard.html', context)
     
