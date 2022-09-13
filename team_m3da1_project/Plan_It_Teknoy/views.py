@@ -285,7 +285,7 @@ class DashboardView(View):
             current_student = Students(StudentID=confirm_user_id)
             event = Event.objects.filter(StudentID=current_student.StudentID)
 
-            # filter [Total Events, Running Events,]
+            # filter [Total Events, Running Events, Completed Events]
             events = Event.objects.get_all_events(StudentID=current_student.StudentID)
             running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
             completed_events = Event.objects.get_completed_events(StudentID=current_student.StudentID)
