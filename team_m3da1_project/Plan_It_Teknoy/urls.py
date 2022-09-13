@@ -31,4 +31,13 @@ urlpatterns = [
     path("favicon.ico", RedirectView.as_view(
         url=staticfiles_storage.url("favicon.ico"))),
 
+    path("All Events/", views.AllEventsListView.as_view(), name="all_events"),
+    path(
+        "Running Events/",
+        views.RunningEventsListView.as_view(),
+        name="running_events",
+    ),
+    path("Completed Events/", views.CompletedEventsListView.as_view(), name="completed_events")
+    
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

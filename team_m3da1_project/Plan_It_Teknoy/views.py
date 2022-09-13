@@ -241,10 +241,10 @@ class CalendarViewNew(View):
             current_user = request.session['user']
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
-            event = Event.objects.all()
+            event = Event.objects.filter(StudentID = current_student.StudentID)
             
             #accessing all student records in the database
-            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
+            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
             
             context = {
                 'current_user': current_user,
@@ -280,15 +280,15 @@ class DashboardView(View):
             current_user = request.session['user']
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
-            event = Event.objects.all()
+            event = Event.objects.filter(StudentID=current_student.StudentID)
 
             # filter [Total Events, Running Events,]
-            events = Event.objects.get_all_events(StudentID=current_user)
-            running_events = Event.objects.get_running_events(StudentID=current_user)
+            events = Event.objects.get_all_events(StudentID=current_student.StudentID)
+            running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
             # latest_events = Event.objects.filter(StudentID=current_user).order_by("-StudentID")[:10]
             
             # accessing all student records in the database
-            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
+            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
             
             context = {
                         "student_record" : student_record, "form":form, "event":event, "total_event": events.count(),
@@ -296,11 +296,52 @@ class DashboardView(View):
                         # "latest_events": latest_events
                         }
 
-            return render(request, 'calendarapp/dashboard.html', context)
+        return render(request, 'calendarapp/dashboard.html', context)
     
+class AllEventsListView(ListView):
 
+    # """ All event list views """
 
+    def get(self, request):
+
+        if 'user' in request.session:
+            current_user = request.session['user']
+            confirm_user_id = Users(id_number=current_user)
+            current_student = Students(StudentID=confirm_user_id)
+            all_events = Event.objects.get_all_events(StudentID=current_student.StudentID)
+
+        return render(request, 'calendarapp/events_list.html', {"all_events":all_events})
         
+
+
+class RunningEventsListView(ListView):
+
+    # """ Running events list view """
+    
+    def get(self, request):
+
+           if 'user' in request.session:
+
+            current_user = request.session['user']
+            confirm_user_id = Users(id_number=current_user)
+            current_student = Students(StudentID=confirm_user_id)
+            all_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
+
+            return render(request, 'calendarapp/events_list.html', {"all_events":all_events})
+
+class CompletedEventsListView(ListView):
+
+    def get(self, request):
+
+           if 'user' in request.session:
+
+            current_user = request.session['user']
+            confirm_user_id = Users(id_number=current_user)
+            current_student = Students(StudentID=confirm_user_id)
+            all_events = Event.objects.get_completed_events(StudentID=current_student.StudentID)
+
+            return render(request, 'calendarapp/events_list.html', {"all_events":all_events})
+
 
 
         

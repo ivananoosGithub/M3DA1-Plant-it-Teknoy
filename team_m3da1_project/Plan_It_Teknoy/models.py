@@ -3,6 +3,7 @@ from django.db import models
 from datetime import datetime
 from django.db import models
 from django.urls import reverse
+from django.views.generic import ListView
 
 # Create your models here.
 class Users(models.Model):
@@ -83,6 +84,14 @@ class EventManager(models.Manager):
             end_time__gte=datetime.now().date(),
         ).order_by("start_time")
         return running_events
+    
+    def get_completed_events(self, StudentID):
+        completed_events = Event.objects.filter(
+            StudentID=StudentID, 
+            end_time__lt=datetime.now().date(),
+            ).order_by("start_time")
+        
+        return completed_events
 
 
 class Event(models.Model):
@@ -100,4 +109,3 @@ class Event(models.Model):
 
     def __str__(self):
         return self.EventID
-
