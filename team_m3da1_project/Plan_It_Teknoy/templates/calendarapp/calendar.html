@@ -24,7 +24,7 @@
             <div class="col-md-3">
                 <div id="external-events">
                     <h4 class="mb-4">Running Events</h4>
-                    {% for event in events_month %}
+                    {% for event in event %}
                       <div class="fc-event">
                           <h3>{{ event.title }}</h3>
                           <p>From: {{ event.start_time }}</p>
@@ -48,9 +48,14 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form method="post">
+                        <form id="form2" action="" method="POST" autocomplete="off" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">User:</label>
+                                    <!-- <input type="text" name="title" id="title" placeholder=""> -->
+                                    {{ current_user }}
+                                </div>
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Event Title:</label>
                                     <!-- <input type="text" name="title" id="title" placeholder=""> -->
@@ -118,13 +123,13 @@
           editable: false, //drag drag drag drag!!!
           dayMaxEvents: true,
           // Line 117 caused the the calendar to not render
-          // events: {{ events|safe }},
+           //events: {{ events|safe }},
 
           // insert google calendar api from created CIT-U's google calendar
-          googleCalendarApiKey: 'AIzaSyCqTHFS2DPRDGYrDqdAwd9v2bPVJxRXr4U',
-            events: {
-                googleCalendarId: 'citu.planitteknoy@gmail.com'
-            },
+         // googleCalendarApiKey: 'AIzaSyCqTHFS2DPRDGYrDqdAwd9v2bPVJxRXr4U',
+          //  events: {
+          //      googleCalendarId: 'citu.planitteknoy@gmail.com'
+         //   },
         });
 
         calendar.render();

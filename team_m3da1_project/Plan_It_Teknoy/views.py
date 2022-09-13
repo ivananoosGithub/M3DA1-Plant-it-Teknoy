@@ -5,8 +5,8 @@ from django.views.generic import View
 from .forms import *
 from .models import *
 from passlib.hash import pbkdf2_sha256
-from calendarapp.models import EventMember, Event
-from calendarapp.forms import EventForm
+#from calendarapp.models import EventMember, Event
+#from calendarapp.forms import EventForm
 # Calendarapp Imports
 
 
@@ -237,29 +237,40 @@ class CalendarViewNew(View):
 
     def get(self, request):
         form = EventForm(request.POST or None)
-        if request.POST and form.is_valid():
-            title = form.cleaned_data["title"]
-            description = form.cleaned_data["description"]
-            start_time = form.cleaned_data["start_time"]
-            end_time = form.cleaned_data["end_time"]
-            Event.objects.get_or_create(
-                user=request.user,
-                title=title,
-                description=description,
-                start_time=start_time,
-                end_time=end_time,
-            )
         if 'user' in request.session:
             current_user = request.session['user']
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
+            event = Event.objects.all()
             
             #accessing all student records in the database
             student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
             
-            context = {"student_record" : student_record, "form": form}
+            context = {
+                'current_user': current_user,
+                "event" : event,
+                "student_record" : student_record, 
+                "form": form,}
             return render(request, 'calendarapp/calendar.html', context)
-    
+
+    def post(self, request):        
+        form2 = EventForm(request.POST or None)        
+        if request.POST and form2.is_valid():
+            # Event Information
+            user = request.session['user']
+            title = form2.cleaned_data["title"]
+            description = form2.cleaned_data["description"]
+            start_time = form2.cleaned_data["start_time"]
+            end_time = form2.cleaned_data["end_time"]
+            form2 = Event(StudentID = user, title = title, description = description, start_time = start_time, end_time = end_time)
+            form2.save()
+            return redirect('Plan_It_Teknoy:calendar_view')
+                
+        else:
+            print(form2.errors)
+            messages.info(request, 'Form error.', extra_tags='try')
+            return redirect('Plan_It_Teknoy:calendar_view')
+
 # DashboardView
 class DashboardView(View):
     def get(self, request):

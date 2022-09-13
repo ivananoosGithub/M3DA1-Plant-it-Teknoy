@@ -65,3 +65,17 @@ class Contact(models.Model):
     
     def __str__(self):
         return self.email
+
+class Event(models.Model):
+    EventID = models.AutoField(primary_key=True, unique=True)
+    StudentID = models.CharField(max_length = 50, default="Not set")
+    title = models.CharField(max_length=200, unique=True)
+    description = models.TextField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+
+    class meta:
+        db_table = 'Event'
+
+    def __str__(self):
+        return self.EventID
