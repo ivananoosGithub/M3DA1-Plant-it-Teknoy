@@ -1295,6 +1295,9 @@ pre code {
   }
   .col-lg-3 {
     -webkit-box-flex: 0;
+        -ms-flex: 0 0 55%;
+            flex: 0 0 55%;
+    max-width: 33%;
   }
   .col-lg-4 {
     -webkit-box-flex: 0;
