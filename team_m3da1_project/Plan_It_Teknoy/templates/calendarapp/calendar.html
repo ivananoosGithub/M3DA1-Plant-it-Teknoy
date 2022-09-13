@@ -122,14 +122,30 @@
           },
           editable: false, //drag drag drag drag!!!
           dayMaxEvents: true,
-          // Line 117 caused the the calendar to not render
+          // Line below caused the calendar to not render
            //events: {{ events|safe }},
 
           // insert google calendar api from created CIT-U's google calendar
-         // googleCalendarApiKey: 'AIzaSyCqTHFS2DPRDGYrDqdAwd9v2bPVJxRXr4U',
-          //  events: {
-          //      googleCalendarId: 'citu.planitteknoy@gmail.com'
-         //   },
+         googleCalendarApiKey: 'AIzaSyCqTHFS2DPRDGYrDqdAwd9v2bPVJxRXr4U',
+           events: {
+               googleCalendarId: 'citu.planitteknoy@gmail.com',
+               color: 'maroon'
+           },
+
+           eventSources: [
+            {
+              events: [
+              //  please ko connect ani sa db hehehe
+                {
+                  title: 'Sprint w/ team',
+                  start: '2022-09-13',
+                  end: '2022-09-16',
+                  color: 'gold',
+                  textColor: 'maroon'
+                },
+              ],
+            }
+           ]
         });
 
         calendar.render();
