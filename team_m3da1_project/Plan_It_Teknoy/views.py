@@ -257,12 +257,15 @@ class CalendarViewNew(View):
         form2 = EventForm(request.POST or None)        
         if request.POST and form2.is_valid():
             # Event Information
-            user = request.session['user']
+            # user = request.session['user']
+            current_user = request.session['user']
+            confirm_user_id = Users(id_number=current_user)
+            current_student = Students(StudentID=confirm_user_id)
             title = form2.cleaned_data["title"]
             description = form2.cleaned_data["description"]
             start_time = form2.cleaned_data["start_time"]
             end_time = form2.cleaned_data["end_time"]
-            form2 = Event(StudentID = user, title = title, description = description, start_time = start_time, end_time = end_time)
+            form2 = Event(StudentID = current_student.StudentID, title = title, description = description, start_time = start_time, end_time = end_time)
             form2.save()
             return redirect('Plan_It_Teknoy:calendar_view')
                 
@@ -285,7 +288,7 @@ class DashboardView(View):
             # filter [Total Events, Running Events,]
             events = Event.objects.get_all_events(StudentID=current_student.StudentID)
             running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
-            # latest_events = Event.objects.filter(StudentID=current_user).order_by("-StudentID")[:10]
+            completed_events = Event.objects.get_completed_events(StudentID=current_student.StudentID)
             
             # accessing all student records in the database
             student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
@@ -293,7 +296,7 @@ class DashboardView(View):
             context = {
                         "student_record" : student_record, "form":form, "event":event, "total_event": events.count(),
                         "running_events": running_events,
-                        # "latest_events": latest_events
+                        "completed_events": completed_events
                         }
 
         return render(request, 'calendarapp/dashboard.html', context)
@@ -309,8 +312,11 @@ class AllEventsListView(ListView):
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
             all_events = Event.objects.get_all_events(StudentID=current_student.StudentID)
+            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
 
-        return render(request, 'calendarapp/events_list.html', {"all_events":all_events})
+            context = {"student_record" : student_record, "all_events":all_events}
+
+        return render(request, 'calendarapp/events_list.html', context)
         
 
 
@@ -326,8 +332,11 @@ class RunningEventsListView(ListView):
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
             all_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
+            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
+            
+            context = {"student_record" : student_record, "all_events":all_events}
 
-            return render(request, 'calendarapp/events_list.html', {"all_events":all_events})
+            return render(request, 'calendarapp/events_list.html', context)
 
 class CompletedEventsListView(ListView):
 
@@ -339,8 +348,11 @@ class CompletedEventsListView(ListView):
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
             all_events = Event.objects.get_completed_events(StudentID=current_student.StudentID)
+            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
+            
+            context = {"student_record" : student_record, "all_events":all_events}
 
-            return render(request, 'calendarapp/events_list.html', {"all_events":all_events})
+            return render(request, 'calendarapp/events_list.html', context)
 
 
 
