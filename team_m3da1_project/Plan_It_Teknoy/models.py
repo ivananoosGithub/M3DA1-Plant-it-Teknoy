@@ -97,7 +97,7 @@ class EventManager(models.Manager):
 class Event(models.Model):
     EventID = models.AutoField(primary_key=True, unique=True)
     StudentID = models.CharField(max_length = 50, default="Not set")
-    title = models.CharField(max_length=200, unique=True)
+    title = models.CharField(max_length=200)
     description = models.TextField()
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
