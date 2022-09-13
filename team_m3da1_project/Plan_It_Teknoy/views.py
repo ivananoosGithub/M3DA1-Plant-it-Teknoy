@@ -257,12 +257,15 @@ class CalendarViewNew(View):
         form2 = EventForm(request.POST or None)        
         if request.POST and form2.is_valid():
             # Event Information
-            user = request.session['user']
+            # user = request.session['user']
+            current_user = request.session['user']
+            confirm_user_id = Users(id_number=current_user)
+            current_student = Students(StudentID=confirm_user_id)
             title = form2.cleaned_data["title"]
             description = form2.cleaned_data["description"]
             start_time = form2.cleaned_data["start_time"]
             end_time = form2.cleaned_data["end_time"]
-            form2 = Event(StudentID = user, title = title, description = description, start_time = start_time, end_time = end_time)
+            form2 = Event(StudentID = current_student.StudentID, title = title, description = description, start_time = start_time, end_time = end_time)
             form2.save()
             return redirect('Plan_It_Teknoy:calendar_view')
                 
