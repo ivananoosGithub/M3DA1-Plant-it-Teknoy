@@ -309,8 +309,11 @@ class AllEventsListView(ListView):
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
             all_events = Event.objects.get_all_events(StudentID=current_student.StudentID)
+            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
 
-        return render(request, 'calendarapp/events_list.html', {"all_events":all_events})
+            context = {"student_record" : student_record, "all_events":all_events}
+
+        return render(request, 'calendarapp/events_list.html', context)
         
 
 
@@ -326,8 +329,11 @@ class RunningEventsListView(ListView):
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
             all_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
+            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
+            
+            context = {"student_record" : student_record, "all_events":all_events}
 
-            return render(request, 'calendarapp/events_list.html', {"all_events":all_events})
+            return render(request, 'calendarapp/events_list.html', context)
 
 class CompletedEventsListView(ListView):
 
@@ -339,8 +345,11 @@ class CompletedEventsListView(ListView):
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
             all_events = Event.objects.get_completed_events(StudentID=current_student.StudentID)
+            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
+            
+            context = {"student_record" : student_record, "all_events":all_events}
 
-            return render(request, 'calendarapp/events_list.html', {"all_events":all_events})
+            return render(request, 'calendarapp/events_list.html', context)
 
 
 
