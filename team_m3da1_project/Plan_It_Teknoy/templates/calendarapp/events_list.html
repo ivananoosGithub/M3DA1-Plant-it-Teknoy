@@ -4,10 +4,24 @@
 {% block title %}Plan'it Teknoy | Event List{% endblock title %}
 
 {% block breadcrumb %}
+{% if total_event %}
 <div>
-    <h1><i class="fa fa-dashboard"></i> Dashboard</h1>
+    <h1><i class="fa fa-dashboard"></i> Total Events</h1>
     <p>Event List</p>
 </div>
+{% endif %}
+{% if running_events %}
+<div>
+    <h1><i class="fa fa-dashboard"></i> Running Events</h1>
+    <p>Event List</p>
+</div>
+{% endif %}
+{% if completed_events %}
+<div>
+    <h1><i class="fa fa-dashboard"></i> Completed Events</h1>
+    <p>Event List</p>
+</div>
+{% endif %}
 <ul class="app-breadcrumb breadcrumb">
     <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
     <li class="breadcrumb-item"><a href="#">Plan'it Teknoy | Event List</a></li>
@@ -15,7 +29,9 @@
 {% endblock breadcrumb %}
 
 {% block content %}
-<!-- <div class="row">
+<div class="row">
+    
+    {% if total_event %}
     <div class="col-md-6 col-lg-3">
         <div class="widget-small primary coloured-icon">
             <i class="icon fa fa-files-o fa-3x"></i>
@@ -25,6 +41,8 @@
             </div>
         </div>
     </div>
+   {% endif %}
+   {% if running_events %}
     <div class="col-md-6 col-lg-3">
         <div class="widget-small info coloured-icon">
             <i class="icon fa fa-thumbs-o-up fa-3x"></i>
@@ -33,7 +51,8 @@
                 <p><b>{{ running_events.count }}</b></p>
             </div>
         </div>
-    </div> -->
+    </div>
+    {% endif %}
     <!-- <div class="col-md-6 col-lg-3">
         <div class="widget-small warning coloured-icon">
             <i class="icon fa fa-users fa-3x"></i>
@@ -43,7 +62,8 @@
             </div>
         </div>
     </div> -->
-    <!-- <div class="col-md-6 col-lg-3">
+    {% if completed_events %}
+    <div class="col-md-6 col-lg-3">
         <div class="widget-small danger coloured-icon">
             <i class="icon fa fa-star fa-3x"></i>
             <div class="info">
@@ -51,7 +71,8 @@
                 <p><b>{{ completed_events.count }}</b></p>
             </div>
         </div>
-    </div> -->
+    </div>
+    {% endif %}
     <!-- <div class="row"> -->
         <div class="col-md-12">
             <div class="tile">
@@ -81,7 +102,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for event in all_events %}
+                                            {% for event in events %}
                                             <tr role="row" class="odd">
                                                 <td class="sorting_1">{{ forloop.counter }}</td>
                                                 <td>{{ event.title }}</td>
