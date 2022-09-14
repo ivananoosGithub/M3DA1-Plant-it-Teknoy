@@ -242,15 +242,28 @@ class CalendarViewNew(View):
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
             event = Event.objects.filter(StudentID = current_student.StudentID)
-            
             #accessing all student records in the database
-            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
             
+            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
+            student_events = Event.objects.raw('SELECT EventID, StudentID, title, start_time, end_time FROM plan_it_teknoy_event WHERE StudentID = %s', [current_student.StudentID])
+
+            for student_event in student_events:
+                event_title = student_event.title
+                event_start_time = student_event.start_time
+                event_end_time = student_event.end_time
+                print(event_title)
+                print(event_start_time)
+                print(event_end_time)
+
             context = {
                 'current_user': current_user,
                 "event" : event,
                 "student_record" : student_record, 
-                "form": form,}
+                "form": form,
+                "event_title":event_title,
+                "event_start_time":event_start_time,
+                "event_end_time":event_end_time}
+
             return render(request, 'calendarapp/calendar.html', context)
 
     def post(self, request):        

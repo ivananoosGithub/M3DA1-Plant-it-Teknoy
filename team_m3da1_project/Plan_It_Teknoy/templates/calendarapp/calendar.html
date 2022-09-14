@@ -98,6 +98,10 @@
         var calendarEl = document.getElementById('calendar');
         var today = new Date();
 
+        var title = "{{ event_title|safe }}";
+        var start_time = "{{ event_start_time|safe }}";
+        var end_time = "{{ event_end_time|safe }}";
+
         var calendar = new FullCalendar.Calendar(calendarEl, {
           headerToolbar: {
             left: 'prev,next today',
@@ -137,9 +141,9 @@
               events: [
               //  please ko connect ani sa db hehehe
                 {
-                  title: 'Sprint w/ team',
-                  start: '2022-09-13',
-                  end: '2022-09-16',
+                  title: title,
+                  start: start_time,
+                  end: end_time,
                   color: 'gold',
                   textColor: 'maroon'
                 },
