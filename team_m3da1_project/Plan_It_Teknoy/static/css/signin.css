@@ -2,12 +2,13 @@
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
-	background-color: #7E1215;
+	/* background-color: #7E1215; */
 }
 
 body{
     font-family: 'Montserrat', sans-serif;
     overflow: hidden;
+	background-color: #7E1215;
 }
 
 img{
@@ -27,19 +28,20 @@ img{
 	z-index: -1;
 }
 
-.container{
-    width: 100vw;
+.sign-container{
+    display: flex;
+	flex-direction: column;
+	/* justify-content: center; */
+	align-items: center;
+    width: 100%;
     height: 100vh;
-    display: grid;
-    grid-gap :7rem;
-    padding: 0 2rem;
-	padding-top: 0%;
 }
 
 .login-content{
+	display: flex;
+	justify-content: center;
 	align-items: center;
 	text-align: center;
-    margin: 0 auto;
 }
 
 .img img{
@@ -56,7 +58,7 @@ form{
 
 .login-content h2{
 	margin: 15px 0;
-	color: #333;
+	color: white;
 	text-transform: uppercase;
 	font-size: 2.9rem;
 }
@@ -69,6 +71,8 @@ form{
     padding: 5px 0;
     border-bottom: 2px solid white;
 }
+
+
 
 .login-content .input-div.one{
 	margin-top: 0;
