@@ -98,9 +98,30 @@
         var calendarEl = document.getElementById('calendar');
         var today = new Date();
 
-        var title = "{{ event_title|safe }}";
-        var start_time = "{{ event_start_time|safe }}";
-        var end_time = "{{ event_end_time|safe }}";
+        var data = "{{ context|safe }}";
+
+        data = data.replace(/'/g, '"')   
+        
+        var dataJSON = JSON.parse(data)
+
+       var events = []
+
+        dataJSON.map(data => {
+          var title = data.event_title
+          var start = data.event_start_time
+          var end = data.event_end_time
+
+          var currentEvent = {
+            title: title,
+            start: start,
+            end: end,
+            color: 'gold',
+            textColor: 'maroon'
+          }
+          events.push(currentEvent)
+        })
+
+        console.log(events);
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
           headerToolbar: {
@@ -136,18 +157,10 @@
                color: 'maroon'
            },
 
+           
            eventSources: [
             {
-              events: [
-              //  please ko connect ani sa db hehehe
-                {
-                  title: title,
-                  start: start_time,
-                  end: end_time,
-                  color: 'gold',
-                  textColor: 'maroon'
-                },
-              ],
+              events: events
             }
            ]
         });

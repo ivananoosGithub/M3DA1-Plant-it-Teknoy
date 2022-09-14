@@ -108,4 +108,5 @@ class Event(models.Model):
         db_table = 'Event'
 
     def __str__(self):
-        return self.EventID
+        return str(self.EventID)
+    

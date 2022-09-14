@@ -1,7 +1,10 @@
+import json
+from multiprocessing import context
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.views.generic import View
+from django.core.serializers.json import DjangoJSONEncoder
 from .forms import *
 from .models import *
 from passlib.hash import pbkdf2_sha256
@@ -242,29 +245,59 @@ class CalendarViewNew(View):
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
             event = Event.objects.filter(StudentID = current_student.StudentID)
+            running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
+
             #accessing all student records in the database
-            
             student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
-            student_events = Event.objects.raw('SELECT EventID, StudentID, title, start_time, end_time FROM plan_it_teknoy_event WHERE StudentID = %s', [current_student.StudentID])
+            student_events = Event.objects.filter(StudentID=current_student.StudentID, end_time__gte=datetime.now().date())
+            
+            # Event.objects.raw('SELECT EventID, StudentID, title, start_time, end_time FROM plan_it_teknoy_event WHERE StudentID = %s', [current_student.StudentID])
+
+            data = dict.fromkeys(['context', 'events', 'forms', 'student_record', 'current_user'])
+            data.update(current_user=current_user, event=running_events, student_record=student_record, form=form)
+            contextArr = []
+            print(context)
 
             for student_event in student_events:
                 event_title = student_event.title
-                event_start_time = student_event.start_time
-                event_end_time = student_event.end_time
+                event_start_time = json.dumps(
+                    student_event.start_time,
+                    sort_keys=True,
+                    indent=1,
+                    cls=DjangoJSONEncoder)
+
+                event_end_time = json.dumps(
+                    student_event.end_time,
+                    sort_keys=True,
+                    indent=1,
+                    cls=DjangoJSONEncoder)
+
                 print(event_title)
                 print(event_start_time)
                 print(event_end_time)
 
-            context = {
-                'current_user': current_user,
-                "event" : event,
-                "student_record" : student_record, 
-                "form": form,
+                currentContext = {
                 "event_title":event_title,
-                "event_start_time":event_start_time,
-                "event_end_time":event_end_time}
+                "event_start_time":json.loads(event_start_time),
+                "event_end_time":json.loads(event_end_time)
+                }
+                print(currentContext)
+                contextArr.append(currentContext)
+                data.update(context=contextArr)
 
-            return render(request, 'calendarapp/calendar.html', context)
+            
+            return render(request, 'calendarapp/calendar.html', data)
+
+            # context = {
+            #     'current_user': current_user,
+            #     "event" : event,
+            #     "student_record" : student_record, 
+            #     "form": form,
+            #     "event_title":event_title,
+            #     "event_start_time":event_start_time,
+            #     "event_end_time":event_end_time}
+
+            # return render(request, 'calendarapp/calendar.html', context)
 
     def post(self, request):        
         form2 = EventForm(request.POST or None)        
