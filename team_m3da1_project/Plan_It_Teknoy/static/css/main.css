@@ -13790,8 +13790,8 @@ temporary rendered events).
   padding: 5px;
   line-height: 1.3;
   border-radius: 3px;
-  border: 1px solid #7E1215;
-  background-color: #7E1215;
+  border: 1px solid #FFD700;
+  background-color: #FFD700;
   font-weight: normal;
   /* undo jqui's ui-widget-header bold */
   margin-bottom: 5px;
@@ -13802,7 +13802,7 @@ temporary rendered events).
 .fc-event,
 .fc-event:hover,
 .ui-widget .fc-event {
-  color: #fff;
+  color: #000000;
   /* default TEXT color */
   text-decoration: none;
   /* if <a> has an href */
