@@ -32,44 +32,39 @@
 	</div>
 	<div class="sign-container">
 		<div class="login-content">
-			<form id="form1" action="" method="POST" autocomplete="off" enctype="multipart/form-data">
-				{% csrf_token %}
-           		<div class="input-div one">
-           		   <div class="i">
-           		   		<i class="fas fa-user"></i>
-           		   </div>
-           		   <div class="div">
-           		   		<h5>Student ID</h5>
-           		   		<input type="text" class="input" id="id_number" name ="id_number" required>
-           		   </div>
-           		</div>
-           		<div class="input-div pass">
-           		   <div class="i"> 
-           		    	<i class="fa fa-envelope"></i>
-           		   </div>
-           		   <div class="div">
-           		    	<h5>Institutional Email</h5>
-           		    	<input type="email" class="input" id="email" name = "email" required>
-            	   </div>
-            	</div>
-				<div class="input-div pass">
-					<div class="i"> 
-						 <i class="fas fa-lock"></i>
-					</div>
-					<div class="div">
-						 <h5>Password</h5>
-						 <input type="password" class="input" id="password" name = "password" required>
-				 </div>
-			  </div>
-			  	<a class="forgot-pass" href="#" data-bs-toggle="modal" data-bs-target="#forgotPWModal">Forgot Password?</a>
-            	<button type="submit" id="btnSignIn" name="btnSignIn" class="btn" value="Sign In">Sign In</button>
-				<span>Dont have an account?<a class="sign-up" href="{% url 'Plan_It_Teknoy:select_view' %}"> Sign Up</a></span>
-            </form>
+  <form method="POST" autocomplete="off" enctype="multipart/form-data">
+      {% csrf_token %}
+              <div class="text-center">
+                  <br>
+                  <p>Thank you for authenticating your email address. You can now reset your password.</p>
+                  <br>
+                    <div class="panel-body">
+                        <fieldset>
+                            <div class="form-group">
+                              <!-- email -->
+                                <input class="form-control" placeholder="Institutional Email" name="email" type="email" value ={{email}} readonly>
+
+                              <!-- password -->
+                                <input class="form-control" placeholder="Password" name="password" type="password">
+                                
+                              <!-- confirm password -->
+                                <input class="form-control" placeholder="Confirm Password" name="cpassword" type="password">                              
+                            </div>
+                              <!-- Submit button -->
+                              <button class="btn btn-danger btn-lg" value="Reset password" type="submit">Change Password</button>
+                              <br><br>
+                        </fieldset>
+                    </div>
+              </div>
+ </form>
         </div>
     </div>
-    <!-- forgot pw modal -->
-<form id="form2" method="POST" autocomplete="off" enctype="multipart/form-data">
-  {% csrf_token %}
+
+
+
+ <!-- forgot pw modal -->
+
+<!--
     <div class="modal fade" id="forgotPWModal" tabindex="-1" aria-labelledby="forgotPWModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -85,11 +80,11 @@
                     <div class="panel-body">
                         <fieldset>
                             <div class="form-group">
-                              <!-- email -->
-                                <input class="form-control" placeholder="Institutional Email" name="email" type="email" id="forgotemail">
+ 
+                                
                             </div>
-                              <!-- Submit button -->
-                              <button id="btnForgotPass" name="btnForgotPass" class="btn btn-danger btn-lg" value="Reset password" type="submit">Request Password Reset</button>
+  
+                              <button class="btn btn-danger btn-lg" value="Reset password" type="submit">Request Password Reset</button>
                               <br><br>
                         </fieldset>
                     </div>
@@ -98,7 +93,8 @@
         </div>
       </div>
     </div>
-</form>
+ 
+-->
   <!-- end modal -->
 
        <!-- JavaScript Bundle with Popper -->
