@@ -434,6 +434,65 @@ class CompletedEventsListView(ListView):
             return render(request, 'calendarapp/events_list.html', context)
 
 
+# user_profile_settings_views
+class EditProfileView(View):
+
+    def get(self, request):
+
+            if 'user' in request.session:
+                current_user = request.session['user']
+                confirm_user_id = Users(id_number=current_user)
+                current_student = Students.objects.filter(StudentID=confirm_user_id)
+                email_student = Users.objects.filter(id_number=confirm_user_id) 
+                
+                # student_events = Event.objects.filter(StudentID=current_student.StudentID, end_time__gte=datetime.now().date())
+                
+                return render(request, 'user_profile_settings/Personal.html', {"current_student":current_student, "email_student":email_student})
+
+        
+class EditContactView(View):
+    def get(self, request):
+
+        if 'user' in request.session:
+
+                current_user = request.session['user']
+                confirm_user_id = Users(id_number=current_user)
+                current_student = Students.objects.filter(StudentID=confirm_user_id)
+                email_student = Users.objects.filter(id_number=confirm_user_id) 
+
+                return render(request, 'user_profile_settings/Contact.html', {"current_student":current_student, "email_student":email_student})
+
+    
+class EditSchoolView(View):
+    def get(self, request):
+
+        if 'user' in request.session:
+
+                current_user = request.session['user']
+                confirm_user_id = Users(id_number=current_user)
+                current_student = Students.objects.filter(StudentID=confirm_user_id)
+                email_student = Users.objects.filter(id_number=confirm_user_id) 
+
+        return render(request, 'user_profile_settings/School.html', {"current_student":current_student, "email_student":email_student})
+
+class EditPhotoView(View):
+    def get(self, request):
+        return render(request, 'user_profile_settings/Photo.html', {})
+
+
+
+class EditSecurityView(View):
+    def get(self, request):
+
+            if 'user' in request.session:
+
+                current_user = request.session['user']
+                confirm_user_id = Users(id_number=current_user)
+                current_student = Students.objects.filter(StudentID=confirm_user_id)
+                email_student = Users.objects.filter(id_number=confirm_user_id) 
+
+
+                return render(request, 'user_profile_settings/Security.html', {"current_student":current_student, "email_student":email_student})
 
         
 
