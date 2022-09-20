@@ -10,9 +10,6 @@ from .models import *
 from passlib.hash import pbkdf2_sha256
 import calendar
 from datetime import timedelta, datetime, date
-from django.core.mail import send_mail
-from django.conf import settings
-import uuid
 #from calendarapp.models import EventMember, Event
 #from calendarapp.forms import EventForm
 # Calendarapp Imports
@@ -35,29 +32,6 @@ def home(response):
 # About Us Page
 def about(response):
     return render(response, "About.html", {})
-
-# Password Reset Send Mail Function
-def send_forget_password_mail(email):
-    code = str(uuid.uuid4())
-    subject = 'Your forget password link'
-    message = f'Hi, click on the link to reset your password http://127.0.0.1:8000/ForgotPassword/{code}/'
-    email_from  = settings.EMAIL_HOST_USER
-    recipient_list = [email]
-    send_mail(subject, message, email_from, recipient_list)
-    return True
-
-# listToString for Password Checking
-def listToString(s): 
-    
-    # initialize an empty string
-    str1 = "" 
-    
-    # traverse in the string  
-    for ele in s: 
-        str1 += ele  
-    
-    # return string  
-    return str1 
 
 # Select Role Page
 class SelectRoleView(View):
@@ -117,75 +91,21 @@ class SignInView(View):
     
     def post(self, request):
         if request.method == 'POST':
-            if 'btnSignIn' in request.POST:
-                id_number = request.POST.get('id_number')
-                email = request.POST.get("email")
-                password = request.POST.get('password')
-                check_password = Users.objects.filter(id_number=id_number).values_list("password",flat=True)
-                listpw = list(check_password)
-                dec_password = pbkdf2_sha256.verify(password, listToString(listpw))
-                check_id = Users.objects.filter(id_number=id_number)
-
-                check_email = Users.objects.filter(email=email)
-                if check_id and dec_password and check_email:
-                    request.session['user'] = id_number
-                    if Users.objects.filter(id_number=id_number).count()>0:
-                        return redirect('Plan_It_Teknoy:dashboard_view')
-                else:
-                    # does not display
-                    messages.info(request, 'Incorrect ID Number and Email and Password!')
-                    return redirect('Plan_It_Teknoy:signin_view') 
-
-            elif 'btnForgotPass' in request.POST:
-                email = request.POST.get("email")
-
-                if Users.objects.filter(email=email).count()>0:                   
-                    request.session['email'] = email
-                    send_forget_password_mail(email)
-                    # add text that says email sent
-                    return redirect('Plan_It_Teknoy:signin_view')
-
-                # add else if email not in db
-                return redirect('Plan_It_Teknoy:contact_view')
-
-# Forgot Password
-class ForgotPasswordView(View):
-    def get(self, request):
-        return render(request, 'forgotpass.html', {})
-
-    def post(self, request):
-        if request.method == 'POST':
+            id_number = request.POST.get('id_number')
             email = request.POST.get("email")
-
-            if Users.objects.filter(email=email).count()>0:
-                
-                request.session['email'] = email
-                send_forget_password_mail(email)
-                return redirect('Plan_It_Teknoy:Home')
-            return redirect('Plan_It_Teknoy:contact_view')
-
-class ChangePasswordSentView(View):
-    def get(self, request, *args, **kwargs):
-        email = request.session['email']
-        context = {
-            'email':email,
-        }
-        return render(request, 'fpsent.html', context)
-
-    def post(self, request, *args, **kwargs):
-        if request.method == 'POST':
-            email = request.POST.get("email")
-            u = Users.objects.get(email=email)
-            password = request.POST.get("password")
-            cpassword = request.POST.get("cpassword")
-            enc_password = pbkdf2_sha256.encrypt(password, rounds=12000, salt_size=32)
-            if(cpassword == password):
-                u.password = enc_password
-                u.save()
-                return redirect('Plan_It_Teknoy:signin_view')
-
-        else:
-            return redirect('Plan_It_Teknoy:signupS_view')
+            password = request.POST.get('password')
+            check_password = pbkdf2_sha256.hash(password, rounds=20000, salt_size=16)
+            dec_password = pbkdf2_sha256.verify(password, check_password)
+            check_id = Users.objects.filter(id_number=id_number)
+            check_email = Users.objects.filter(email=email)
+            if check_id and dec_password and check_email:
+                request.session['user'] = id_number
+                if Users.objects.filter(id_number=id_number).count()>0:
+                    return redirect('Plan_It_Teknoy:dashboard_view')
+            else:
+                messages.info(request, 'Incorrect ID Number and Email and Password!')
+                return redirect('Plan_It_Teknoy:signin_view') 
+        return redirect('Plan_It_Teknoy:Home')
 
 # Student Sign Up
 class SignUpStudentView(View):
@@ -515,6 +435,65 @@ class CompletedEventsListView(ListView):
             return render(request, 'calendarapp/events_list.html', context)
 
 
+# user_profile_settings_views
+class EditProfileView(View):
+
+    def get(self, request):
+
+            if 'user' in request.session:
+                current_user = request.session['user']
+                confirm_user_id = Users(id_number=current_user)
+                current_student = Students.objects.filter(StudentID=confirm_user_id)
+                email_student = Users.objects.filter(id_number=confirm_user_id) 
+                
+                # student_events = Event.objects.filter(StudentID=current_student.StudentID, end_time__gte=datetime.now().date())
+                
+                return render(request, 'user_profile_settings/Personal.html', {"current_student":current_student, "email_student":email_student})
+
+        
+class EditContactView(View):
+    def get(self, request):
+
+        if 'user' in request.session:
+
+                current_user = request.session['user']
+                confirm_user_id = Users(id_number=current_user)
+                current_student = Students.objects.filter(StudentID=confirm_user_id)
+                email_student = Users.objects.filter(id_number=confirm_user_id) 
+
+                return render(request, 'user_profile_settings/Contact.html', {"current_student":current_student, "email_student":email_student})
+
+    
+class EditSchoolView(View):
+    def get(self, request):
+
+        if 'user' in request.session:
+
+                current_user = request.session['user']
+                confirm_user_id = Users(id_number=current_user)
+                current_student = Students.objects.filter(StudentID=confirm_user_id)
+                email_student = Users.objects.filter(id_number=confirm_user_id) 
+
+        return render(request, 'user_profile_settings/School.html', {"current_student":current_student, "email_student":email_student})
+
+class EditPhotoView(View):
+    def get(self, request):
+        return render(request, 'user_profile_settings/Photo.html', {})
+
+
+
+class EditSecurityView(View):
+    def get(self, request):
+
+            if 'user' in request.session:
+
+                current_user = request.session['user']
+                confirm_user_id = Users(id_number=current_user)
+                current_student = Students.objects.filter(StudentID=confirm_user_id)
+                email_student = Users.objects.filter(id_number=confirm_user_id) 
+
+
+                return render(request, 'user_profile_settings/Security.html', {"current_student":current_student, "email_student":email_student})
 
         
 
