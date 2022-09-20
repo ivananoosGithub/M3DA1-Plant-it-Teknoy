@@ -29,7 +29,7 @@
     <body class="app sidebar-mini">
         <!-- Navbar-->
         <header class="app-header">
-            <a class="app-header__logo" href="{% url 'Plan_It_Teknoy:dashboard_view' %}"><img src="{% static 'images/LogoMain.png' %}" width="90%" alt="application logo"></a>
+            <a class="app-header__logo" href="#"><img src="{% static 'images/LogoMain.png' %}" width="150px" alt="application logo"></a>
             <!-- Sidebar toggle button-->
             <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
             <!-- Navbar Right Menu-->
@@ -146,13 +146,13 @@
                         <p class="app-sidebar__user-name">{{student_records.first_name}} {{student_records.last_name}}</p>
                         <!-- User Program -->
                         {% if student_records.year_level == 1 %}
-                        <p class="app-sidebar__user-designation">{{student_records.year_level}}st Year {{student_records.program}}</p>
+                        <p class="app-sidebar__user-designation">{{student_records.program}} - {{student_records.year_level}}</p>
                         {% elif student_records.year_level == 2 %}
-                        <p class="app-sidebar__user-designation">{{student_records.year_level}}nd Year {{student_records.program}}</p>
+                        <p class="app-sidebar__user-designation">{{student_records.program}} - {{student_records.year_level}}</p>
                         {% elif student_records.year_level == 3 %}
-                        <p class="app-sidebar__user-designation">{{student_records.year_level}}rd Year {{student_records.program}}</p>
+                        <p class="app-sidebar__user-designation">{{student_records.program}} - {{student_records.year_level}}</p>
                         {% else %}
-                        <p class="app-sidebar__user-designation">{{student_records.year_level}}th Year {{student_records.program}}</p>
+                        <p class="app-sidebar__user-designation">{{student_records.program}} - {{student_records.year_level}}</p>
                         {% endif %}
                     {% endfor %}
                 </div>

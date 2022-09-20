@@ -62,7 +62,8 @@ def listToString(s):
 # Select Role Page
 class SelectRoleView(View):
     def get(self, request):
-        return render(request, 'signup-role.html', {})
+        # return render(request, 'signup-role.html', {})
+        return render(request, 'user-selection.html', {})
 
 # Contact Us page
 class contactView(View):
