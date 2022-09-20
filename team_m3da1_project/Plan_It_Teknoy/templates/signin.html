@@ -62,14 +62,12 @@
 				 </div>
 			  </div>
 			  	<a class="forgot-pass" href="#" data-bs-toggle="modal" data-bs-target="#forgotPWModal">Forgot Password?</a>
-            	<button type="submit" id="btnSignIn" name="btnSignIn" class="btn" value="Sign In">Sign In</button>
+            	<button type="submit" class="btn" value="Sign In" id="signinBtn">Sign In</button>
 				<span>Dont have an account?<a class="sign-up" href="{% url 'Plan_It_Teknoy:select_view' %}"> Sign Up</a></span>
             </form>
         </div>
     </div>
     <!-- forgot pw modal -->
-<form id="form2" method="POST" autocomplete="off" enctype="multipart/form-data">
-  {% csrf_token %}
     <div class="modal fade" id="forgotPWModal" tabindex="-1" aria-labelledby="forgotPWModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -86,10 +84,10 @@
                         <fieldset>
                             <div class="form-group">
                               <!-- email -->
-                                <input class="form-control" placeholder="Institutional Email" name="email" type="email" id="forgotemail">
+                                <input class="form-control" placeholder="Institutional Email" name="email" type="email">
                             </div>
                               <!-- Submit button -->
-                              <button id="btnForgotPass" name="btnForgotPass" class="btn btn-danger btn-lg" value="Reset password" type="submit">Request Password Reset</button>
+                              <button class="btn btn-danger btn-lg" value="Reset password" type="submit">Request Password Reset</button>
                               <br><br>
                         </fieldset>
                     </div>
@@ -98,7 +96,6 @@
         </div>
       </div>
     </div>
-</form>
   <!-- end modal -->
 
        <!-- JavaScript Bundle with Popper -->
