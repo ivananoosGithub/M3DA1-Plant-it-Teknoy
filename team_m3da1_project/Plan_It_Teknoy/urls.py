@@ -4,6 +4,8 @@ from django.urls import path
 from Plan_It_Teknoy import views
 from django.views.generic.base import RedirectView
 from django.contrib.staticfiles.storage import staticfiles_storage
+from django.contrib.auth import views as auth_views
+from django.urls import path, reverse_lazy
 
 
 app_name = 'Plan_It_Teknoy'
@@ -44,7 +46,11 @@ urlpatterns = [
     path("edit-contact/", views.EditContactView.as_view(), name="edit-contact_view"),
     path("edit-school/", views.EditSchoolView.as_view(), name="edit-school_view"),
     path("edit-photo/", views.EditPhotoView.as_view(), name="edit-photo_view"),
-    path("edit-security/", views.EditSecurityView.as_view(), name="edit-security_view")
+    path("edit-security/", views.EditSecurityView.as_view(), name="edit-security_view"),
+
+        # Forgot Password url
+    path("ForgotPassword/", views.ForgotPasswordView.as_view(), name="fp_view"),
+    path("ForgotPassword/<code>/", views.ChangePasswordSentView.as_view(), name="fpt_view"),
     
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
