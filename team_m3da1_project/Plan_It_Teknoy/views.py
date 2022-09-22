@@ -342,10 +342,13 @@ class CalendarViewNew(View):
                 student_running_events.append(
                     {
                     "title":student_event.title,
-                    "start":student_event.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
-                    "end":student_event.end_time.strftime("%Y-%m-%dT%H:%M:%S"),
+                    "start":student_event.start_time.strftime("%Y-%m-%d %H:%M:%S"),
+                    "end":student_event.end_time.strftime("%Y-%m-%d %H:%M:%S"),
                     }
                 )
+
+                print(student_event.start_time.strftime("%Y-%m-%d %H:%M:%S"))
+                print(student_event.end_time.strftime("%Y-%m-%d %H:%M:%S"))
 
             context = {"student_running_events":student_running_events,  
             "running_events":running_events, "form":form, "student_record":student_record}
