@@ -48,6 +48,11 @@ urlpatterns = [
     path("edit-photo/", views.EditPhotoView.as_view(), name="edit-photo_view"),
     path("edit-security/", views.EditSecurityView.as_view(), name="edit-security_view"),
 
+    # student profile settings try
+    path("student-profile/", views.SProfileSettings.as_view(), name="sprofile-settings_view"),
+    # teacher profile settings try
+    path("teacher-profile/", views.TProfileSettings.as_view(), name="tprofile-settings_view"),
+
         # Forgot Password url
     path("ForgotPassword/", views.ForgotPasswordView.as_view(), name="fp_view"),
     path("ForgotPassword/<code>/", views.ChangePasswordSentView.as_view(), name="fpt_view"),
