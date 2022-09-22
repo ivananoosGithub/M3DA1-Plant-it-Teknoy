@@ -24,7 +24,7 @@
             <div class="col-md-3">
                 <div id="external-events">
                     <h4 class="mb-4">Running Events</h4>
-                    {% for event in event %}
+                    {% for event in running_events %}
                       <div class="fc-event">
                           <h3>{{ event.title }}</h3>
                           <p>From: {{ event.start_time }}</p>
@@ -98,29 +98,29 @@
         var calendarEl = document.getElementById('calendar');
         var today = new Date();
 
-        var data = "{{ context|safe }}";
+      //   var data = "{{ context|safe }}";
 
-        data = data.replace(/'/g, '"')   
+      //   data = data.replace(/'/g, '"')   
         
-        var dataJSON = JSON.parse(data)
+      //   var dataJSON = JSON.parse(data)
 
-       var events = []
+      //  var events = []
 
-        dataJSON.map(data => {
-          var title = data.event_title
-          var start = data.event_start_time
-          var end = data.event_end_time
+      //   dataJSON.map(data => {
+      //     var title = data.event_title
+      //     var start = data.event_start_time
+      //     var end = data.event_end_time
 
-          var currentEvent = {
-            title: title,
-            start: start,
-            end: end,
-            color: '#7E1215'
-          }
-          events.push(currentEvent)
-        })
+      //     var currentEvent = {
+      //       title: title,
+      //       start: start,
+      //       end: end,
+      //       color: '#7E1215'
+      //     }
+      //     events.push(currentEvent)
+      //   })
 
-        console.log(events);
+      //   console.log(events);
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
           headerToolbar: {
@@ -159,11 +159,26 @@
            },
 
            
-           eventSources: [
+          //  eventSources: [
+          //   {
+          //     events: events
+          //   }
+          //  ]
+          eventSources:
+          [
             {
-              events: events
+              events: {{ student_running_events|safe }},
+              color: '#7E1215',
             }
-           ]
+          ]
+          
+ 
+          
+
+          // eventSources: [
+          //     events:{{events|safe}},
+          //     citu_events: citu_events
+          // ]
         });
 
         calendar.render();

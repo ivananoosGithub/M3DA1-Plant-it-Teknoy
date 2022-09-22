@@ -328,68 +328,68 @@ class CalendarViewNew(View):
             current_user = request.session['user']
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
-            event = Event.objects.filter(StudentID = current_student.StudentID)
+            # event = Event.objects.filter(StudentID = current_student.StudentID)
             running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
-            events = Event.objects.get_all_events(StudentID=current_student.StudentID)
+            # events = Event.objects.get_all_events(StudentID=current_student.StudentID)
 
             #accessing all student records in the database
             student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
-            student_events = Event.objects.filter(StudentID=current_student.StudentID, end_time__gte=datetime.now().date())
+            # student_events = Event.objects.filter(StudentID=current_student.StudentID, end_time__gte=datetime.now().date())
 
-            # student_runnig_events = []
+            student_running_events = []
 
-            # for student_event in events:
-            #     student_runnig_events.append(
-            #         {
-            #         "title":student_event.title,
-            #         "start":student_event.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
-            #         "end":student_event.end_time.strftime("%Y-%m-%dT%H:%M:%S"),
-            #         }
-            #     )
+            for student_event in running_events:
+                student_running_events.append(
+                    {
+                    "title":student_event.title,
+                    "start":student_event.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
+                    "end":student_event.end_time.strftime("%Y-%m-%dT%H:%M:%S"),
+                    }
+                )
 
-            #     context = {"events":student_runnig_events,  
-            #     "running_events":running_events, "form":form, "student_record":student_record}
+            context = {"student_running_events":student_running_events,  
+            "running_events":running_events, "form":form, "student_record":student_record}
 
-            # return render(request, 'calendarapp/calendar.html', context)
+            return render(request, 'calendarapp/calendar.html', context)
             
 
 
 
             
-            Event.objects.raw('SELECT EventID, StudentID, title, start_time, end_time FROM plan_it_teknoy_event WHERE StudentID = %s', [current_student.StudentID])
+            # Event.objects.raw('SELECT EventID, StudentID, title, start_time, end_time FROM plan_it_teknoy_event WHERE StudentID = %s', [current_student.StudentID])
 
-            data = dict.fromkeys(['context', 'events', 'forms', 'student_record', 'current_user'])
-            data.update(current_user=current_user, event=running_events, student_record=student_record, form=form)
-            contextArr = []
-            print(context)
+            # data = dict.fromkeys(['context', 'events', 'forms', 'student_record', 'current_user'])
+            # data.update(current_user=current_user, event=running_events, student_record=student_record, form=form)
+            # contextArr = []
+            # print(context)
             
 
-            for student_event in student_events:
-                event_title = student_event.title
-                event_start_time = json.dumps(
-                    student_event.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
-                    sort_keys=True,
-                    indent=1,
-                    cls=DjangoJSONEncoder)
+            # for student_event in student_events:
+            #     event_title = student_event.title
+            #     event_start_time = json.dumps(
+            #         student_event.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
+            #         sort_keys=True,
+            #         indent=1,
+            #         cls=DjangoJSONEncoder)
 
-                event_end_time = json.dumps(
-                    student_event.end_time.strftime("%Y-%m-%dT%H:%M:%S"),
-                    sort_keys=True,
-                    indent=1,
-                    cls=DjangoJSONEncoder)
+            #     event_end_time = json.dumps(
+            #         student_event.end_time.strftime("%Y-%m-%dT%H:%M:%S"),
+            #         sort_keys=True,
+            #         indent=1,
+            #         cls=DjangoJSONEncoder)
 
-                print(event_title)
-                # print(event_start_time)
-                # print(event_end_time)
+            #     print(event_title)
+            #     # print(event_start_time)
+            #     # print(event_end_time)
 
-                currentContext = {
-                "event_title":event_title,
-                "event_start_time":json.loads(event_start_time),
-                "event_end_time":json.loads(event_end_time)
-                }
-                print(currentContext)
-                contextArr.append(currentContext)
-                data.update(context=contextArr)
+            #     currentContext = {
+            #     "event_title":event_title,
+            #     "event_start_time":json.loads(event_start_time),
+            #     "event_end_time":json.loads(event_end_time)
+            #     }
+            #     print(currentContext)
+            #     contextArr.append(currentContext)
+            #     data.update(context=contextArr)
 
             
             return render(request, 'calendarapp/calendar.html', data)
