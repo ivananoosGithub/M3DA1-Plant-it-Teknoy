@@ -162,9 +162,11 @@
               <div class="u-container-layout u-container-layout-1">
                 <img class="u-image u-image-circle u-image-1" src="{% static 'images/ivan.PNG' %}" alt="" data-image-width="471"
                   data-image-height="586">
+                  {% for current_student in current_student %}
                 <h5
                   class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xs u-custom-font u-font-montserrat u-text u-text-1">
-                  Ivan Kim Esgana Anoos</h5>
+                  {{current_student.first_name}} {{current_student.middle_name}} {{current_student.last_name}}</h5>
+                  {% endfor %}
                 <a href="{% url 'Plan_It_Teknoy:edit-profile_view' %}"
                   class="u-active-custom-color-1 u-btn u-button-style u-custom-font u-font-montserrat u-hover-custom-color-1 u-none u-text-black u-text-hover-white u-btn-1">Personal</a>
                 <a href="{% url 'Plan_It_Teknoy:edit-contact_view' %}"
