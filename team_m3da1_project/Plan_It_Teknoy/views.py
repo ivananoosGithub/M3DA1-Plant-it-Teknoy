@@ -576,6 +576,30 @@ class EditSecurityView(View):
 
                 return render(request, 'user_profile_settings/Security.html', {"current_student":current_student, "email_student":email_student})
 
+class SProfileSettings(View):
+    def get(self, request):
+
+            if 'user' in request.session:
+
+                current_user = request.session['user']
+                confirm_user_id = Users(id_number=current_user)
+                current_student = Students.objects.filter(StudentID=confirm_user_id)
+                email_student = Users.objects.filter(id_number=confirm_user_id) 
+
+                return render(request, 'account-settings.html', {"current_student":current_student, "email_student":email_student})
+
+class TProfileSettings(View):
+    def get(self, request):
+
+            if 'user' in request.session:
+
+                current_user = request.session['user']
+                confirm_user_id = Users(id_number=current_user)
+                current_teacher = Teachers.objects.filter(TeacherID=confirm_user_id)
+                email_teacher = Users.objects.filter(id_number=confirm_user_id) 
+
+                return render(request, 'account-settings.html', {"current_student":current_teacher, "email_student":email_teacher})
+
         
 
     
