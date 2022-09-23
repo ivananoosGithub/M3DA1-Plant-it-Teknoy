@@ -87,9 +87,13 @@
                           <div class="u-container-style u-layout-cell u-size-30 u-layout-cell-1">
                             <div class="u-container-layout u-container-layout-3">
                               <!-- image profile -->
-                              <img class="u-border-1 u-border-custom-color-2 u-image u-image-circle u-image-1" src="{% static 'images/285907859_7732178310155565_3871092832863129438_n.jpg' %}" alt="" data-image-width="1280" data-image-height="1211">
-                              <!-- full name -->
                               {% for current_student in current_student %}
+                                {% if student_records.profile_pic.url in profile_pic %}
+                                <img class="u-border-1 u-border-custom-color-2 u-image u-image-circle u-image-1" src="{{current_student.profile_pic.url}}" alt="" data-image-width="1280" data-image-height="1211">
+                                {% else %}
+                                <img class="u-border-1 u-border-custom-color-2 u-image u-image-circle u-image-1" src="{% static 'images/default.png'%}" alt="" data-image-width="1280" data-image-height="1211">
+                                {% endif %}
+                              <!-- full name -->
                               <p class="u-align-center u-large-text u-text u-text-variant u-text-2">{{current_student.first_name}} {{current_student.last_name}}</p>
                               {% endfor %}
                               <!-- change avatar and deactivate buttons -->

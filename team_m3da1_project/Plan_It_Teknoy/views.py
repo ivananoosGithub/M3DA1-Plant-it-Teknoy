@@ -333,7 +333,7 @@ class CalendarViewNew(View):
             # events = Event.objects.get_all_events(StudentID=current_student.StudentID)
 
             #accessing all student records in the database
-            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
+            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level, profile_pic FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
             # student_events = Event.objects.filter(StudentID=current_student.StudentID, end_time__gte=datetime.now().date())
 
             student_running_events = []

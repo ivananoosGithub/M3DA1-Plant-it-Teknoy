@@ -37,7 +37,7 @@
             <i class="icon fa fa-files-o fa-3x"></i>
             <div class="info">
                 <h4>Total Events</h4>
-                <p><b>{{ total_event }}</b></p>
+                <p><b>{{ total_event|add:"-1" }}</b></p>
             </div>
         </div>
     </div>
@@ -68,7 +68,7 @@
             <i class="icon fa fa-star fa-3x"></i>
             <div class="info">
                 <h4>Completed Events</h4>
-                <p><b>{{ completed_events.count }}</b></p>
+                <p><b>{{ completed_events.count|add:"-1" }}</b></p>
             </div>
         </div>
     </div>
@@ -103,12 +103,21 @@
                                         </thead>
                                         <tbody>
                                             {% for event in events %}
+                                            {% if "Dummy event" != event.title %}
                                             <tr role="row" class="odd">
-                                                <td class="sorting_1">{{ forloop.counter }}</td>
+                                                <td class="sorting_1">{{ forloop.counter|add:"-1" }}</td>
                                                 <td>{{ event.title }}</td>
                                                 <td>{{ event.start_time }}</td>
                                                 <td>{{ event.end_time }}</td>
                                             </tr>
+                                            {% else %}
+                                            <tr role="row" class="odd" hidden>
+                                                <td class="sorting_1">{{ forloop.counter|add:"-1" }}</td>
+                                                <td>{{ event.title }}</td>
+                                                <td>{{ event.start_time }}</td>
+                                                <td>{{ event.end_time }}</td>
+                                            </tr>
+                                            {% endif %}
                                             {% endfor %}
                                         </tbody>
                                     </table>
