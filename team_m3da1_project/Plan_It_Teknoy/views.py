@@ -449,7 +449,7 @@ class DashboardView(View):
             student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
             
             context = {
-                        "student_record" : student_record, "form":form, "event":event, "total_event": events.count(),
+                        "student_record" : student_record, "form":form, "event":event, "total_event": events,
                         "running_events": running_events,
                         "completed_events": completed_events
                         }
@@ -472,7 +472,7 @@ class AllEventsListView(ListView):
 
             student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
 
-            context = {"student_record" : student_record, "total_event":events.count(),
+            context = {"student_record" : student_record, "total_event":events,
                         "events":events,
                         }
 

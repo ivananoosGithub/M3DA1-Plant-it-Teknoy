@@ -4,24 +4,28 @@
 {% block title %}Plan'it Teknoy | Event List{% endblock title %}
 
 {% block breadcrumb %}
-{% if total_event %}
+
+{% if total_event.count|add:"1" %}
 <div>
     <h1><i class="fa fa-dashboard"></i> Total Events</h1>
     <p>Event List</p>
 </div>
 {% endif %}
-{% if running_events %}
+
+{% if running_events.count|add:"1" %}
 <div>
     <h1><i class="fa fa-dashboard"></i> Running Events</h1>
     <p>Event List</p>
 </div>
 {% endif %}
-{% if completed_events %}
+
+{% if completed_events.count|add:"1" %}
 <div>
     <h1><i class="fa fa-dashboard"></i> Completed Events</h1>
     <p>Event List</p>
 </div>
 {% endif %}
+
 <ul class="app-breadcrumb breadcrumb">
     <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
     <li class="breadcrumb-item"><a href="#">Plan'it Teknoy | Event List</a></li>
@@ -31,18 +35,18 @@
 {% block content %}
 <div class="row">
     
-    {% if total_event %}
+    {% if total_event.count|add:"1" %}
     <div class="col-md-6 col-lg-3">
         <div class="widget-small primary coloured-icon">
             <i class="icon fa fa-files-o fa-3x"></i>
             <div class="info">
                 <h4>Total Events</h4>
-                <p><b>{{ total_event}}</b></p>
+                <p><b>{{ total_event.count}}</b></p>
             </div>
         </div>
     </div>
    {% endif %}
-   {% if running_events %}
+   {% if running_events.count|add:"1" %}
     <div class="col-md-6 col-lg-3">
         <div class="widget-small info coloured-icon">
             <i class="icon fa fa-thumbs-o-up fa-3x"></i>
@@ -53,16 +57,8 @@
         </div>
     </div>
     {% endif %}
-    <!-- <div class="col-md-6 col-lg-3">
-        <div class="widget-small warning coloured-icon">
-            <i class="icon fa fa-users fa-3x"></i>
-            <div class="info">
-                <h4>Total Participants</h4>
-                <p><b>10</b></p>
-            </div>
-        </div>
-    </div> -->
-    {% if completed_events %}
+
+    {% if completed_events.count|add:"1" %}
     <div class="col-md-6 col-lg-3">
         <div class="widget-small danger coloured-icon">
             <i class="icon fa fa-star fa-3x"></i>
