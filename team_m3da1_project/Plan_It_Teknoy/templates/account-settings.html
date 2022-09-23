@@ -11,6 +11,9 @@
     <link rel="icon" href="{% static 'images/favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'css/profile-nicepage.css' %}" media="screen">
     <link rel="stylesheet" href="{% static 'css/profile-settings.css' %}" media="screen">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <script class="u-script" type="text/javascript" src="{% static 'js/profile-jquery.js' %}" defer=""></script>
     <script class="u-script" type="text/javascript" src="{% static 'js/profile-nicepage.js' %}" defer=""></script>
     <meta name="generator" content="Nicepage 3.25.0, nicepage.com">
@@ -92,9 +95,9 @@
                               {% for current_student in current_student %}
                               <p class="u-align-center u-large-text u-text u-text-variant u-text-2">{{current_student.first_name}} {{current_student.last_name}}</p>
                               {% endfor %}
-                              <!-- change avatar and deactivate buttons -->
-                              <a href="https://nicepage.com/c/gallery-html-templates" class="u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-hover-custom-color-4 u-radius-10 u-text-body-alt-color u-btn-1">Change Avatar</a>
-                              <a href="https://nicepage.com/c/gallery-html-templates" class="u-border-1 u-border-custom-color-1 u-btn u-btn-round u-button-style u-custom-font u-font-montserrat u-hover-custom-color-5 u-radius-10 u-text-custom-color-1 u-white u-btn-2">Deactivate Account</a>
+                              <!-- change avatar and deactivate buttons // modal trigger -->
+                              <a href="#" data-toggle="modal" data-target="#change-avatar" class="u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-hover-custom-color-4 u-radius-10 u-text-body-alt-color u-btn-1">Change Avatar</a>
+                              <a href="#" data-toggle="modal" data-target="#delete-account" class="u-border-1 u-border-custom-color-1 u-btn u-btn-round u-button-style u-custom-font u-font-montserrat u-hover-custom-color-5 u-radius-10 u-text-custom-color-1 u-white u-btn-2">Deactivate Account</a>
                             </div>
                           </div>
                           <div class="u-container-style u-layout-cell u-size-30 u-layout-cell-2">
@@ -140,9 +143,10 @@
                                     <label for="text-e15a" class="u-custom-font u-font-montserrat u-label u-label-6">City Address</label>
                                     <input value="{{current_student.city_address}}" type="text" placeholder="" id="text-e15a" name="text-2" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-6">
                                   </div>
+                                  <!-- Update Personal Button -->
                                   <div class="u-align-right u-form-group u-form-submit">
-                                    <a href="#" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-10 u-text-body-alt-color u-btn-3">Confirm Changes</a>
-                                    <input type="submit" value="submit" class="u-form-control-hidden">
+                                    <a href="#"  class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-10 u-text-body-alt-color u-btn-3">Confirm Changes</a>
+                                    <input type="submit" value="submit" class="u-form-control-hidden" data-toggle="modal" data-target="#update-profile">
                                   </div>
                                   <!-- <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
                                   <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div> -->
@@ -205,9 +209,10 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
                           </div>
                         </div>
+                        <!-- Update Academic Status Button -->
                         <div class="u-align-center u-form-group u-form-submit">
                           <a href="#" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-radius-10 u-btn-4">Confirm Changes</a>
-                          <input type="submit" value="submit" class="u-form-control-hidden">
+                          <input type="submit" value="submit" class="u-form-control-hidden" data-toggle="modal" data-target="#update-academic">
                         </div>
                         <!-- <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
                         <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>
@@ -227,6 +232,7 @@
                         <input type="hidden" id="siteId" name="siteId" value="987319368">
                         <input type="hidden" id="pageId" name="pageId" value="973315739">
                         <div class="u-form-group u-form-name">
+                          <!-- password change -->
                           <label for="name-5c9c" class="u-custom-font u-font-montserrat u-label u-label-10">Current Password</label>
                           <input type="text" id="name-5c9c" name="password" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-10" required="">
                         </div>
@@ -238,9 +244,10 @@
                           <label for="text-ac56" class="u-custom-font u-font-montserrat u-label u-label-12">Confirm Password</label>
                           <input type="text" placeholder="" id="text-ac56" name="confpass" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-12" required="required">
                         </div>
+                        <!-- Update Password Button -->
                         <div class="u-align-center u-form-group u-form-submit">
                           <a href="#" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-10 u-btn-5">Confirm Changes</a>
-                          <input type="submit" value="submit" class="u-form-control-hidden">
+                          <input type="submit" value="submit" class="u-form-control-hidden" data-toggle="modal" data-target="#update-password">
                         </div>
                         <!-- <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
                         <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>
@@ -255,6 +262,167 @@
         </div>
       </div>
     </section>
+  <!-- Modals -->
+
+  <!-- modal popup for changing avatar -->
+  <div class="modal fade" id="change-avatar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <!-- form start -->
+        <form action="">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Change Avatar</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="text-align: center;">
+          <div class="com-sm-3" hidden>
+            <input type="text" class="form-control" id="" name="" value="">
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <img src="{% static 'images/default.png'%}" alt="avatar" style="height: 200px; width: 200px;">
+            </div>
+            <div class="col-lg-6">
+              <input type="file" id="" name="">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="#" name="#" class="btn btn-danger">Save changes</button>
+        </div>
+        <!-- form end -->
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- end modal -->
+
+  <!-- deactivate modal -->
+  <div class="modal fade" id="delete-account" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <!-- form start -->
+        <form action="">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Deactivate Account</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-sm-3" hidden>
+            <input type="text" class="form-control" id="#" name="#"
+              value="#">
+          </div>
+          Are you sure you want to delete your account?
+        </div>
+        <div class="modal-footer">
+          <button type="submit" data-dismiss="modal" class="btn btn-default">Cancel</button>
+          <button type="submit" id="#" name="#" class="btn btn-danger">Deactivate</button>
+        </div>
+        <!-- form end -->
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- end modal -->
+
+  <!-- update personal settings modal confirmation -->
+  <div class="modal fade" id="update-profile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <!-- form start -->
+        <form action="">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Update Personal Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-sm-3" hidden>
+            <input type="text" class="form-control" id="#" name="#"
+              value="#">
+          </div>
+          Are you sure you want to save the following changes to your account?
+        </div>
+        <div class="modal-footer">
+          <button type="submit" data-dismiss="modal" class="btn btn-default">Cancel</button>
+          <button type="submit" id="#" name="#" class="btn btn-danger">Confirm</button>
+        </div>
+        <!-- form end -->
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- end modal -->
+
+  <!-- update academic settings modal confirmation -->
+  <div class="modal fade" id="update-academic" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <!-- form start -->
+        <form action="">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Update Academic Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-sm-3" hidden>
+            <input type="text" class="form-control" id="#" name="#"
+              value="#">
+          </div>
+          Are you sure you want to save the following changes to your account?
+        </div>
+        <div class="modal-footer">
+          <button type="submit" data-dismiss="modal" class="btn btn-default">Cancel</button>
+          <button type="submit" id="#" name="#" class="btn btn-danger">Confirm</button>
+        </div>
+        <!-- form end -->
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- end modal -->
+
+  <!-- update password settings modal confirmation -->
+  <div class="modal fade" id="update-password" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <!-- form start -->
+        <form action="">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Change Account Password</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-sm-3" hidden>
+            <input type="text" class="form-control" id="#" name="#"
+              value="#">
+          </div>
+          Are you sure you want to save the following changes to your account?
+        </div>
+        <div class="modal-footer">
+          <button type="submit" data-dismiss="modal" class="btn btn-default">Cancel</button>
+          <button type="submit" id="#" name="#" class="btn btn-danger">Confirm</button>
+        </div>
+        <!-- form end -->
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- end modal -->
+
     
+  <!-- bootstrap js -->
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   </body>
 </html>
