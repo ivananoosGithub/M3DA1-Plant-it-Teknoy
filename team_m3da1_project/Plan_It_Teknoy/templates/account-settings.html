@@ -91,7 +91,7 @@
                             <div class="u-container-layout u-container-layout-3">
                               <!-- image profile -->
                               {% for current_student in current_student %}
-                                {% if student_records.profile_pic.url in profile_pic %}
+                                {% if current_student.profile_pic.url in current_student.profile_pic.url %}
                                 <img class="u-border-1 u-border-custom-color-2 u-image u-image-circle u-image-1" src="{{current_student.profile_pic.url}}" alt="" data-image-width="1280" data-image-height="1211">
                                 {% else %}
                                 <img class="u-border-1 u-border-custom-color-2 u-image u-image-circle u-image-1" src="{% static 'images/default.png'%}" alt="" data-image-width="1280" data-image-height="1211">
@@ -111,7 +111,8 @@
                                 <form id="form1" action="" method="POST" enctype="multipart/form-data" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 0px;">
                                   {% csrf_token %}
                                   {{ form1.as_p }}
-                                  <input type="text" id="student_id" name="student_id" value="{{current_student.StudentID}}">
+                                  
+                                  <input type="text" id="student_id" name="student_id" value="{{current_student.StudentID}}" hidden readonly>
                                   <input type="hidden" id="pageId" name="pageId" value="973315739">
                                   <div class="u-form-group u-form-name u-form-partition-factor-2">
                                     <label for="name-140b" class="u-custom-font u-font-montserrat u-label u-label-1">First Name</label>
@@ -175,7 +176,7 @@
                                         </div>
                                         <div class="modal-footer">
                                           <button type="submit" data-dismiss="modal" class="btn btn-default">Cancel</button>
-                                          <button type="submit" id="btnUpdate" name="btnUpdate" class="btn btn-danger" onclick="{% url 'Plan_It_Teknoy:Home' %}">Confirm</button>
+                                          <button type="submit" id="btnUpdate1" name="btnUpdate1" class="btn btn-danger" >Confirm</button>
                                         </div>
                                       </div>
                                     </div>
@@ -203,7 +204,7 @@
                       {{ form2.as_p }}
                         <input type="hidden" id="siteId" name="siteId" value="987319368">
                         <input type="hidden" id="pageId" name="pageId" value="973315739">
-                        <input type="text" id="student_id2" name="student_id2" value="{{current_student.StudentID}}">
+                        <input type="text" id="student_id2" name="student_id2" value="{{current_student.StudentID}}" hidden readonly>
                         <div class="u-form-group u-form-select u-form-group-8">
                           <label for="department" class="u-custom-font u-font-montserrat u-label u-label-7">Department</label>
                           <div class="u-form-select-wrapper">
@@ -354,7 +355,8 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <!-- form start -->
-        <form action="">
+        <form id="" action="#" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalCenterTitle">Change Avatar</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -362,20 +364,22 @@
           </button>
         </div>
         <div class="modal-body" style="text-align: center;">
-          <div class="com-sm-3" hidden>
-            <input type="text" class="form-control" id="" name="" value="">
-          </div>
+            <input type="text" id="student_id" name="student_id" value="{{current_student.StudentID}}" hidden readonly>
           <div class="row">
             <div class="col-lg-6">
-              <img id="profilepic" name="profilepic" src="{% static 'images/default.png'%}" alt="avatar" style="height: 200px; width: 200px;">
-            </div>
+                {% if current_student.profile_pic.url in current_student.profile_pic.url %}
+                <img src="{{current_student.profile_pic.url}}" alt="avatar" style="height: 200px; width: 200px;">
+                {% else %}
+                <img src="{% static 'images/default.png'%}" alt="avatar" style="height: 200px; width: 200px;">
+                {% endif %}
+              </div>
             <div class="col-lg-6">
-              <input type="file" id="" name="">
+              <input type="file" id="profile_pic" name="profile_pic">
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" id="#" name="#" class="btn btn-danger">Save changes</button>
+          <button type="submit" id="btnUpdateProPic" name="btnUpdateProPic" class="btn btn-danger">Save changes</button>
         </div>
         <!-- form end -->
         </form>

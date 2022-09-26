@@ -16,13 +16,13 @@ class UsersForm(forms.ModelForm):
 class StudentsForm(forms.ModelForm):
     class Meta:
         model = Students
-        fields = ['StudentID','first_name','middle_name','last_name','gender','department','program','year_level','contact_number','home_address','city_address']
+        fields = ['StudentID','first_name','middle_name','last_name','gender','department','program','year_level','contact_number','home_address','city_address', 'profile_pic']
         exclude = ['permissions']
 
 class TeachersForm(forms.ModelForm):
     class Meta:
         model = Teachers
-        fields = ['TeacherID','first_name','middle_name','last_name','gender','department','program','contact_number','home_address','city_address']
+        fields = ['TeacherID','first_name','middle_name','last_name','gender','department','program','contact_number','home_address','city_address', 'profile_pic']
         exclude = ['permissions']
 
 class ContactForm(forms.ModelForm):

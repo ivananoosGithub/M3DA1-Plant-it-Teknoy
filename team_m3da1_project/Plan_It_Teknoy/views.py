@@ -586,6 +586,17 @@ class SProfileSettings(View):
   
     def post(self, request):
         if request.method == 'POST':
+
+            if 'btnUpdateProPic' in request.POST:
+                print('UpdateProPic button clicked!')
+                student_id = request.POST.get("student_id")
+                profile_pic = request.FILES['profile_pic']
+                saveProPic = Students.objects.get(StudentID = student_id)
+                saveProPic.profile_pic = profile_pic
+                saveProPic.save()
+                print('Student profile picture updated!')
+                return redirect('Plan_It_Teknoy:sprofile-settings_view')    
+
             form1 = StudentsForm(request.POST, request.FILES)
             form2 = StudentsForm(request.POST, request.FILES)
             form3 = StudentsForm(request.POST, request.FILES)
@@ -613,7 +624,6 @@ class SProfileSettings(View):
             s.contact_number = cNumber
             s.home_address = hAddress
             s.city_address = cAddress
-            s.profile_pic = profilepic
             s.save()
             #s2 = Students.objects.get(StudentID = student_id2)
             #s2.department = dept 
