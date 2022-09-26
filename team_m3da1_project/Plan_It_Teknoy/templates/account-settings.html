@@ -108,8 +108,9 @@
                             <div class="u-container-layout u-valign-top u-container-layout-4">
                               <div class="u-align-center u-form u-form-1">
                                 <!-- form start -->
-                                <form action="" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 0px;">
+                                <form id="form1" action="" method="POST" enctype="multipart/form-data" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 0px;">
                                   {% csrf_token %}
+                                  {{ form1.as_p }}
                                   <input type="text" id="student_id" name="student_id" value="{{current_student.StudentID}}">
                                   <input type="hidden" id="pageId" name="pageId" value="973315739">
                                   <div class="u-form-group u-form-name u-form-partition-factor-2">
@@ -174,7 +175,7 @@
                                         </div>
                                         <div class="modal-footer">
                                           <button type="submit" data-dismiss="modal" class="btn btn-default">Cancel</button>
-                                          <button type="submit" id="btnUpdate" name="btnUpdate" class="btn btn-danger">Confirm</button>
+                                          <button type="submit" id="btnUpdate" name="btnUpdate" class="btn btn-danger" onclick="{% url 'Plan_It_Teknoy:Home' %}">Confirm</button>
                                         </div>
                                       </div>
                                     </div>
@@ -197,13 +198,16 @@
                   <div class="u-container-layout u-valign-middle-xs u-container-layout-6">
                     <div class="u-align-center u-form u-form-2">
 
-                      <form action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form-1" style="padding: 0px;">
+                      <form id="form2" action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form2" style="padding: 0px;">
+                      {% csrf_token %}
+                      {{ form2.as_p }}
                         <input type="hidden" id="siteId" name="siteId" value="987319368">
                         <input type="hidden" id="pageId" name="pageId" value="973315739">
+                        <input type="text" id="student_id2" name="student_id2" value="{{current_student.StudentID}}">
                         <div class="u-form-group u-form-select u-form-group-8">
-                          <label for="select-f886" class="u-custom-font u-font-montserrat u-label u-label-7">Department</label>
+                          <label for="department" class="u-custom-font u-font-montserrat u-label u-label-7">Department</label>
                           <div class="u-form-select-wrapper">
-                            <select id="select-f886" name="select" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-7">
+                            <select id="department" name="sDepartment" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-7">
                               {% if current_student.department == 'CCS' %}
                               <option value="CCS">{{current_student.department}}</option>
                               <option value="CMBA">CMBA</option>
@@ -218,9 +222,9 @@
                           </div>
                         </div>
                         <div class="u-form-group u-form-select u-form-group-9">
-                          <label for="select-979c" class="u-custom-font u-font-montserrat u-label u-label-8">Program</label>
+                          <label for="program" class="u-custom-font u-font-montserrat u-label u-label-8">Program</label>
                           <div class="u-form-select-wrapper">
-                            <select id="select-979c" name="select-1" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-8">
+                            <select id="program" name="sProgram" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-8">
                               {% if current_student.program == 'BSIT' %}
                               <option value="BSIT">{{current_student.program}}</option>
                               <option value="BSCS">BSCS</option>
@@ -259,9 +263,9 @@
                           </div>
                         </div>
                         <div class="u-form-group u-form-select u-form-group-10">
-                          <label for="select-f10e" class="u-custom-font u-font-montserrat u-label u-label-9">Year Level</label>
+                          <label for="year_level" class="u-custom-font u-font-montserrat u-label u-label-9">Year Level</label>
                           <div class="u-form-select-wrapper">
-                            <select id="select-f10e" name="select-2" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-9">
+                            <select id="year_level" name="sYear_level" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-9">
                               {% if current_student.year_level == 1 %}
                               <option value="1">{{current_student.year_level}}</option>
                               <option value="2">2</option>
@@ -307,7 +311,9 @@
                 <div class="u-container-style u-expanded-width u-group u-radius-20 u-shape-round u-white u-group-3">
                   <div class="u-container-layout u-container-layout-8">
                     <div class="u-align-center u-form u-form-3">
-                      <form action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form-2" style="padding: 0px;">
+                      <form id="form3" action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form-2" style="padding: 0px;">
+                      {% csrf_token %}
+                      {{ form3.as_p }}
                         <input type="hidden" id="siteId" name="siteId" value="987319368">
                         <input type="hidden" id="pageId" name="pageId" value="973315739">
                         <div class="u-form-group u-form-name">
@@ -361,7 +367,7 @@
           </div>
           <div class="row">
             <div class="col-lg-6">
-              <img src="{% static 'images/default.png'%}" alt="avatar" style="height: 200px; width: 200px;">
+              <img id="profilepic" name="profilepic" src="{% static 'images/default.png'%}" alt="avatar" style="height: 200px; width: 200px;">
             </div>
             <div class="col-lg-6">
               <input type="file" id="" name="">
@@ -409,7 +415,7 @@
   <!-- end modal -->
 
   <!-- update personal settings modal confirmation -->
-  <!-- <div class="modal fade" id="update-profile--{{current_student.StudentID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal fade" id="update-profile--{{current_student.StudentID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -431,7 +437,7 @@
         </div>
       </div>
     </div>
-  </div> -->
+  </div>
   <!-- end modal -->
 
   <!-- update academic settings modal confirmation -->

@@ -586,20 +586,42 @@ class SProfileSettings(View):
   
     def post(self, request):
         if request.method == 'POST':
-            if 'btnUpdate' in request.POST:
-                print('Update button clicked!')
-                student_id = request.POST.get("student_id")
-                firstname = request.POST.get("first_name")
-                lastname = request.POST.get("last_name")
-                cNumber = request.POST.get("contact_number")
-                sGender = request.POST.get("gender")
-                hAddress = request.POST.get("home_address")
-                cAddress = request.POST.get("city_address")
+            form1 = StudentsForm(request.POST, request.FILES)
+            form2 = StudentsForm(request.POST, request.FILES)
+            form3 = StudentsForm(request.POST, request.FILES)
+            print('Update button clicked!')
+            # personal
+            student_id = request.POST.get("student_id")
+            # academic
+            student_id2 = request.POST.get("student_id2")
+            firstname = request.POST.get("first_name")
+            lastname = request.POST.get("last_name")
+            cNumber = request.POST.get("contact_number")
+            sGender = request.POST.get("gender")
+            hAddress = request.POST.get("home_address")
+            cAddress = request.POST.get("city_address")
+            profilepic = request.POST.get("city_address")
+            dept = request.POST.get("sDepartment")
+            prog = request.POST.get("sProgram")
+            yrlvl = request.POST.get("sYear_level")
                 # Students.objects.filter(StudentID = current_student.StudentID).update(first_name = firstname, last_name = lastname, gender = sGender, contact_number = cNumber, home_address = hAddress, city_address = cAddress)
-                student = Students.objects.filter(StudentID = student_id).update(first_name = firstname, last_name = lastname, gender = sGender, contact_number = cNumber, home_address = hAddress, city_address = cAddress)
-                print(student)
-                print('Student account updated!')
-            return render(request, 'account-settings.html')
+                #student = Students.objects.filter(StudentID = student_id).update(first_name = firstname, last_name = lastname, gender = sGender, contact_number = cNumber, home_address = hAddress, city_address = cAddress)
+            s = Students.objects.get(StudentID = student_id)
+            s.first_name = firstname
+            s.last_name = lastname 
+            s.gender = sGender
+            s.contact_number = cNumber
+            s.home_address = hAddress
+            s.city_address = cAddress
+            s.profile_pic = profilepic
+            s.save()
+            #s2 = Students.objects.get(StudentID = student_id2)
+            #s2.department = dept 
+            #s2.program = prog 
+            #s2.year_level = yrlvl 
+            #s2.save()
+            print('Student account updated!')
+            return redirect('Plan_It_Teknoy:contact_view')
 
 
 
