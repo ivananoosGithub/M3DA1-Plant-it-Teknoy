@@ -98,7 +98,7 @@
                                 {% endif %}
                               <!-- full name -->
                               <p class="u-align-center u-large-text u-text u-text-variant u-text-2">{{current_student.first_name}} {{current_student.last_name}}</p>
-                              {% endfor %}
+                              
                               <!-- change avatar and deactivate buttons // modal trigger -->
                               <a href="#" data-toggle="modal" data-target="#change-avatar" class="u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-hover-custom-color-4 u-radius-10 u-text-body-alt-color u-btn-1">Change Avatar</a>
                               <a href="#" data-toggle="modal" data-target="#delete-account" class="u-border-1 u-border-custom-color-1 u-btn u-btn-round u-button-style u-custom-font u-font-montserrat u-hover-custom-color-5 u-radius-10 u-text-custom-color-1 u-white u-btn-2">Deactivate Account</a>
@@ -108,26 +108,26 @@
                             <div class="u-container-layout u-valign-top u-container-layout-4">
                               <div class="u-align-center u-form u-form-1">
                                 <!-- form start -->
-                                {% for current_student in current_student %}
-                                <form action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 0px;">
-                                  <input type="hidden" id="siteId" name="siteId" value="987319368">
+                                <form action="" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 0px;">
+                                  {% csrf_token %}
+                                  <input type="text" id="student_id" name="student_id" value="{{current_student.StudentID}}">
                                   <input type="hidden" id="pageId" name="pageId" value="973315739">
                                   <div class="u-form-group u-form-name u-form-partition-factor-2">
                                     <label for="name-140b" class="u-custom-font u-font-montserrat u-label u-label-1">First Name</label>
-                                    <input value="{{current_student.first_name}}" type="text" id="name-140b" name="name" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-1" required="">
+                                    <input value="{{current_student.first_name}}" type="text" id="first_name" name="first_name" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-1" required="">
                                   </div>
                                   <div class="u-form-group u-form-partition-factor-2 u-form-group-2">
                                     <label for="text-8e54" class="u-custom-font u-font-montserrat u-label u-label-2">Last Name</label>
-                                    <input value="{{current_student.last_name}}" type="text" placeholder="" id="text-8e54" name="text" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-2" required="required">
+                                    <input value="{{current_student.last_name}}" type="text" id="last_name" name="last_name" placeholder="" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-2" required="required">
                                   </div>
                                   <div class="u-form-group u-form-partition-factor-2">
                                     <label for="email-140b" class="u-custom-font u-font-montserrat u-label u-label-3">Contact Number</label>
-                                    <input value="{{current_student.contact_number}}" type="text" id="email-140b" name="mname" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-3" required="required">
+                                    <input value="{{current_student.contact_number}}" type="text" id="contact_number" name="contact_number" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-3" required="required">
                                   </div>
                                   <div class="u-form-group u-form-partition-factor-2 u-form-select u-form-group-4">
                                     <label for="select-f767" class="u-custom-font u-font-montserrat u-label u-label-4">Gender</label>
                                     <div class="u-form-select-wrapper">
-                                      <select id="select-f767" name="select" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-4">
+                                      <select id="gender" name="gender" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-4">
                                         {% if current_student.gender == 'Female' %}
                                         <option value = "Female">{{current_student.gender}}</option>
                                         <option value = "Male">Male</option>
@@ -141,23 +141,46 @@
                                   </div>
                                   <div class="u-form-group u-form-group-5">
                                     <label for="text-96e2" class="u-custom-font u-font-montserrat u-label u-label-5">Home Address</label>
-                                    <input value="{{current_student.home_address}}" type="text" placeholder="" id="text-96e2" name="text-1" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-5">
+                                    <input value="{{current_student.home_address}}" type="text" placeholder="" id="home_address" name="home_address" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-5">
                                   </div>
                                   <div class="u-form-group u-form-group-6">
                                     <label for="text-e15a" class="u-custom-font u-font-montserrat u-label u-label-6">City Address</label>
-                                    <input value="{{current_student.city_address}}" type="text" placeholder="" id="text-e15a" name="text-2" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-6">
+                                    <input value="{{current_student.city_address}}" type="text" placeholder="" id="city_address" name="city_address" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-6">
                                   </div>
                                   <!-- Update Personal Button -->
                                   <div class="u-align-right u-form-group u-form-submit">
-                                    <a href="#"  class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-10 u-text-body-alt-color u-btn-3">Confirm Changes</a>
-                                    <input type="submit" value="submit" class="u-form-control-hidden" data-toggle="modal" data-target="#update-profile">
+                                    <button type="button" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-10 u-text-body-alt-color u-btn-3" data-toggle="modal" 
+                                    data-target="#update-profile-{{current_student.StudentID}}">Confirm Changes</button>
+
+                                    <!-- <a href="#"  class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-10 u-text-body-alt-color u-btn-3">Confirm Changes</a> -->
+                                    <!-- <button type="button" value="submit" id="" name="" class="u-form-control-hidden" data-toggle="modal" data-target="#update-profile--{{current_student.StudentID}}"></button> -->
                                   </div>
+
                                   <!-- <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
                                   <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div> -->
                                   <!-- <input type="hidden" value="" name="recaptchaResponse"> -->
+
+                                  <!-- update personal settings modal confirmation -->
+                                  <div class="modal fade" id="update-profile-{{current_student.StudentID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalCenterTitle"> Update Personal Details</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                          Are you sure you want to save the following changes to your account?
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="submit" data-dismiss="modal" class="btn btn-default">Cancel</button>
+                                          <button type="submit" id="btnUpdate" name="btnUpdate" class="btn btn-danger">Confirm</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </form>
                                 <!-- form end -->
-                                {% endfor %}
                               </div>
                             </div>
                           </div>
@@ -173,7 +196,7 @@
                 <div class="u-align-left-md u-align-left-sm u-align-left-xs u-container-style u-expanded-width u-group u-radius-20 u-shape-round u-white u-group-2">
                   <div class="u-container-layout u-valign-middle-xs u-container-layout-6">
                     <div class="u-align-center u-form u-form-2">
-                      {% for current_student in current_student %}
+
                       <form action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form-1" style="padding: 0px;">
                         <input type="hidden" id="siteId" name="siteId" value="987319368">
                         <input type="hidden" id="pageId" name="pageId" value="973315739">
@@ -273,7 +296,7 @@
                         <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>
                         <input type="hidden" value="" name="recaptchaResponse"> -->
                       </form>
-                      {% endfor %}
+
                     </div>
                   </div>
                 </div>
@@ -386,13 +409,11 @@
   <!-- end modal -->
 
   <!-- update personal settings modal confirmation -->
-  <div class="modal fade" id="update-profile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <!-- <div class="modal fade" id="update-profile--{{current_student.StudentID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-        <!-- form start -->
-        <form action="">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">Update Personal Details</h5>
+          <h5 class="modal-title" id="exampleModalCenterTitle"> Update Personal Details</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -406,13 +427,11 @@
         </div>
         <div class="modal-footer">
           <button type="submit" data-dismiss="modal" class="btn btn-default">Cancel</button>
-          <button type="submit" id="#" name="#" class="btn btn-danger">Confirm</button>
+          <button type="submit" id="btnUpdate" name="btnUpdate" class="btn btn-danger">Confirm</button>
         </div>
-        <!-- form end -->
-        </form>
       </div>
     </div>
-  </div>
+  </div> -->
   <!-- end modal -->
 
   <!-- update academic settings modal confirmation -->
@@ -436,7 +455,7 @@
         </div>
         <div class="modal-footer">
           <button type="submit" data-dismiss="modal" class="btn btn-default">Cancel</button>
-          <button type="submit" id="#" name="#" class="btn btn-danger">Confirm</button>
+          <button type="submit" id="" name="" class="btn btn-danger">Confirm</button>
         </div>
         <!-- form end -->
         </form>
@@ -473,6 +492,7 @@
       </div>
     </div>
   </div>
+{% endfor %}
   <!-- end modal -->
 
     

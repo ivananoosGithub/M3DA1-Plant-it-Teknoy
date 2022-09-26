@@ -132,12 +132,26 @@
           navLinks: true, // can click day/week names to navigate views
           selectable: true,
           selectMirror: true,
+          displayEventEnd: false, // if(true) display event_time_end
+          eventOrder: true,
+          allDay: false,
+          // eventTextColor: #fffff,
+
           select: function(arg) {
             console.log('clicked')
             var modal = document.getElementById('eventModal')
             modal.style.display = 'block'
             calendar.unselect()
           },
+
+        //   eventDidMount: function(info) {
+        //   var tooltip = new Tooltip(info.el, {
+        //   title: info.eventSource.extendedProps.description,
+        //   placement: 'top',
+        //   trigger: 'hover',
+        //   container: 'body'
+        //   });
+        // },
 
           eventClick: function(arg) {
             if (confirm('Are you sure you want to delete this event?')) {
@@ -158,29 +172,22 @@
                textColor: '#eee'
            },
 
-           
-          //  eventSources: [
-          //   {
-          //     events: events
-          //   }
-          //  ]
+           eventTimeFormat: { // like '14:30:00'
+            hour: '2-digit',
+            minute: '2-digit',
+            meridiem: 'short'
+          },
+
           eventSources:
           [
             {
               events: {{ student_running_events|safe }},
+              // description:'hahahahahah',
               color: '#7E1215',
             }
           ]
           
- 
-          
-
-          // eventSources: [
-          //     events:{{events|safe}},
-          //     citu_events: citu_events
-          // ]
         });
-
         calendar.render();
       });
       const closeBtn1 = document.getElementById('modalClose1');

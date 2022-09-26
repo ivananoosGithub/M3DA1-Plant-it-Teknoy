@@ -1,21 +1,14 @@
-import json
-from multiprocessing import context
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.views.generic import View
-from django.core.serializers.json import DjangoJSONEncoder
 from .forms import *
 from .models import *
 from passlib.hash import pbkdf2_sha256
-import calendar
-from datetime import timedelta, datetime, date
 from django.core.mail import send_mail
 from django.conf import settings
 import uuid
-#from calendarapp.models import EventMember, Event
-#from calendarapp.forms import EventForm
-# Calendarapp Imports
+
 
 
 #################################### Start of user pages ###################################
@@ -347,8 +340,8 @@ class CalendarViewNew(View):
                     }
                 )
 
-                print(student_event.start_time.strftime("%Y-%m-%d %H:%M:%S"))
-                print(student_event.end_time.strftime("%Y-%m-%d %H:%M:%S"))
+                # print(student_event.start_time.strftime("%Y-%m-%d %H:%M:%S"))
+                # print(student_event.end_time.strftime("%Y-%m-%d %H:%M:%S"))
 
             context = {"student_running_events":student_running_events,  
             "running_events":running_events, "form":form, "student_record":student_record}
@@ -580,16 +573,35 @@ class EditSecurityView(View):
                 return render(request, 'user_profile_settings/Security.html', {"current_student":current_student, "email_student":email_student})
 
 class SProfileSettings(View):
+
     def get(self, request):
 
             if 'user' in request.session:
-
                 current_user = request.session['user']
                 confirm_user_id = Users(id_number=current_user)
                 current_student = Students.objects.filter(StudentID=confirm_user_id)
                 email_student = Users.objects.filter(id_number=confirm_user_id) 
 
                 return render(request, 'account-settings.html', {"current_student":current_student, "email_student":email_student})
+  
+    def post(self, request):
+        if request.method == 'POST':
+            if 'btnUpdate' in request.POST:
+                print('Update button clicked!')
+                student_id = request.POST.get("student_id")
+                firstname = request.POST.get("first_name")
+                lastname = request.POST.get("last_name")
+                cNumber = request.POST.get("contact_number")
+                sGender = request.POST.get("gender")
+                hAddress = request.POST.get("home_address")
+                cAddress = request.POST.get("city_address")
+                # Students.objects.filter(StudentID = current_student.StudentID).update(first_name = firstname, last_name = lastname, gender = sGender, contact_number = cNumber, home_address = hAddress, city_address = cAddress)
+                student = Students.objects.filter(StudentID = student_id).update(first_name = firstname, last_name = lastname, gender = sGender, contact_number = cNumber, home_address = hAddress, city_address = cAddress)
+                print(student)
+                print('Student account updated!')
+            return render(request, 'account-settings.html')
+
+
 
 class TProfileSettings(View):
     def get(self, request):
