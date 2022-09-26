@@ -611,7 +611,6 @@ class SProfileSettings(View):
             sGender = request.POST.get("gender")
             hAddress = request.POST.get("home_address")
             cAddress = request.POST.get("city_address")
-            profilepic = request.POST.get("city_address")
             dept = request.POST.get("sDepartment")
             prog = request.POST.get("sProgram")
             yrlvl = request.POST.get("sYear_level")
