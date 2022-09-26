@@ -30,7 +30,7 @@ class Students(models.Model):
     home_address = models.CharField(max_length = 100, default="Not set")
     city_address = models.CharField(max_length = 100, default="Not set")
     permissions = models.CharField(max_length = 100, default="Not set")
-    profile_pic = models.ImageField(upload_to='images', null=True, default="Not set")
+    profile_pic = models.ImageField(upload_to='images/', null=True, default="Not set")
 
     class meta:
         db_table = 'Students'
@@ -50,7 +50,7 @@ class Teachers(models.Model):
     home_address = models.CharField(max_length = 100, default="Not set")
     city_address = models.CharField(max_length = 100, default="Not set")
     permissions = models.CharField(max_length = 100, default="Not set")
-    profile_pic = models.ImageField(upload_to='images', null=True, default="Not set")
+    profile_pic = models.ImageField(upload_to='images/', null=True, default="Not set")
 
     class meta:
         db_table = 'Teachers'

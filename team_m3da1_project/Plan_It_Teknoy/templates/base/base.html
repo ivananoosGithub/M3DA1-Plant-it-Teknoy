@@ -148,7 +148,7 @@
         <aside class="app-sidebar">
             <div class="app-sidebar__user">
                     {% for student_records in student_record %}
-                        {% if student_records.profile_pic.url in profile_pic %}
+                        {% if student_records.profile_pic.url in student_records.profile_pic.url %}
                         <img class="app-sidebar__user-avatar" src="{{student_records.profile_pic.url}}" alt="User Image" height="50px" width="50px"/>            
                         {% else %} <!-- Display dummy avatar if there is no uploaded profile pic -->
                         <img class="app-sidebar__user-avatar" src="{% static 'images/default.png' %}" alt="User Image" height="50px" width="50px"/>
