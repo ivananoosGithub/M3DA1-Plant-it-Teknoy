@@ -613,7 +613,23 @@ class TProfileSettings(View):
                 current_teacher = Teachers.objects.filter(TeacherID=confirm_user_id)
                 email_teacher = Users.objects.filter(id_number=confirm_user_id) 
 
-                return render(request, 'account-settings.html', {"current_student":current_teacher, "email_student":email_teacher})
+                return render(request, 'teacher-account-settings.html', {"current_teacher":current_teacher, "email_teacher":email_teacher})
+            
+    def post(self, request):
+        if request.method == 'POST':
+            if 'btnUpdate' in request.POST:
+                print('Update button clicked!')
+                teacher_id = request.POST.get("teacher_id")
+                firstname = request.POST.get("first_name")
+                lastname = request.POST.get("last_name")
+                cNumber = request.POST.get("contact_number")
+                sGender = request.POST.get("gender")
+                hAddress = request.POST.get("home_address")
+                cAddress = request.POST.get("city_address")
+                teacher = Teachers.objects.filter(StudentID = teacher_id).update(first_name = firstname, last_name = lastname, gender = sGender, contact_number = cNumber, home_address = hAddress, city_address = cAddress)
+                print(teacher)
+                print('Teacher account updated!')
+            return render(request, 'teacher-account-settings.html')
 
         
 
