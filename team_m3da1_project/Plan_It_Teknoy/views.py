@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.views.generic import View
+from django.http import HttpResponse
 from .forms import *
 from .models import *
 from passlib.hash import pbkdf2_sha256
@@ -430,6 +431,8 @@ class DashboardView(View):
         if 'user' in request.session:
             current_user = request.session['user']
             confirm_user_id = Users(id_number=current_user)
+            check_teacher = Teachers.objects.filter(TeacherID=current_user)
+            check_student = Students.objects.filter(StudentID=current_user)
             current_student = Students(StudentID=confirm_user_id)
             event = Event.objects.filter(StudentID=current_student.StudentID)
 
@@ -444,7 +447,9 @@ class DashboardView(View):
             context = {
                         "student_record" : student_record, "form":form, "event":event, "total_event": events,
                         "running_events": running_events,
-                        "completed_events": completed_events
+                        "completed_events": completed_events,
+                        "check_teacher": check_teacher,
+                        "check_student": check_student
                         }
 
         return render(request, 'calendarapp/dashboard.html', context)
@@ -633,25 +638,42 @@ class TProfileSettings(View):
                 current_user = request.session['user']
                 confirm_user_id = Users(id_number=current_user)
                 current_teacher = Teachers.objects.filter(TeacherID=confirm_user_id)
-                email_teacher = Users.objects.filter(id_number=confirm_user_id) 
-
-                return render(request, 'teacher-account-settings.html', {"current_teacher":current_teacher, "email_teacher":email_teacher})
+                email_teacher = Users.objects.filter(id_number=confirm_user_id)
+                context = {
+                'current_user': current_user,
+                'current_teacher' : current_teacher,
+                'email_teacher' : email_teacher,
+            }
+            return render(request, 'teacher-account-settings.html', context)
             
     def post(self, request):
         if request.method == 'POST':
-            if 'btnUpdate' in request.POST:
+            if 'btnUpdateTeacher' in request.POST:
                 print('Update button clicked!')
                 teacher_id = request.POST.get("teacher_id")
-                firstname = request.POST.get("first_name")
-                lastname = request.POST.get("last_name")
+                first_name = request.POST.get("first_name")
+                last_name = request.POST.get("last_name")
                 cNumber = request.POST.get("contact_number")
-                sGender = request.POST.get("gender")
+                tGender = request.POST.get("gender")
                 hAddress = request.POST.get("home_address")
                 cAddress = request.POST.get("city_address")
-                teacher = Teachers.objects.filter(StudentID = teacher_id).update(first_name = firstname, last_name = lastname, gender = sGender, contact_number = cNumber, home_address = hAddress, city_address = cAddress)
-                print(teacher)
+                # profilepic = request.POST.get("city_address")
+                update_Teacher = Teachers.objects.filter(TeacherID=teacher_id).update(first_name = first_name, last_name = last_name, contact_number = cNumber, gender = tGender, home_address = hAddress, city_address = cAddress)
+                print(update_Teacher)
                 print('Teacher account updated!')
-            return render(request, 'teacher-account-settings.html')
+                return redirect('Plan_It_Teknoy:tprofile-settings_view')
+            
+            # working properly
+            elif 'btnDeleteTeacher' in request.POST:
+                print('Delete button clicked!')
+                teacher_id = request.POST.get("doctor_id")
+                Teachers.objects.filter(TeacherID=teacher_id).delete()
+                if 'user' in request.session:
+                    current_teacher = request.session['user']
+                    Users.objects.filter(id_number=current_teacher).delete()
+                print("Teacher account deleted")
+                return redirect('Plan_It_Teknoy:logout')
+
 
         
 

@@ -108,10 +108,11 @@
                             <div class="u-container-layout u-valign-top u-container-layout-4">
                               <div class="u-align-center u-form u-form-1">
                                 <!-- form start -->
-                                <form action="" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 0px;">
+                                <form id="updateForm" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" style="padding: 0px;">
                                   {% csrf_token %}
+                                  {{ form.as_p }}
                                   <input type="text" id="teacher_id" name="teacher_id" value="{{current_teacher.TeacherID}}" hidden>
-                                  <input type="hidden" id="pageId" name="pageId" value="973315739">
+                                  <!-- <input type="hidden" id="pageId" name="pageId" value="973315739"> -->
                                   <div class="u-form-group u-form-name u-form-partition-factor-2">
                                     <label for="name-140b" class="u-custom-font u-font-montserrat u-label u-label-1">First Name</label>
                                     <input value="{{current_teacher.first_name}}" type="text" id="first_name" name="first_name" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-1" required="">
@@ -165,7 +166,7 @@
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                       <div class="modal-content">
                                         <div class="modal-header">
-                                          <h5 class="modal-title" id="exampleModalCenterTitle"> Update Personal Details</h5>
+                                          <h5 class="modal-title" id="exampleModalCenterTitle">Update Personal Details</h5>
                                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                           </button>
                                         </div>
@@ -174,11 +175,12 @@
                                         </div>
                                         <div class="modal-footer">
                                           <button type="submit" data-dismiss="modal" class="btn btn-default">Cancel</button>
-                                          <button type="submit" id="btnUpdate" name="btnUpdate" class="btn btn-danger">Confirm</button>
+                                          <button type="submit" id="btnUpdateTeacher" name="btnUpdateTeacher" class="btn btn-danger">Confirm</button>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
+
                                 </form>
                                 <!-- form end -->
                               </div>
@@ -197,7 +199,9 @@
                   <div class="u-container-layout u-valign-middle-xs u-container-layout-6">
                     <div class="u-align-center u-form u-form-2">
 
-                      <form action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form-1" style="padding: 0px;">
+                      <form id="UpdateForm" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form-1" style="padding: 0px;">
+                        {% csrf_token %}
+                        {{ form.as_p }}
                         <input type="hidden" id="siteId" name="siteId" value="987319368">
                         <input type="hidden" id="pageId" name="pageId" value="973315739">
                         <div class="u-form-group u-form-select u-form-group-8">
@@ -307,7 +311,9 @@
                 <div class="u-container-style u-expanded-width u-group u-radius-20 u-shape-round u-white u-group-3">
                   <div class="u-container-layout u-container-layout-8">
                     <div class="u-align-center u-form u-form-3">
-                      <form action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form-2" style="padding: 0px;">
+                      <form id="UpdateForm" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form-2" style="padding: 0px;">
+                        {% csrf_token %}
+                        {{ form.as_p }}
                         <input type="hidden" id="siteId" name="siteId" value="987319368">
                         <input type="hidden" id="pageId" name="pageId" value="973315739">
                         <div class="u-form-group u-form-name">
@@ -378,28 +384,29 @@
   </div>
   <!-- end modal -->
 
-  <!-- deactivate modal -->
+  <!-- deactivate modal / working -->
   <div class="modal fade" id="delete-account" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <!-- form start -->
-        <form action="">
+        <form id="deleteForm" method="POST">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalCenterTitle">Deactivate Account</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        {% csrf_token %}
         <div class="modal-body">
           <div class="col-sm-3" hidden>
-            <input type="text" class="form-control" id="#" name="#"
-              value="#">
+            <input type="text" class="form-control" id="current_user" name="current_user"
+              value="{{current_teacher.TeacherID}}">
           </div>
           Are you sure you want to delete your account?
         </div>
         <div class="modal-footer">
           <button type="submit" data-dismiss="modal" class="btn btn-default">Cancel</button>
-          <button type="submit" id="#" name="#" class="btn btn-danger">Deactivate</button>
+          <button type="submit" id="btnDeleteTeacher" name="btnDeleteTeacher" class="btn btn-danger">Deactivate</button>
         </div>
         <!-- form end -->
         </form>
