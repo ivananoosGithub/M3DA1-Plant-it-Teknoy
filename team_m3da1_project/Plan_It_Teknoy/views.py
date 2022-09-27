@@ -489,7 +489,7 @@ class SProfileSettings(View):
             
 
             # personal details update feature
-            if 'btnUpdate' in request.POST:
+            elif 'btnUpdate' in request.POST:
                 print('UpdateDetails button clicked!')
                 student_id = request.POST.get("student_id")
                 firstname = request.POST.get("first_name")
@@ -500,8 +500,53 @@ class SProfileSettings(View):
                 cAddress = request.POST.get("city_address")
                 Students.objects.filter(StudentID = student_id).update(first_name = firstname, last_name = lastname, contact_number = cNumber, gender = sGender, home_address = hAddress, city_address = cAddress)
                 print('Student account updated!')
+
+            
+            elif 'updateAcademicButton' in request.POST:
+                print('UpdateDetails button clicked!')
+                student_id = request.POST.get("student_academic_id")
+                sdepartment = request.POST.get("academic_department")
+                sprogram = request.POST.get("academic_program")
+                syear_level = request.POST.get("academic_year_level")
+                Students.objects.filter(StudentID = student_id).update(department = sdepartment, program = sprogram, year_level = syear_level)
+                print('Student account academic updated!')
+            
+            
+            elif 'btnSubmitPassword' in request.POST:
+
+                student_id = request.POST.get("student_id_security")
+
+                # get_user_id = Users.objects.get(id_number = student_id)
+
+                user_current_pwd = request.POST.get("current_password")
+
+                check_exact_pwd = Users.objects.filter(id_number = student_id).values_list("password", flat=True)
+                pass_list = list(check_exact_pwd)
+                decrypt_pass = pbkdf2_sha256.verify(user_current_pwd, listToString(pass_list))
+
+                if decrypt_pass:
+
+                    print("Current password and newly inputted password matched!")
+
+                    user_new_pwd = request.POST.get("new_password")
+                    enc_user_new_pwd = pbkdf2_sha256.encrypt(user_new_pwd, rounds=12000, salt_size=32)
+
+                    user_confirm_new_pwd = request.POST.get("confirm_password")
+
+                    if user_new_pwd == user_confirm_new_pwd:
+                        Users.objects.filter(id_number = student_id).update(password = enc_user_new_pwd)
+                        print("Password newly created")
+                        return redirect('Plan_It_Teknoy:sprofile-settings_view')
+                    
+                    else:
+                        raise Exception("New password and Confirm password did not match") #pwede ni siya ma message para ma send sa html nya mag modal pop up
+
+                else:
+                    raise Exception("You did not input your correct current password") 
+
             else:
-                print("Not updated")
+                raise Exception("Account not updated")
+        
             return redirect('Plan_It_Teknoy:sprofile-settings_view')
 
 
