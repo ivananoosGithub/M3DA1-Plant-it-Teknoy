@@ -10,6 +10,10 @@
     <h1><i class="fa fa-dashboard"></i> Total Events</h1>
     <p>Event List</p>
 </div>
+<ul class="app-breadcrumb breadcrumb">
+    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+    <li class="breadcrumb-item"><a href="{% url 'Plan_It_Teknoy:running_events' %}">Plan'it Teknoy | Running Event List</a></li>
+</ul>
 {% endif %}
 
 {% if running_events.count|add:"1" %}
@@ -17,6 +21,10 @@
     <h1><i class="fa fa-dashboard"></i> Running Events</h1>
     <p>Event List</p>
 </div>
+<ul class="app-breadcrumb breadcrumb">
+    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+    <li class="breadcrumb-item"><a href="{% url 'Plan_It_Teknoy:completed_events' %}">Plan'it Teknoy | Completed Event List</a></li>
+</ul>
 {% endif %}
 
 {% if completed_events.count|add:"1" %}
@@ -24,12 +32,14 @@
     <h1><i class="fa fa-dashboard"></i> Completed Events</h1>
     <p>Event List</p>
 </div>
-{% endif %}
-
 <ul class="app-breadcrumb breadcrumb">
     <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-    <li class="breadcrumb-item"><a href="#">Plan'it Teknoy | Event List</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'Plan_It_Teknoy:all_events' %}">Plan'it Teknoy | All Event List</a></li>
 </ul>
+{% endif %}
+
+
+
 {% endblock breadcrumb %}
 
 {% block content %}

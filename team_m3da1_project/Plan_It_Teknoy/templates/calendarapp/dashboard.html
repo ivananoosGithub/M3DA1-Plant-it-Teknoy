@@ -10,7 +10,7 @@
     </div>
     <ul class="app-breadcrumb breadcrumb">
         <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'Plan_It_Teknoy:calendar_view' %}">Calendar</a></li>
     </ul>
 {% endblock breadcrumb %}
 
@@ -78,8 +78,8 @@
                                                 <td>{{ event.start_time }}</td>
                                                 <td>{{ event.end_time }}</td>
                                                 <td>
-                                                    <button class="btn btn-warning" data-toggle="modal" data-target="#update-event" style="width: 65px;">Edit</button>
-                                                    <button class="btn btn-danger" data-toggle="modal" data-target="#delete-event" style="width: 65px;">Delete</button>
+                                                    <button class="btn btn-warning" data-toggle="modal" data-target="#updateevent" style="width: 65px;">Edit</button>
+                                                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteevent" style="width: 65px;">Delete</button>
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -92,7 +92,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <!-- MODALS -->

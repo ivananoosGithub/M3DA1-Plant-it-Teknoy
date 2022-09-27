@@ -41,13 +41,6 @@ urlpatterns = [
     ),
     path("Completed Events/", views.CompletedEventsListView.as_view(), name="completed_events"),
 
-    # # user_profile_settings pages/urls
-    # path("edit-profile/", views.EditProfileView.as_view(), name="edit-profile_view"),
-    # path("edit-contact/", views.EditContactView.as_view(), name="edit-contact_view"),
-    # path("edit-school/", views.EditSchoolView.as_view(), name="edit-school_view"),
-    # path("edit-photo/", views.EditPhotoView.as_view(), name="edit-photo_view"),
-    # path("edit-security/", views.EditSecurityView.as_view(), name="edit-security_view"),
-
     # student profile settings try
     path("student-profile/", views.SProfileSettings.as_view(), name="sprofile-settings_view"),
     # teacher profile settings try

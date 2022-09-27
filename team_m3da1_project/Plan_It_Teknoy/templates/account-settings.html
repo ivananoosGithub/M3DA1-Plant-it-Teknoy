@@ -41,7 +41,7 @@
 <body data-home-page="Settings.html" data-home-page-title="Settings" class="u-body">
   <header class="u-clearfix u-custom-color-1 u-header u-header" id="sec-0b17">
     <div class="u-clearfix u-sheet u-sheet-1">
-      <a href="{% url 'Plan_It_Teknoy:Home' %}" class="u-image u-logo u-image-1" data-image-width="476"
+      <a href="{% url 'Plan_It_Teknoy:dashboard_view' %}" class="u-image u-logo u-image-1" data-image-width="476"
         data-image-height="150">
         <img src="{% static 'images/LogoMain.png' %}" class="u-logo-image u-logo-image-1">
       </a>
@@ -146,10 +146,10 @@
                               {{current_student.first_name}} {{current_student.last_name}}</p>
 
                             <!-- change avatar and deactivate buttons // modal trigger -->
-                            <a href="#" data-toggle="modal" data-target="#change-avatar"
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#change-avatar"
                               class="u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-hover-custom-color-4 u-radius-10 u-text-body-alt-color u-btn-1">Change
                               Avatar</a>
-                            <a href="#" data-toggle="modal" data-target="#delete-account"
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteAccount"
                               class="u-border-1 u-border-custom-color-1 u-btn u-btn-round u-button-style u-custom-font u-font-montserrat u-hover-custom-color-5 u-radius-10 u-text-custom-color-1 u-white u-btn-2">Deactivate
                               Account</a>
                           </div>
@@ -492,36 +492,10 @@
                       <div class="u-form-select-wrapper">
                         <select name="academic_program"
                           class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-8">
-                          {% if current_student.program == 'BSIT' %}
-                          <option value="BSIT">{{current_student.program}}</option>
-                          <option value="BSCS">BSCS</option>
-                          <option value="BSCPE">BSCPE</option>
-                          <option value="BSEE">BSEE</option>
-                          <option value="BSCE">BSCE</option>
-                          {% elif current_student.program == 'BSCS' %}
-                          <option value="BSCS">{{current_student.program}}</option>
-                          <option value="BSIT">BSIT</option>
-                          <option value="BSCPE">BSCPE</option>
-                          <option value="BSEE">BSEE</option>
-                          <option value="BSCE">BSCE</option>
-                          {% elif current_student.program == 'BSEE' %}
-                          <option value="BSEE">{{current_student.program}}</option>
-                          <option value="BSIT">BSIT</option>
-                          <option value="BSCS">BSCS</option>
-                          <option value="BSCPE">BSCPE</option>
-                          <option value="BSCE">BSCE</option>
-                          {% elif current_student.program == 'BSCPE' %}
-                          <option value="BSCpE">{{current_student.program}}</option>
-                          <option value="BSIT">BSIT</option>
-                          <option value="BSCS">BSCS</option>
-                          <option value="BSCE">BSCE</option>
-                          <option value="BSEE">BSEE</option>
-                          {% elif current_student.program == 'BSCE' %}
-                          <option value="BSCE">{{current_student.program}}</option>
-                          <option value="BSIT">BSIT</option>
-                          <option value="BSCS">BSCS</option>
-                          <option value="BSCPE">BSCPE</option>
-                          <option value="BSEE">BSEE</option>
+                          {% if current_student.department == 'CCS' %}
+                            <option hidden disabled value="{{current_student.program}}">{{current_student.program}}</option>
+                            <option value="BSCS">BSCS</option>
+                            <option value="BSIT">BSIT</option>
                           {% endif %}
                         </select>
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret">
@@ -575,9 +549,17 @@
             </div>
           </div>
           <!-- end modal -->
-
           <div class="u-container-style u-tab-pane" id="tab-9e87" role="tabpanel" aria-labelledby="link-tab-9e87">
             <div class="u-container-layout u-container-layout-7">
+              {% if messages %}
+              <div style="text-align: center; margin-bottom: -26px; margin-top: -6px;">
+                {% for message in messages %}
+                <p {% if message.tags %} class="{{ message.tags }}" {% endif %} style="text-align: center;">
+                  {{ message }}</p>
+                {% endfor %}
+              </div>
+              {% endif %}
+
               <div class="u-container-style u-expanded-width u-group u-radius-20 u-shape-round u-white u-group-3">
                 <div class="u-container-layout u-container-layout-8">
                   <div class="u-align-center u-form u-form-3">
@@ -671,12 +653,13 @@
   <!-- end modal -->
 
   <!-- deactivate modal -->
-  <div class="modal fade" id="delete-account" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  <div class="modal fade" id="deleteAccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <!-- form start -->
-        <form action="">
+        <form method="POST">
+          {% csrf_token %}
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalCenterTitle">Deactivate Account</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -685,13 +668,14 @@
           </div>
           <div class="modal-body">
             <div class="col-sm-3" hidden>
-              <input type="text" class="form-control" id="#" name="#" value="#">
+              <input type="text" class="form-control" name="current_student_id"
+              value="{{current_student.StudentID}}">
             </div>
             Are you sure you want to delete your account?
           </div>
           <div class="modal-footer">
-            <button type="submit" data-dismiss="modal" class="btn btn-default">Cancel</button>
-            <button type="submit" id="#" name="#" class="btn btn-danger">Deactivate</button>
+            <button type="submit" data-bs-dismiss="modal" class="btn btn-default">Cancel</button>
+            <button type="submit" name="btnDeleteStudent" class="btn btn-danger">Deactivate</button>
           </div>
           <!-- form end -->
         </form>
