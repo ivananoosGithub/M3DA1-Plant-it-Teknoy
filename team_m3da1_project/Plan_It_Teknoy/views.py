@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import View
@@ -657,7 +658,28 @@ class TProfileSettings(View):
             
     def post(self, request):
         if request.method == 'POST':
-            if 'btnUpdateTeacher' in request.POST:
+            # working properly
+            if 'btnUpdateProPic' in request.POST:
+                print('UpdateProPic button clicked!')
+                teacher_id = request.POST.get("teacher_id")
+                profile_pic = request.FILES['profile_pic']
+                saveProPic = Teachers.objects.get(TeacherID = teacher_id)
+                saveProPic.profile_pic = profile_pic
+                saveProPic.save()
+                print('Teacher profile picture updated!')
+                return redirect('Plan_It_Teknoy:tprofile-settings_view')
+
+            elif 'btnDeleteTeacher' in request.POST:
+                print('Delete button clicked!')
+                teacher_id = request.POST.get("doctor_id")
+                Teachers.objects.filter(TeacherID=teacher_id).delete()
+                if 'user' in request.session:
+                    current_teacher = request.session['user']
+                    Users.objects.filter(id_number=current_teacher).delete()
+                print("Teacher account deleted")
+                return redirect('Plan_It_Teknoy:logout')
+
+            elif 'btnUpdateTeacher' in request.POST:
                 print('Update button clicked!')
                 teacher_id = request.POST.get("teacher_id")
                 first_name = request.POST.get("first_name")
@@ -672,16 +694,32 @@ class TProfileSettings(View):
                 print('Teacher account updated!')
                 return redirect('Plan_It_Teknoy:tprofile-settings_view')
             
-            # working properly
-            elif 'btnDeleteTeacher' in request.POST:
-                print('Delete button clicked!')
-                teacher_id = request.POST.get("doctor_id")
-                Teachers.objects.filter(TeacherID=teacher_id).delete()
-                if 'user' in request.session:
-                    current_teacher = request.session['user']
-                    Users.objects.filter(id_number=current_teacher).delete()
-                print("Teacher account deleted")
-                return redirect('Plan_It_Teknoy:logout')
+            form1 = TeachersForm(request.POST, request.FILES)
+            form2 = TeachersForm(request.POST, request.FILES)
+            form3 = TeachersForm(request.POST, request.FILES)
+            print('Update button clicked!')
+            teacher_id = request.POST.get("teacher_id")
+            firstname = request.POST.get("first_name")
+            lastname = request.POST.get("last_name")
+            cNumber = request.POST.get("contact_number")
+            sGender = request.POST.get("gender")
+            hAddress = request.POST.get("home_address")
+            cAddress = request.POST.get("city_address")
+            dept = request.POST.get("sDepartment")
+            prog = request.POST.get("sProgram")
+            s = Teachers.objects.get(TeacherID = teacher_id)
+            s.first_name = firstname
+            s.last_name = lastname 
+            s.gender = sGender
+            s.contact_number = cNumber
+            s.home_address = hAddress
+            s.city_address = cAddress
+            s.sDepartment = dept
+            s.sProgram = prog
+            s.save()
+            print('Teacher account updated!')
+            return redirect('Plan_It_Teknoy:tprofile-settings_view')
+        
 
 
         

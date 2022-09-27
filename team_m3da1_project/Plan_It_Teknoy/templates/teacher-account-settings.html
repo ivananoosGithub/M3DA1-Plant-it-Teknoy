@@ -91,7 +91,7 @@
                             <div class="u-container-layout u-container-layout-3">
                               <!-- image profile -->
                               {% for current_teacher in current_teacher %}
-                                {% if teacher_records.profile_pic.url in profile_pic %}
+                                {% if current_teacher.profile_pic.url in current_teacher.profile_pic.url %}
                                 <img class="u-border-1 u-border-custom-color-2 u-image u-image-circle u-image-1" src="{{current_teacher.profile_pic.url}}" alt="" data-image-width="1280" data-image-height="1211">
                                 {% else %}
                                 <img class="u-border-1 u-border-custom-color-2 u-image u-image-circle u-image-1" src="{% static 'images/default.png'%}" alt="" data-image-width="1280" data-image-height="1211">
@@ -108,11 +108,10 @@
                             <div class="u-container-layout u-valign-top u-container-layout-4">
                               <div class="u-align-center u-form u-form-1">
                                 <!-- form start -->
-                                <form id="updateForm" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" style="padding: 0px;">
+                                <form id="updateForm" method="POST" enctype="multipart/form-data" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" style="padding: 0px;">
                                   {% csrf_token %}
-                                  {{ form.as_p }}
+                                  {{ t_form.as_p }}
                                   <input type="text" id="teacher_id" name="teacher_id" value="{{current_teacher.TeacherID}}" hidden>
-                                  <!-- <input type="hidden" id="pageId" name="pageId" value="973315739"> -->
                                   <div class="u-form-group u-form-name u-form-partition-factor-2">
                                     <label for="name-140b" class="u-custom-font u-font-montserrat u-label u-label-1">First Name</label>
                                     <input value="{{current_teacher.first_name}}" type="text" id="first_name" name="first_name" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-1" required="">
@@ -150,8 +149,7 @@
                                   </div>
                                   <!-- Update Personal Button -->
                                   <div class="u-align-right u-form-group u-form-submit">
-                                    <button type="button" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-10 u-text-body-alt-color u-btn-3" data-toggle="modal" 
-                                    data-target="#update-profile-{{current_teacher.TeacherID}}">Confirm Changes</button>
+                                    <button type="submit" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-10 u-text-body-alt-color u-btn-3" onclick="location.href='{% url 'Plan_It_Teknoy:calendar_view' %}'">Update</button>
 
                                     <!-- <a href="#"  class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-10 u-text-body-alt-color u-btn-3">Confirm Changes</a> -->
                                     <!-- <button type="button" value="submit" id="" name="" class="u-form-control-hidden" data-toggle="modal" data-target="#update-profile--{{current_teacher.StudentID}}"></button> -->
@@ -162,7 +160,7 @@
                                   <!-- <input type="hidden" value="" name="recaptchaResponse"> -->
 
                                   <!-- update personal settings modal confirmation -->
-                                  <div class="modal fade" id="update-profile-{{current_teacher.TeacherID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                  <!-- <div class="modal fade" id="update-profile-{{current_teacher.TeacherID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                       <div class="modal-content">
                                         <div class="modal-header">
@@ -179,7 +177,7 @@
                                         </div>
                                       </div>
                                     </div>
-                                  </div>
+                                  </div> -->
 
                                 </form>
                                 <!-- form end -->
@@ -294,11 +292,8 @@
                         <!-- Update Academic Status Button -->
                         <div class="u-align-center u-form-group u-form-submit">
                           <a href="#" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-radius-10 u-btn-4">Confirm Changes</a>
-                          <input type="submit" value="submit" class="u-form-control-hidden" data-toggle="modal" data-target="#update-academic">
+                          <input type="submit" value="submit" class="u-form-control-hidden">
                         </div>
-                        <!-- <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
-                        <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>
-                        <input type="hidden" value="" name="recaptchaResponse"> -->
                       </form>
 
                     </div>
@@ -354,7 +349,8 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <!-- form start -->
-        <form action="">
+        <form id="" action="#" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalCenterTitle">Change Avatar</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -362,20 +358,22 @@
           </button>
         </div>
         <div class="modal-body" style="text-align: center;">
-          <div class="com-sm-3" hidden>
-            <input type="text" class="form-control" id="" name="" value="">
-          </div>
+            <input type="text" id="teacher_id" name="teacher_id" value="{{current_teacher.TeacherID}}" hidden readonly>
           <div class="row">
             <div class="col-lg-6">
-              <img src="{% static 'images/default.png'%}" alt="avatar" style="height: 200px; width: 200px;">
-            </div>
+                {% if current_teacher.profile_pic.url in current_teacher.profile_pic.url %}
+                <img src="{{current_teacher.profile_pic.url}}" alt="avatar" style="height: 200px; width: 200px;">
+                {% else %}
+                <img src="{% static 'images/default.png'%}" alt="avatar" style="height: 200px; width: 200px;">
+                {% endif %}
+              </div>
             <div class="col-lg-6">
-              <input type="file" id="" name="">
+              <input type="file" id="profile_pic" name="profile_pic">
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" id="#" name="#" class="btn btn-danger">Save changes</button>
+          <button type="submit" id="btnUpdateProPic" name="btnUpdateProPic" class="btn btn-danger">Save changes</button>
         </div>
         <!-- form end -->
         </form>
@@ -416,9 +414,10 @@
   <!-- end modal -->
 
   <!-- update personal settings modal confirmation -->
-  <!-- <div class="modal fade" id="update-profile--{{current_student.StudentID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <!-- <div class="modal fade" id="update-profile-{{current_teacher.TeacherID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
+        <form id="updateForm" method="POST">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalCenterTitle"> Update Personal Details</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -426,16 +425,13 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="col-sm-3" hidden>
-            <input type="text" class="form-control" id="#" name="#"
-              value="#">
-          </div>
           Are you sure you want to save the following changes to your account?
         </div>
         <div class="modal-footer">
           <button type="submit" data-dismiss="modal" class="btn btn-default">Cancel</button>
-          <button type="submit" id="btnUpdate" name="btnUpdate" class="btn btn-danger">Confirm</button>
+          <button type="submit" id="btnUpdateTeacher" name="btnUpdateTeacher" class="btn btn-danger">Confirm</button>
         </div>
+      </form>
       </div>
     </div>
   </div> -->
