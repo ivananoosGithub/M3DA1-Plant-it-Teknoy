@@ -489,7 +489,7 @@ class SProfileSettings(View):
             
 
             # personal details update feature
-            if 'btnUpdate' in request.POST:
+            elif 'btnUpdate' in request.POST:
                 print('UpdateDetails button clicked!')
                 student_id = request.POST.get("student_id")
                 firstname = request.POST.get("first_name")
@@ -500,6 +500,50 @@ class SProfileSettings(View):
                 cAddress = request.POST.get("city_address")
                 Students.objects.filter(StudentID = student_id).update(first_name = firstname, last_name = lastname, contact_number = cNumber, gender = sGender, home_address = hAddress, city_address = cAddress)
                 print('Student account updated!')
+
+            
+            elif 'updateAcademicButton' in request.POST:
+                print('UpdateDetails button clicked!')
+                student_id = request.POST.get("student_academic_id")
+                sdepartment = request.POST.get("academic_department")
+                sprogram = request.POST.get("academic_program")
+                syear_level = request.POST.get("academic_year_level")
+                Students.objects.filter(StudentID = student_id).update(department = sdepartment, program = sprogram, year_level = syear_level)
+                print('Student account academic updated!')
+            
+            
+            elif 'btnSubmitPassword' in request.POST:
+
+                student_id = request.POST.get("student_id_security")
+
+                # get_user_id = Users.objects.get(id_number = student_id)
+
+                user_current_pwd = request.POST.get("current_password")
+
+                check_exact_pwd = Users.objects.filter(id_number = student_id).values_list("password", flat=True)
+                pass_list = list(check_exact_pwd)
+                decrypt_pass = pbkdf2_sha256.verify(user_current_pwd, listToString(pass_list))
+
+                if decrypt_pass:
+
+                    print("Current password and newly inputted password matched!")
+
+                    user_new_pwd = request.POST.get("new_password")
+                    enc_user_new_pwd = pbkdf2_sha256.encrypt(user_new_pwd, rounds=12000, salt_size=32)
+
+                    user_confirm_new_pwd = request.POST.get("confirm_password")
+
+                    if user_new_pwd == user_confirm_new_pwd:
+                        Users.objects.filter(id_number = student_id).update(password = enc_user_new_pwd)
+                        print("Password newly created")
+                        return redirect('Plan_It_Teknoy:sprofile-settings_view')
+                    
+                    else:
+                        raise Exception("New password and Confirm password did not match") #pwede ni siya ma message para ma send sa html nya mag modal pop up
+
+                else:
+                    raise Exception("You did not input your correct current password") 
+
             else:
                 print("Not updated")
 
@@ -517,6 +561,8 @@ class SProfileSettings(View):
 
     
 
+                raise Exception("Account not updated")
+        
             return redirect('Plan_It_Teknoy:sprofile-settings_view')
 
 
@@ -559,46 +605,29 @@ class TProfileSettings(View):
                 print("Teacher account deleted")
                 return redirect('Plan_It_Teknoy:logout')
 
+            # teacher personal details update feature
             elif 'btnUpdateTeacher' in request.POST:
-                print('Update button clicked!')
+                print('UpdateDetails button clicked!')
                 teacher_id = request.POST.get("teacher_id")
-                first_name = request.POST.get("first_name")
-                last_name = request.POST.get("last_name")
+                firstname = request.POST.get("first_name")
+                lastname = request.POST.get("last_name")
                 cNumber = request.POST.get("contact_number")
-                tGender = request.POST.get("gender")
+                sGender = request.POST.get("gender")
                 hAddress = request.POST.get("home_address")
                 cAddress = request.POST.get("city_address")
-                # profilepic = request.POST.get("city_address")
-                update_Teacher = Teachers.objects.filter(TeacherID=teacher_id).update(first_name = first_name, last_name = last_name, contact_number = cNumber, gender = tGender, home_address = hAddress, city_address = cAddress)
-                print(update_Teacher)
+                Teachers.objects.filter(TeacherID = teacher_id).update(first_name = firstname, last_name = lastname, contact_number = cNumber, gender = sGender, home_address = hAddress, city_address = cAddress)
+                print('Teacher account updated!')
+                return redirect('Plan_It_Teknoy:tprofile-settings_view')
+
+            elif 'btnUpdateAcad' in request.POST:
+                print('UpdateAcad button clicked!')
+                teacher_id = request.POST.get("teacher_id")
+                department = request.POST.get("department")
+                program = request.POST.get("program")
+                Teachers.objects.filter(TeacherID = teacher_id).update(department = department, program = program)
                 print('Teacher account updated!')
                 return redirect('Plan_It_Teknoy:tprofile-settings_view')
             
-            form1 = TeachersForm(request.POST, request.FILES)
-            form2 = TeachersForm(request.POST, request.FILES)
-            form3 = TeachersForm(request.POST, request.FILES)
-            print('Update button clicked!')
-            teacher_id = request.POST.get("teacher_id")
-            firstname = request.POST.get("first_name")
-            lastname = request.POST.get("last_name")
-            cNumber = request.POST.get("contact_number")
-            sGender = request.POST.get("gender")
-            hAddress = request.POST.get("home_address")
-            cAddress = request.POST.get("city_address")
-            dept = request.POST.get("sDepartment")
-            prog = request.POST.get("sProgram")
-            s = Teachers.objects.get(TeacherID = teacher_id)
-            s.first_name = firstname
-            s.last_name = lastname 
-            s.gender = sGender
-            s.contact_number = cNumber
-            s.home_address = hAddress
-            s.city_address = cAddress
-            s.sDepartment = dept
-            s.sProgram = prog
-            s.save()
-            print('Teacher account updated!')
-            return redirect('Plan_It_Teknoy:tprofile-settings_view')
         
 
 
