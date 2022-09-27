@@ -502,6 +502,21 @@ class SProfileSettings(View):
                 print('Student account updated!')
             else:
                 print("Not updated")
+
+            # personal details update feature
+            if 'updateAcademicButton' in request.POST:
+                print('UpdateDetails button clicked!')
+                student_id = request.POST.get("student_academic_id")
+                sdepartment = request.POST.get("academic_department")
+                sprogram = request.POST.get("academic_program")
+                syear_level = request.POST.get("academic_year_level")
+                Students.objects.filter(StudentID = student_id).update(department = sdepartment, program = sprogram, year_level = syear_level)
+                print('Student account academic updated!')
+            else:
+                print("Not updated")
+
+    
+
             return redirect('Plan_It_Teknoy:sprofile-settings_view')
 
 
