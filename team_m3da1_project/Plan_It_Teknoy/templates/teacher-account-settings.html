@@ -101,33 +101,33 @@
                               
                               <!-- change avatar and deactivate buttons // modal trigger -->
                               <a href="#" data-toggle="modal" data-target="#change-avatar" class="u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-hover-custom-color-4 u-radius-10 u-text-body-alt-color u-btn-1">Change Avatar</a>
-                              <a href="#" data-toggle="modal" data-target="#delete-account" class="u-border-1 u-border-custom-color-1 u-btn u-btn-round u-button-style u-custom-font u-font-montserrat u-hover-custom-color-5 u-radius-10 u-text-custom-color-1 u-white u-btn-2">Deactivate Account</a>
+                              <a href="#" data-toggle="modal" data-target="#deleteAccount" class="u-border-1 u-border-custom-color-1 u-btn u-btn-round u-button-style u-custom-font u-font-montserrat u-hover-custom-color-5 u-radius-10 u-text-custom-color-1 u-white u-btn-2">Deactivate Account</a>
                             </div>
                           </div>
                           <div class="u-container-style u-layout-cell u-size-30 u-layout-cell-2">
                             <div class="u-container-layout u-valign-top u-container-layout-4">
                               <div class="u-align-center u-form u-form-1">
                                 <!-- form start -->
-                                <form id="updateForm" method="POST" enctype="multipart/form-data" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" style="padding: 0px;">
+                                <form id="form1" action="" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" style="padding: 0px;">
                                   {% csrf_token %}
-                                  {{ t_form.as_p }}
-                                  <input type="text" id="teacher_id" name="teacher_id" value="{{current_teacher.TeacherID}}" hidden>
+                                  <input type="text" id="" name="" value="{{current_teacher.TeacherID}}" hidden readonly>
+                                  <input type="hidden" id="pageId" name="pageId" value="973315739">
                                   <div class="u-form-group u-form-name u-form-partition-factor-2">
                                     <label for="name-140b" class="u-custom-font u-font-montserrat u-label u-label-1">First Name</label>
-                                    <input value="{{current_teacher.first_name}}" type="text" id="first_name" name="first_name" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-1" required="">
+                                    <input readonly value="{{current_teacher.first_name}}" type="text" id="" name="" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-1" required="">
                                   </div>
                                   <div class="u-form-group u-form-partition-factor-2 u-form-group-2">
                                     <label for="text-8e54" class="u-custom-font u-font-montserrat u-label u-label-2">Last Name</label>
-                                    <input value="{{current_teacher.last_name}}" type="text" id="last_name" name="last_name" placeholder="" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-2" required="required">
+                                    <input readonly value="{{current_teacher.last_name}}" type="text" id="" name="" placeholder="" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-2" required="required">
                                   </div>
                                   <div class="u-form-group u-form-partition-factor-2">
                                     <label for="email-140b" class="u-custom-font u-font-montserrat u-label u-label-3">Contact Number</label>
-                                    <input value="{{current_teacher.contact_number}}" type="text" id="contact_number" name="contact_number" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-3" required="required">
+                                    <input readonly value="{{current_teacher.contact_number}}" type="text" id="" name="" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-3" required="required">
                                   </div>
                                   <div class="u-form-group u-form-partition-factor-2 u-form-select u-form-group-4">
                                     <label for="select-f767" class="u-custom-font u-font-montserrat u-label u-label-4">Gender</label>
                                     <div class="u-form-select-wrapper">
-                                      <select id="gender" name="gender" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-4">
+                                      <select disabled id="" name="" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-4">
                                         {% if current_teacher.gender == 'Female' %}
                                         <option value = "Female">{{current_teacher.gender}}</option>
                                         <option value = "Male">Male</option>
@@ -141,46 +141,117 @@
                                   </div>
                                   <div class="u-form-group u-form-group-5">
                                     <label for="text-96e2" class="u-custom-font u-font-montserrat u-label u-label-5">Home Address</label>
-                                    <input value="{{current_teacher.home_address}}" type="text" placeholder="" id="home_address" name="home_address" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-5">
+                                    <input readonly value="{{current_teacher.home_address}}" type="text" placeholder="" id="" name="" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-5">
                                   </div>
                                   <div class="u-form-group u-form-group-6">
                                     <label for="text-e15a" class="u-custom-font u-font-montserrat u-label u-label-6">City Address</label>
-                                    <input value="{{current_teacher.city_address}}" type="text" placeholder="" id="city_address" name="city_address" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-6">
+                                    <input readonly value="{{current_teacher.city_address}}" type="text" placeholder="" id="" name="" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-6">
                                   </div>
                                   <!-- Update Personal Button -->
                                   <div class="u-align-right u-form-group u-form-submit">
-                                    <button type="submit" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-10 u-text-body-alt-color u-btn-3" onclick="location.href='{% url 'Plan_It_Teknoy:calendar_view' %}'">Update</button>
+                                    <button type="button" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-10 u-text-body-alt-color u-btn-3" data-bs-toggle="modal" 
+                                    data-bs-target="#updateProfile-{{current_teacher.TeacherID}}">Edit Profile</button>
 
                                     <!-- <a href="#"  class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-10 u-text-body-alt-color u-btn-3">Confirm Changes</a> -->
-                                    <!-- <button type="button" value="submit" id="" name="" class="u-form-control-hidden" data-toggle="modal" data-target="#update-profile--{{current_teacher.StudentID}}"></button> -->
+                                    <!-- <button type="button" value="submit" id="" name="" class="u-form-control-hidden" data-toggle="modal" data-target="#update-profile--{{current_student.StudentID}}"></button> -->
                                   </div>
+                                  </form>
 
                                   <!-- <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
                                   <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div> -->
                                   <!-- <input type="hidden" value="" name="recaptchaResponse"> -->
 
                                   <!-- update personal settings modal confirmation -->
-                                  <!-- <div class="modal fade" id="update-profile-{{current_teacher.TeacherID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                  <div class="modal fade" id="updateProfile-{{current_teacher.TeacherID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                       <div class="modal-content">
+                                        <form method="POST">
+                                          {% csrf_token %}
                                         <div class="modal-header">
-                                          <h5 class="modal-title" id="exampleModalCenterTitle">Update Personal Details</h5>
+                                          <h5 class="modal-title" id="exampleModalCenterTitle"> Update Personal Details</h5>
                                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                           </button>
                                         </div>
                                         <div class="modal-body">
-                                          Are you sure you want to save the following changes to your account?
+                                          <input readonly type="text" id="teacher_id" name="teacher_id"
+                                          value="{{current_teacher.TeacherID}}" hidden>
+                                        <div class="u-form-group u-form-name u-form-partition-factor-2">
+                                          <label for="name-140b"
+                                            class="u-custom-font u-font-montserrat u-label u-label-1">First Name</label>
+                                          <input value="{{current_teacher.first_name}}" type="text" id="first_name"
+                                            name="first_name"
+                                            class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-1"
+                                            required="">
                                         </div>
-                                        <div class="modal-footer">
-                                          <button type="submit" data-dismiss="modal" class="btn btn-default">Cancel</button>
-                                          <button type="submit" id="btnUpdateTeacher" name="btnUpdateTeacher" class="btn btn-danger">Confirm</button>
+                                        <div class="u-form-group u-form-partition-factor-2 u-form-group-2">
+                                          <label for="text-8e54"
+                                            class="u-custom-font u-font-montserrat u-label u-label-2">Last Name</label>
+                                          <input value="{{current_teacher.last_name}}" type="text" id="last_name"
+                                            name="last_name" placeholder=""
+                                            class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-2"
+                                            required="required">
                                         </div>
+                                        <div class="u-form-group u-form-partition-factor-2">
+                                          <label for="email-140b"
+                                            class="u-custom-font u-font-montserrat u-label u-label-3">Contact
+                                            Number</label>
+                                          <input value="{{current_teacher.contact_number}}" type="text"
+                                            id="contact_number" name="contact_number"
+                                            class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-3"
+                                            required="required">
+                                        </div>
+                                        <div
+                                          class="u-form-group u-form-partition-factor-2 u-form-select u-form-group-4">
+                                          <label for="select-f767"
+                                            class="u-custom-font u-font-montserrat u-label u-label-4">Gender</label>
+                                          <div class="u-form-select-wrapper">
+                                            <select id="gender" name="gender"
+                                              class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-4">
+                                              {% if current_teacher.gender == 'Female' %}
+                                              <option value="Female">{{current_teacher.gender}}</option>
+                                              <option value="Male">Male</option>
+                                              {% else %}
+                                              <option value="Male">{{current_teacher.gender}}</option>
+                                              <option value="Female">Female</option>
+                                              {% endif %}
+                                            </select>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1"
+                                              class="u-caret">
+                                              <path fill="currentColor" d="M4 8L0 4h8z"></path>
+                                            </svg>
+                                          </div>
+                                        </div>
+                                        <div class="u-form-group u-form-group-5">
+                                          <label for="text-96e2"
+                                            class="u-custom-font u-font-montserrat u-label u-label-5">Home
+                                            Address</label>
+                                          <input value="{{current_teacher.home_address}}" type="text" placeholder=""
+                                            id="home_address" name="home_address"
+                                            class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-5">
+                                        </div>
+                                        <div class="u-form-group u-form-group-6">
+                                          <label for="text-e15a"
+                                            class="u-custom-font u-font-montserrat u-label u-label-6">City
+                                            Address</label>
+                                          <input value="{{current_teacher.city_address}}" type="text" placeholder=""
+                                            id="city_address" name="city_address"
+                                            class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-6">
+                                        </div>
+                                        <!-- Update Personal Button -->
+                                        <div class="u-align-right u-form-group u-form-submit">
+                                          <div class="modal-footer">
+                                            <button type="submit" data-bs-dismiss="modal"
+                                              class="btn btn-default">Cancel</button>
+                                            <button type="submit" id="" name="btnUpdateTeacher"
+                                              class="btn btn-danger">Confirm</button>
+                                          </div>
+                                        </div>
+                                        </div>
+                                        </form>
                                       </div>
                                     </div>
-                                  </div> -->
-
-                                </form>
-                                <!-- form end -->
+                                  </div>
+                                <!-- modal end -->
                               </div>
                             </div>
                           </div>
@@ -197,15 +268,16 @@
                   <div class="u-container-layout u-valign-middle-xs u-container-layout-6">
                     <div class="u-align-center u-form u-form-2">
 
-                      <form id="UpdateForm" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form-1" style="padding: 0px;">
-                        {% csrf_token %}
-                        {{ form.as_p }}
+                      <form id="form2" action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form2" style="padding: 0px;">
+                      {% csrf_token %}
+                      {{ form2.as_p }}
                         <input type="hidden" id="siteId" name="siteId" value="987319368">
                         <input type="hidden" id="pageId" name="pageId" value="973315739">
+                        <input type="text" id="teacher_id2" name="teacher_id2" value="{{current_teacher.TeacherID}}" hidden readonly>
                         <div class="u-form-group u-form-select u-form-group-8">
-                          <label for="select-f886" class="u-custom-font u-font-montserrat u-label u-label-7">Department</label>
+                          <label for="department" class="u-custom-font u-font-montserrat u-label u-label-7">Department</label>
                           <div class="u-form-select-wrapper">
-                            <select id="select-f886" name="select" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-7">
+                            <select disabled id="department" name="sDepartment" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-7">
                               {% if current_teacher.department == 'CCS' %}
                               <option value="CCS">{{current_teacher.department}}</option>
                               <option value="CMBA">CMBA</option>
@@ -220,9 +292,9 @@
                           </div>
                         </div>
                         <div class="u-form-group u-form-select u-form-group-9">
-                          <label for="select-979c" class="u-custom-font u-font-montserrat u-label u-label-8">Program</label>
+                          <label for="program" class="u-custom-font u-font-montserrat u-label u-label-8">Program</label>
                           <div class="u-form-select-wrapper">
-                            <select id="select-979c" name="select-1" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-8">
+                            <select disabled id="program" name="sProgram" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-8">
                               {% if current_teacher.program == 'BSIT' %}
                               <option value="BSIT">{{current_teacher.program}}</option>
                               <option value="BSCS">BSCS</option>
@@ -260,40 +332,15 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
                           </div>
                         </div>
-                        <!-- <div class="u-form-group u-form-select u-form-group-10">
-                          <label for="select-f10e" class="u-custom-font u-font-montserrat u-label u-label-9">Year Level</label>
-                          <div class="u-form-select-wrapper">
-                            <select id="select-f10e" name="select-2" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-9">
-                              {% if current_teacher.year_level == 1 %}
-                              <option value="1">{{current_teacher.year_level}}</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              {% elif current_teacher.year_level == 2 %}
-                              <option value="2">{{current_teacher.year_level}}</option>
-                              <option value="1">1</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              {% elif current_teacher.year_level == 3 %}
-                              <option value="3">{{current_teacher.year_level}}</option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="4">4</option>
-                              {% else %}
-                              <option value="4">{{current_teacher.year_level}}</option>
-                              <option value="1">2</option>
-                              <option value="2">3</option>
-                              <option value="3">4</option>
-                              {% endif %}
-                            </select>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
-                          </div>
-                        </div> -->
                         <!-- Update Academic Status Button -->
                         <div class="u-align-center u-form-group u-form-submit">
-                          <a href="#" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-radius-10 u-btn-4">Confirm Changes</a>
-                          <input type="submit" value="submit" class="u-form-control-hidden">
+                          <br><br>
+                          <a href="#" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-radius-10 u-btn-4">Edit Details</a>
+                          <input type="submit" value="submit" class="u-form-control-hidden" data-toggle="modal" data-target="#updateAcademic-{{current_teacher.TeacherID}}">
                         </div>
+                        <!-- <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
+                        <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>
+                        <input type="hidden" value="" name="recaptchaResponse"> -->
                       </form>
 
                     </div>
@@ -306,9 +353,9 @@
                 <div class="u-container-style u-expanded-width u-group u-radius-20 u-shape-round u-white u-group-3">
                   <div class="u-container-layout u-container-layout-8">
                     <div class="u-align-center u-form u-form-3">
-                      <form id="UpdateForm" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form-2" style="padding: 0px;">
-                        {% csrf_token %}
-                        {{ form.as_p }}
+                      <form id="form3" action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form-2" style="padding: 0px;">
+                      {% csrf_token %}
+                      {{ form3.as_p }}
                         <input type="hidden" id="siteId" name="siteId" value="987319368">
                         <input type="hidden" id="pageId" name="pageId" value="973315739">
                         <div class="u-form-group u-form-name">
@@ -383,7 +430,7 @@
   <!-- end modal -->
 
   <!-- deactivate modal / working -->
-  <div class="modal fade" id="delete-account" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal fade" id="deleteAccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <!-- form start -->
@@ -413,54 +460,88 @@
   </div>
   <!-- end modal -->
 
-  <!-- update personal settings modal confirmation -->
-  <!-- <div class="modal fade" id="update-profile-{{current_teacher.TeacherID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <!-- update academic settings modal confirmation -->
+  <div class="modal fade" id="updateAcademic-{{current_teacher.TeacherID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-        <form id="updateForm" method="POST">
+        <form method="POST">
+          {% csrf_token %}
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalCenterTitle"> Update Personal Details</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          Are you sure you want to save the following changes to your account?
-        </div>
-        <div class="modal-footer">
-          <button type="submit" data-dismiss="modal" class="btn btn-default">Cancel</button>
-          <button type="submit" id="btnUpdateTeacher" name="btnUpdateTeacher" class="btn btn-danger">Confirm</button>
-        </div>
-      </form>
-      </div>
-    </div>
-  </div> -->
-  <!-- end modal -->
-
-  <!-- update academic settings modal confirmation -->
-  <div class="modal fade" id="update-academic" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <!-- form start -->
-        <form action="">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">Update Academic Details</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="col-sm-3" hidden>
-            <input type="text" class="form-control" id="#" name="#"
-              value="#">
+          <input readonly type="text" id="teacher_id" name="teacher_id"
+          value="{{current_teacher.TeacherID}}" hidden>
+          <div class="u-form-group u-form-select u-form-group-8">
+            <label for="department" class="u-custom-font u-font-montserrat u-label u-label-7">Department</label>
+            <div class="u-form-select-wrapper">
+              <select id="department" name="department" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-7">
+                {% if current_teacher.department == 'CCS' %}
+                <option value="CCS">{{current_teacher.department}}</option>
+                <option value="CMBA">CMBA</option>
+                {% elif current_teacher.department == 'CMBA' %}
+                <option value="CMBA">{{current_teacher.department}}</option>
+                <option value="CCS">CCS</option>
+                {% else %}
+                <option value="">Your department is not yet registered</option>
+                {% endif %}
+              </select>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
+            </div>
           </div>
-          Are you sure you want to save the following changes to your account?
+          <div class="u-form-group u-form-select u-form-group-9">
+            <label for="program" class="u-custom-font u-font-montserrat u-label u-label-8">Program</label>
+            <div class="u-form-select-wrapper">
+              <select id="program" name="program" class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-8">
+                {% if current_teacher.program == 'BSIT' %}
+                <option value="BSIT">{{current_teacher.program}}</option>
+                <option value="BSCS">BSCS</option>
+                <option value="BSCPE">BSCPE</option>
+                <option value="BSEE">BSEE</option>
+                <option value="BSCE">BSCE</option>
+                {% elif current_teacher.program == 'BSCS' %}
+                <option value="BSCS">{{current_teacher.program}}</option>
+                <option value="BSIT">BSIT</option>
+                <option value="BSCPE">BSCPE</option>
+                <option value="BSEE">BSEE</option>
+                <option value="BSCE">BSCE</option>
+                {% elif current_teacher.program == 'BSEE' %}
+                <option value="BSEE">{{current_teacher.program}}</option>
+                <option value="BSIT">BSIT</option>
+                <option value="BSCS">BSCS</option>
+                <option value="BSCPE">BSCPE</option>
+                <option value="BSCE">BSCE</option>
+                {% elif current_teacher.program == 'BSCpE' %}
+                <option value="BSCpE">{{current_teacher.program}}</option>
+                <option value="BSIT">BSIT</option>
+                <option value="BSCS">BSCS</option>
+                <option value="BSCE">BSCE</option>
+                <option value="BSEE">BSEE</option>
+                {% elif current_teacher.program == 'BSCE' %}
+                <option value="BSCE">{{current_teacher.program}}</option>
+                <option value="BSIT">BSIT</option>
+                <option value="BSCS">BSCS</option>
+                <option value="BSCPE">BSCPE</option>
+                <option value="BSEE">BSEE</option>
+                {% else %}
+                <option value="">Your program is not yet registered</option>
+                {% endif %}
+              </select>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
+            </div>
+          </div>
+        <!-- Update Personal Button -->
+        <div class="u-align-right u-form-group u-form-submit">
+          <div class="modal-footer">
+            <button type="submit" data-bs-dismiss="modal"
+              class="btn btn-default">Cancel</button>
+            <button type="submit" id="btnUpdateAcad" name="btnUpdateAcad"
+              class="btn btn-danger">Confirm</button>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="submit" data-dismiss="modal" class="btn btn-default">Cancel</button>
-          <button type="submit" id="" name="" class="btn btn-danger">Confirm</button>
         </div>
-        <!-- form end -->
         </form>
       </div>
     </div>
@@ -481,7 +562,7 @@
         </div>
         <div class="modal-body">
           <div class="col-sm-3" hidden>
-            <input type="text" class="form-control" id="#" name="#"
+            <input type="text" class="form-control" id="" name=""
               value="#">
           </div>
           Are you sure you want to save the following changes to your account?
@@ -497,9 +578,14 @@
   </div>
 {% endfor %}
   <!-- end modal -->
+        <!-- JavaScript Bundle with Popper and SCRIPTS-->
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
+        </script>
 
-    
-  <!-- bootstrap js -->
   <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

@@ -544,46 +544,29 @@ class TProfileSettings(View):
                 print("Teacher account deleted")
                 return redirect('Plan_It_Teknoy:logout')
 
+            # teacher personal details update feature
             elif 'btnUpdateTeacher' in request.POST:
-                print('Update button clicked!')
+                print('UpdateDetails button clicked!')
                 teacher_id = request.POST.get("teacher_id")
-                first_name = request.POST.get("first_name")
-                last_name = request.POST.get("last_name")
+                firstname = request.POST.get("first_name")
+                lastname = request.POST.get("last_name")
                 cNumber = request.POST.get("contact_number")
-                tGender = request.POST.get("gender")
+                sGender = request.POST.get("gender")
                 hAddress = request.POST.get("home_address")
                 cAddress = request.POST.get("city_address")
-                # profilepic = request.POST.get("city_address")
-                update_Teacher = Teachers.objects.filter(TeacherID=teacher_id).update(first_name = first_name, last_name = last_name, contact_number = cNumber, gender = tGender, home_address = hAddress, city_address = cAddress)
-                print(update_Teacher)
+                Teachers.objects.filter(TeacherID = teacher_id).update(first_name = firstname, last_name = lastname, contact_number = cNumber, gender = sGender, home_address = hAddress, city_address = cAddress)
+                print('Teacher account updated!')
+                return redirect('Plan_It_Teknoy:tprofile-settings_view')
+
+            elif 'btnUpdateAcad' in request.POST:
+                print('UpdateAcad button clicked!')
+                teacher_id = request.POST.get("teacher_id")
+                department = request.POST.get("department")
+                program = request.POST.get("program")
+                Teachers.objects.filter(TeacherID = teacher_id).update(department = department, program = program)
                 print('Teacher account updated!')
                 return redirect('Plan_It_Teknoy:tprofile-settings_view')
             
-            form1 = TeachersForm(request.POST, request.FILES)
-            form2 = TeachersForm(request.POST, request.FILES)
-            form3 = TeachersForm(request.POST, request.FILES)
-            print('Update button clicked!')
-            teacher_id = request.POST.get("teacher_id")
-            firstname = request.POST.get("first_name")
-            lastname = request.POST.get("last_name")
-            cNumber = request.POST.get("contact_number")
-            sGender = request.POST.get("gender")
-            hAddress = request.POST.get("home_address")
-            cAddress = request.POST.get("city_address")
-            dept = request.POST.get("sDepartment")
-            prog = request.POST.get("sProgram")
-            s = Teachers.objects.get(TeacherID = teacher_id)
-            s.first_name = firstname
-            s.last_name = lastname 
-            s.gender = sGender
-            s.contact_number = cNumber
-            s.home_address = hAddress
-            s.city_address = cAddress
-            s.sDepartment = dept
-            s.sProgram = prog
-            s.save()
-            print('Teacher account updated!')
-            return redirect('Plan_It_Teknoy:tprofile-settings_view')
         
 
 
