@@ -321,14 +321,12 @@ class CalendarViewNew(View):
             current_user = request.session['user']
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
-            # event = Event.objects.filter(StudentID = current_student.StudentID)
             running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
-            # events = Event.objects.get_all_events(StudentID=current_student.StudentID)
+
 
             #accessing all student records in the database
             student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level, profile_pic FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
-            # student_events = Event.objects.filter(StudentID=current_student.StudentID, end_time__gte=datetime.now().date())
-
+            
             student_running_events = []
 
             for student_event in running_events:
@@ -340,66 +338,10 @@ class CalendarViewNew(View):
                     }
                 )
 
-                # print(student_event.start_time.strftime("%Y-%m-%d %H:%M:%S"))
-                # print(student_event.end_time.strftime("%Y-%m-%d %H:%M:%S"))
-
             context = {"student_running_events":student_running_events,  
             "running_events":running_events, "form":form, "student_record":student_record}
 
             return render(request, 'calendarapp/calendar.html', context)
-            
-
-
-
-            
-            # Event.objects.raw('SELECT EventID, StudentID, title, start_time, end_time FROM plan_it_teknoy_event WHERE StudentID = %s', [current_student.StudentID])
-
-            # data = dict.fromkeys(['context', 'events', 'forms', 'student_record', 'current_user'])
-            # data.update(current_user=current_user, event=running_events, student_record=student_record, form=form)
-            # contextArr = []
-            # print(context)
-            
-
-            # for student_event in student_events:
-            #     event_title = student_event.title
-            #     event_start_time = json.dumps(
-            #         student_event.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
-            #         sort_keys=True,
-            #         indent=1,
-            #         cls=DjangoJSONEncoder)
-
-            #     event_end_time = json.dumps(
-            #         student_event.end_time.strftime("%Y-%m-%dT%H:%M:%S"),
-            #         sort_keys=True,
-            #         indent=1,
-            #         cls=DjangoJSONEncoder)
-
-            #     print(event_title)
-            #     # print(event_start_time)
-            #     # print(event_end_time)
-
-            #     currentContext = {
-            #     "event_title":event_title,
-            #     "event_start_time":json.loads(event_start_time),
-            #     "event_end_time":json.loads(event_end_time)
-            #     }
-            #     print(currentContext)
-            #     contextArr.append(currentContext)
-            #     data.update(context=contextArr)
-
-            
-            return render(request, 'calendarapp/calendar.html', data)
-
-            # context = {
-            #     'current_user': current_user,
-            #     "event" : event,
-            #     "student_record" : student_record, 
-            #     "form": form,
-            #     "event_title":event_title,
-            #     "event_start_time":event_start_time,
-            #     "event_end_time":event_end_time}
-
-            # return render(request, 'calendarapp/calendar.html', context)
 
     def post(self, request):        
         form2 = EventForm(request.POST or None)        
@@ -513,65 +455,6 @@ class CompletedEventsListView(ListView):
 
 
 # user_profile_settings_views
-class EditProfileView(View):
-
-    def get(self, request):
-
-            if 'user' in request.session:
-                current_user = request.session['user']
-                confirm_user_id = Users(id_number=current_user)
-                current_student = Students.objects.filter(StudentID=confirm_user_id)
-                email_student = Users.objects.filter(id_number=confirm_user_id) 
-                
-                # student_events = Event.objects.filter(StudentID=current_student.StudentID, end_time__gte=datetime.now().date())
-                
-                return render(request, 'user_profile_settings/Personal.html', {"current_student":current_student, "email_student":email_student})
-
-        
-class EditContactView(View):
-    def get(self, request):
-
-        if 'user' in request.session:
-
-                current_user = request.session['user']
-                confirm_user_id = Users(id_number=current_user)
-                current_student = Students.objects.filter(StudentID=confirm_user_id)
-                email_student = Users.objects.filter(id_number=confirm_user_id) 
-
-                return render(request, 'user_profile_settings/Contact.html', {"current_student":current_student, "email_student":email_student})
-
-    
-class EditSchoolView(View):
-    def get(self, request):
-
-        if 'user' in request.session:
-
-                current_user = request.session['user']
-                confirm_user_id = Users(id_number=current_user)
-                current_student = Students.objects.filter(StudentID=confirm_user_id)
-                email_student = Users.objects.filter(id_number=confirm_user_id) 
-
-        return render(request, 'user_profile_settings/School.html', {"current_student":current_student, "email_student":email_student})
-
-class EditPhotoView(View):
-    def get(self, request):
-        return render(request, 'user_profile_settings/Photo.html', {})
-
-
-
-class EditSecurityView(View):
-    def get(self, request):
-
-            if 'user' in request.session:
-
-                current_user = request.session['user']
-                confirm_user_id = Users(id_number=current_user)
-                current_student = Students.objects.filter(StudentID=confirm_user_id)
-                email_student = Users.objects.filter(id_number=confirm_user_id) 
-
-
-                return render(request, 'user_profile_settings/Security.html', {"current_student":current_student, "email_student":email_student})
-
 class SProfileSettings(View):
 
     def get(self, request):
@@ -587,6 +470,7 @@ class SProfileSettings(View):
     def post(self, request):
         if request.method == 'POST':
 
+            # profile pic update feature
             if 'btnUpdateProPic' in request.POST:
                 print('UpdateProPic button clicked!')
                 student_id = request.POST.get("student_id")
@@ -595,43 +479,24 @@ class SProfileSettings(View):
                 saveProPic.profile_pic = profile_pic
                 saveProPic.save()
                 print('Student profile picture updated!')
-                return redirect('Plan_It_Teknoy:sprofile-settings_view')    
+                return redirect('Plan_It_Teknoy:sprofile-settings_view')   
+            
 
-            form1 = StudentsForm(request.POST, request.FILES)
-            form2 = StudentsForm(request.POST, request.FILES)
-            form3 = StudentsForm(request.POST, request.FILES)
-            print('Update button clicked!')
-            # personal
-            student_id = request.POST.get("student_id")
-            # academic
-            student_id2 = request.POST.get("student_id2")
-            firstname = request.POST.get("first_name")
-            lastname = request.POST.get("last_name")
-            cNumber = request.POST.get("contact_number")
-            sGender = request.POST.get("gender")
-            hAddress = request.POST.get("home_address")
-            cAddress = request.POST.get("city_address")
-            dept = request.POST.get("sDepartment")
-            prog = request.POST.get("sProgram")
-            yrlvl = request.POST.get("sYear_level")
-                # Students.objects.filter(StudentID = current_student.StudentID).update(first_name = firstname, last_name = lastname, gender = sGender, contact_number = cNumber, home_address = hAddress, city_address = cAddress)
-                #student = Students.objects.filter(StudentID = student_id).update(first_name = firstname, last_name = lastname, gender = sGender, contact_number = cNumber, home_address = hAddress, city_address = cAddress)
-            s = Students.objects.get(StudentID = student_id)
-            s.first_name = firstname
-            s.last_name = lastname 
-            s.gender = sGender
-            s.contact_number = cNumber
-            s.home_address = hAddress
-            s.city_address = cAddress
-            s.save()
-            #s2 = Students.objects.get(StudentID = student_id2)
-            #s2.department = dept 
-            #s2.program = prog 
-            #s2.year_level = yrlvl 
-            #s2.save()
-            print('Student account updated!')
-            return redirect('Plan_It_Teknoy:contact_view')
-
+            # personal details update feature
+            if 'btnUpdate' in request.POST:
+                print('UpdateDetails button clicked!')
+                student_id = request.POST.get("student_id")
+                firstname = request.POST.get("first_name")
+                lastname = request.POST.get("last_name")
+                cNumber = request.POST.get("contact_number")
+                sGender = request.POST.get("gender")
+                hAddress = request.POST.get("home_address")
+                cAddress = request.POST.get("city_address")
+                Students.objects.filter(StudentID = student_id).update(first_name = firstname, last_name = lastname, contact_number = cNumber, gender = sGender, home_address = hAddress, city_address = cAddress)
+                print('Student account updated!')
+            else:
+                print("Not updated")
+            return redirect('Plan_It_Teknoy:sprofile-settings_view')
 
 
 class TProfileSettings(View):
