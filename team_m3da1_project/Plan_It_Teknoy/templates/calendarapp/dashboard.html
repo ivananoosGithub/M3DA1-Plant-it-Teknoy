@@ -96,28 +96,43 @@
                                                     <form id="form2" action="" method="POST" autocomplete="off" enctype="multipart/form-data">
                                                         {% csrf_token %}
                                                         <div class="modal-body">
-                                                            <!-- id for referencing -->
                                                             <div class="form-group">
-                                                                <label for="recipient-name" class="col-form-label">Event ID:</label>
-                                                                <input type="text" id="eventID" name="eventID" value="{{ event.EventID }}" readonly required><br><br>
-                                                                
-                                                            </div>
-                                                            <div class="form-group">
+                                                                <!-- id for referencing -->
+                                                                <div hidden>
+                                                                    <label for="recipient-name" class="col-form-label">Event ID:</label>
+                                                                    <input class="form-control-plaintext" type="text" id="eventID" name="eventID" value="{{ event.EventID }}" readonly required>
+                                                                </div>
+                                                                <!-- event title -->
                                                                 <label for="eventTitle" class="col-form-label" name="title" id="title">Event Title:</label>
-                                                                <input type="text" id="eventTitle" name="eventTitle" value="{{event.title}}" required><br><br>
+                                                                <input class="form-control" type="text" id="eventTitle" name="eventTitle" value="{{event.title}}" required>
+                                                                <!-- event desc -->
+                                                                <label for="message-text" class="col-form-label" name="description" id="description" >Description:</label>
+                                                                <!-- <input class="form-control" type="textarea" id="eventDesc" name="eventDesc" value="{{event.description}}" required> -->
+                                                                <textarea class="form-control" rows="10" id="eventDesc" name="eventDesc" required>{{event.description}}</textarea>
+                                                                <!-- event start time -->
+                                                                <label for="eventST" class="col-form-label" name="start_time" id="start_time" >Start Date:</label>
+                                                                <input class="form-control" type="datetime-local" id="eventST" name="eventST" value="{{event.start_time}}" required>
+                                                                <!-- event end time -->
+                                                                <label for="eventET" class="col-form-label" name="end_time" id="end_time" >End Date:</label>
+                                                                <input class="form-control" type="datetime-local" id="eventET" name="eventET" value="{{event.end_time}}" required>
+                                                            </div>
+
+                                                            <!-- <div class="form-group">
+                                                                <label for="eventTitle" class="col-form-label" name="title" id="title">Event Title:</label>
+                                                                <input class="form-control" type="text" id="eventTitle" name="eventTitle" value="{{event.title}}" required>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="message-text" class="col-form-label" name="description" id="description" >Description:</label>
-                                                                <input type="textarea" id="eventDesc" name="eventDesc" value="{{event.description}}" required><br><br>
+                                                                <input class="form-control" type="textarea" id="eventDesc" name="eventDesc" value="{{event.description}}" required>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="eventST" class="col-form-label" name="start_time" id="start_time" >Start Date:</label>
-                                                                <input type="datetime-local" id="eventST" name="eventST" value="{{event.start_time}}" required><br><br>
+                                                                <input class="form-control" type="datetime-local" id="eventST" name="eventST" value="{{event.start_time}}" required>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="eventET" class="col-form-label" name="end_time" id="end_time" >End Date:</label>
-                                                                 <input type="datetime-local" id="eventET" name="eventET" value="{{event.end_time}}" required><br><br>
-                                                            </div>
+                                                                 <input class="form-control" type="datetime-local" id="eventET" name="eventET" value="{{event.end_time}}" required>
+                                                            </div> -->
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button data-dismiss="modal" type="button" class="btn btn-danger">Close</button>
@@ -144,8 +159,8 @@
                                             </div>
                                             <div class="modal-body">
                                             <!-- id for referencing -->
-                                              <div class="col-sm-3">
-                                                <input type="text" id="deleventID" name="deleventID" value="{{ event.EventID }}" hidden readonly required><br><br>
+                                              <div class="col-sm-3" hidden>
+                                                <input type="text" id="deleventID" name="deleventID" value="{{ event.EventID }}" readonly required><br><br>
                                               </div>
                                               Are you sure you want to delete this event?
                                             </div>
