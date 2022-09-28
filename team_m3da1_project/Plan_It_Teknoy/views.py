@@ -391,6 +391,7 @@ class DashboardView(View):
             student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
             
             context = {
+                        "current_user": current_user,
                         "student_record" : student_record, "form":form, "event":event, "total_event": events,
                         "running_events": running_events,
                         "completed_events": completed_events,
@@ -399,6 +400,23 @@ class DashboardView(View):
                         }
 
         return render(request, 'calendarapp/dashboard.html', context)
+
+    def post(self, request):
+        if request.method == 'POST':
+            if 'btnUpdateEvent' in request.POST:
+                eventID = request.POST.get("eventID")
+                eventTitle = request.POST.get("eventTitle")
+                eventDesc = request.POST.get("eventDesc")
+                eventST = request.POST.get("eventST")
+                eventET = request.POST.get("eventET")
+                Event.objects.filter(EventID = eventID).update(title = eventTitle,
+                    description = eventDesc, start_time = eventST, end_time = eventET)
+
+            if 'btnDeleteEvent' in request.POST:
+                deleventID = request.POST.get("deleventID")
+                Event.objects.filter(EventID = deleventID).delete()
+
+        return redirect('Plan_It_Teknoy:dashboard_view')
     
 class AllEventsListView(ListView):
 
