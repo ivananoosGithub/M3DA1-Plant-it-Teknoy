@@ -12,13 +12,23 @@
   <link rel="icon" href="{% static 'images/favicon.ico' %}">
   <link rel="stylesheet" href="{% static 'css/profile-nicepage.css' %}" media="screen">
   <link rel="stylesheet" href="{% static 'css/profile-settings.css' %}" media="screen">
+
+  <!-- sweet alert css plug in -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css">
+
+  <!-- font-awesome for icons (etc. eye icon for passwords) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
   <!-- bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-  <!-- <script class="u-script" type="text/javascript" src="{% static 'js/profile-jquery.js' %}" defer=""></script> -->
   <script class="u-script" type="text/javascript" src="{% static 'js/profile-nicepage.js' %}" defer=""></script>
+
+  <!-- sweet alert js plug in -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+
+
+
   <meta name="generator" content="Nicepage 3.25.0, nicepage.com">
   <link id="u-theme-google-font" rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i">
@@ -238,7 +248,8 @@
                                       <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalCenterTitle"> Update Personal Details
                                         </h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
                                         </button>
                                       </div>
                                       <div class="modal-body">
@@ -309,10 +320,24 @@
                                         <!-- Update Personal Button -->
                                         <div class="u-align-right u-form-group u-form-submit">
                                           <div class="modal-footer">
-                                            <button type="submit" data-bs-dismiss="modal"
+                                            <button type="button" data-bs-dismiss="modal"
                                               class="btn btn-default">Cancel</button>
                                             <button type="submit" id="" name="btnUpdate"
                                               class="btn btn-danger">Confirm</button>
+
+                                              {% for message in messages %}
+                                                {% if "profile_details_success" in message.tags %}
+                                                  <script>
+                                                    Swal.fire({
+                                                      title: 'Success!!!',
+                                                      text: '{{message}}',
+                                                      icon: 'success',
+                                                      confirmButtonText: 'Okay'
+                                                    })
+                                                  </script>
+                                                {% endif %}
+                                              {% endfor %}
+
                                           </div>
                                         </div>
                                       </div>
@@ -463,7 +488,8 @@
                   {% csrf_token %}
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle"> Update Academic Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div class="modal-body">
@@ -540,8 +566,22 @@
                     <!-- Update Academic Button -->
                     <div class="u-align-right u-form-group u-form-submit">
                       <div class="modal-footer">
-                        <button type="submit" data-bs-dismiss="modal" class="btn btn-default">Cancel</button>
+                        <button type="button" data-bs-dismiss="modal" class="btn btn-default">Cancel</button>
                         <button type="submit" id="" name="updateAcademicButton" class="btn btn-danger">Confirm</button>
+
+                        {% for message in messages %}
+                          {% if "academic_details_success" in message.tags %}
+                            <script>
+                              Swal.fire({
+                                title: 'Success!!!',
+                                text: '{{message}}',
+                                icon: 'success',
+                                confirmButtonText: 'Okay'
+                              })
+                            </script>
+                        {% endif %}
+                      {% endfor %}
+
                       </div>
                     </div>
                   </div>
@@ -552,14 +592,14 @@
           <!-- end modal -->
           <div class="u-container-style u-tab-pane" id="tab-9e87" role="tabpanel" aria-labelledby="link-tab-9e87">
             <div class="u-container-layout u-container-layout-7">
-              {% if messages %}
+              <!-- {% if messages %}
               <div style="text-align: center; margin-bottom: -26px; margin-top: -6px;">
                 {% for message in messages %}
                 <p {% if message.tags %} class="{{ message.tags }}" {% endif %} style="text-align: center;">
                   {{ message }}</p>
                 {% endfor %}
               </div>
-              {% endif %}
+              {% endif %} -->
 
               <div class="u-container-style u-expanded-width u-group u-radius-20 u-shape-round u-white u-group-3">
                 <div class="u-container-layout u-container-layout-8">
@@ -594,7 +634,6 @@
                           class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-12"
                           required>
                           <i class="fa-solid fa-eye" id="confirmEye"></i>
-
                       </div>
                       <!-- Update Password Button -->
                       <div class="u-align-center u-form-group u-form-submit">
@@ -602,6 +641,44 @@
                           class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-10 u-btn-5">Confirm
                           Changes</a>
                         <input type="submit" name="btnSubmitPassword" class="u-form-control-hidden">
+                        
+                          {% for message in messages %}  
+                            {% if "pass_success" in message.tags %}
+                              <script>
+                                Swal.fire({
+                                  title: 'Success!!!',
+                                  text: '{{message}}',
+                                  icon: 'success',
+                                  confirmButtonText: 'Okay'
+                                })
+                              </script>
+                            {% endif %}
+                          {% endfor %}
+
+                          {% for message in messages %}
+                              {% if "old_new_pass_error" in message.tags %}
+                                  <script>
+                                    Swal.fire({
+                                      title: 'Password Error!',
+                                      text: '{{message}}',
+                                      icon: 'error',
+                                    })
+                                  </script>
+                              {% endif %}
+                          {% endfor %}
+
+                          {% for message in messages %}
+                            {% if "current_pass_error" in message.tags %}
+                              <script>
+                                Swal.fire({
+                                  title: 'Password Error!',
+                                  text: '{{message}}',
+                                  icon: 'error',
+                                })
+                              </script>
+                            {% endif %}
+                          {% endfor %}
+
                       </div>
                       <!-- <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
                         <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>
@@ -628,7 +705,7 @@
           {% csrf_token %}
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalCenterTitle">Change Avatar</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -650,6 +727,18 @@
           <div class="modal-footer">
             <button type="submit" id="btnUpdateProPic" name="btnUpdateProPic" class="btn btn-danger">Save
               changes</button>
+              {% for message in messages %}
+                {% if "profile_pic_success" in message.tags %}
+                  <script>
+                    Swal.fire({
+                      title: 'Success!!!',
+                      text: '{{message}}',
+                      icon: 'success',
+                      confirmButtonText: 'Okay'
+                    })
+                  </script>
+            {% endif %}
+          {% endfor %}
           </div>
           <!-- form end -->
         </form>
@@ -668,7 +757,7 @@
           {% csrf_token %}
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalCenterTitle">Deactivate Account</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -680,7 +769,7 @@
             Are you sure you want to delete your account?
           </div>
           <div class="modal-footer">
-            <button type="submit" data-bs-dismiss="modal" class="btn btn-default">Cancel</button>
+            <button type="button" data-bs-dismiss="modal" class="btn btn-default">Cancel</button>
             <button type="submit" name="btnDeleteStudent" class="btn btn-danger">Deactivate</button>
           </div>
           <!-- form end -->

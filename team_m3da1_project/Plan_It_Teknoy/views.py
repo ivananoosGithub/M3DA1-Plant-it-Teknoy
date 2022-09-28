@@ -511,6 +511,7 @@ class SProfileSettings(View):
                 saveProPic = Students.objects.get(StudentID = student_id)
                 saveProPic.profile_pic = profile_pic
                 saveProPic.save()
+                messages.success(request, "Profile Picture Successfully Updated!!!", extra_tags='profile_pic_success')
                 print('Student profile picture updated!')
                 return redirect('Plan_It_Teknoy:sprofile-settings_view')   
             
@@ -526,9 +527,10 @@ class SProfileSettings(View):
                 hAddress = request.POST.get("home_address")
                 cAddress = request.POST.get("city_address")
                 Students.objects.filter(StudentID = student_id).update(first_name = firstname, last_name = lastname, contact_number = cNumber, gender = sGender, home_address = hAddress, city_address = cAddress)
+                messages.success(request, "Profile Details Successfully Updated!!!", extra_tags='profile_details_success')
                 print('Student account updated!')
 
-            
+            # student academic details
             if 'updateAcademicButton' in request.POST:
                 print('UpdateDetails button clicked!')
                 student_id = request.POST.get("student_academic_id")
@@ -536,6 +538,7 @@ class SProfileSettings(View):
                 sprogram = request.POST.get("academic_program")
                 syear_level = request.POST.get("academic_year_level")
                 Students.objects.filter(StudentID = student_id).update(department = sdepartment, program = sprogram, year_level = syear_level)
+                messages.success(request, "Academic Details Successfully Updated!!!", extra_tags='academic_details_success')
                 print('Student account academic updated!')
             
 
@@ -575,14 +578,15 @@ class SProfileSettings(View):
                     if user_new_pwd == user_confirm_new_pwd:
                         Users.objects.filter(id_number = student_id).update(password = enc_user_new_pwd)
                         print("Password newly created")
+                        messages.success(request, "Account Password Successfully Updated!!!", extra_tags='pass_success')
                         return redirect('Plan_It_Teknoy:sprofile-settings_view')
                     
                     else:
-                        messages.info(request, 'New password and Confirm password did not matched!')
+                        messages.error(request, 'New password and Confirm password did not matched!', extra_tags='old_new_pass_error')
                          #pwede ni siya ma message para ma send sa html nya mag modal pop up
 
                 else:
-                    messages.info(request, 'You did not input your correct current password!')
+                    messages.error(request, 'You did not input your correct current password!', extra_tags='current_pass_error')
 
             return redirect('Plan_It_Teknoy:sprofile-settings_view')
 
