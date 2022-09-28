@@ -546,6 +546,7 @@ class SProfileSettings(View):
                 if 'user' in request.session:
                     current_student = request.session['user']
                     Users.objects.filter(id_number=current_student).delete()
+                    Event.objects.filter(StudentID = current_student).delete()
                 print("Student account deleted")
                 return redirect('Plan_It_Teknoy:logout')
                         
