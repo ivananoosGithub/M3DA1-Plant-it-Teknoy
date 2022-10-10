@@ -10,6 +10,7 @@
   <link rel="icon" href="{% static 'images/favicon.ico' %}">
   <!-- icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
   <!-- font -->
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
@@ -108,7 +109,7 @@
                     <div class="form-row mt-4">
                       <div class="col-12 col-sm-6">
                         <select class="multisteps-form__select form-control" id="department" name="department" required>
-                          <option value="" disabled selected>Department</option>
+                          <option hidden value="" disabled selected>Department</option>
                           <option value="CCS">CCS</option>
                           <option value="CMBA">CMBA</option>
                           <option value="COE">COE</option>
@@ -117,7 +118,7 @@
                       <div class="col-12 col-sm-6 mt-4 mt-sm-0">
                         <!-- Gender -->
                         <select class="multisteps-form__select form-control" id="gender" name="gender" required>
-                          <option value="" disabled selected>Gender</option>
+                          <option hidden value="" disabled selected>Gender</option>
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
                         </select>
@@ -127,7 +128,7 @@
                     <div class="form-row mt-4">
                       <div class="col-12 col-sm-6">
                         <select class="multisteps-form__select form-control" id="program" name="program" required>
-                          <option value="" disabled selected>Program</option>
+                          <option hidden value="" disabled selected>Program</option>
                           <option value="BSIT">BSIT</option>
                           <option value="BSCS">BSCS</option>
                           <option value="BSCpE">BSCpE</option>
@@ -136,7 +137,7 @@
                       <!-- Year -->
                       <div class="col-12 col-sm-6 mt-4 mt-sm-0">
                         <select class="multisteps-form__select form-control" id="year_level" name="year_level" required>
-                          <option value="" disabled selected>Year Level</option>
+                          <option hidden value="" disabled selected>Year Level</option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -204,15 +205,17 @@
                     </div>
 
                     <div class="form-row mt-4">
-                      <div class="col-12 col-sm-6">
+                      <div class="col-12 col-sm-6 password-container">
                         <!-- Password -->
                         <input class="multisteps-form__input form-control" type="password" id="password" name="password"
                           placeholder="Password" required />
+                          <i class="fa-solid fa-eye" id="eye"></i>
                       </div>
-                      <div class="col-12 col-sm-6 mt-4 mt-sm-0">
+                      <div class="col-12 col-sm-6 mt-4 mt-sm-0 password-container">
                         <!-- Confirm Password -->
-                        <input class="multisteps-form__input form-control" type="password" id="cpassword"
+                        <input class="multisteps-form__input form-control" type="password" id="confirmPassword"
                           name="cpassword" placeholder="Confirm Password" required />
+                          <i class="fa-solid fa-eye" id="confirmEye"></i>
                       </div>
                     </div>
                     <div class="button-row d-flex mt-4">
@@ -241,6 +244,28 @@
       </div>
     </div>
   </div>
+
+  <script>
+    const passwordField = document.querySelector("#password");
+    const eyeIcon= document.querySelector("#eye");
+
+    eye.addEventListener("click", function(){
+    this.classList.toggle("fa-eye-slash");
+    const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+    passwordField.setAttribute("type", type);
+    })
+  </script>
+
+  <script>
+    const confirmPasswordField = document.querySelector("#confirmPassword");
+    const confirmEyeIcon= document.querySelector("#confirmEye");
+
+    confirmEye.addEventListener("click", function(){
+    this.classList.toggle("fa-eye-slash");
+    const type = confirmPasswordField.getAttribute("type") === "password" ? "text" : "password";
+    confirmPasswordField.setAttribute("type", type);
+    })
+  </script>
 
   <script src="{% static 'js/function-signup-role.js' %}"></script>
 </body>

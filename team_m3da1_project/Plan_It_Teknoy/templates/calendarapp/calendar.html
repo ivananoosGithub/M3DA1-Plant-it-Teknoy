@@ -3,7 +3,6 @@
 {% block title %}Plan'it Teknoy | Calendar{% endblock title %}
 
 {% block extracss %}
-  <link href="{% static 'calender/main.css' %}" rel="stylesheet" />
 {% endblock extracss %}
 
 {% block breadcrumb %}
@@ -12,8 +11,10 @@
       <p>Event Calendar</p>
   </div>
   <ul class="app-breadcrumb breadcrumb">
-      <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-      <li class="breadcrumb-item"><a href="#">Calendar</a></li>
+      <li class="breadcrumb-item">
+          <button type="button" data-toggle="modal" data-target="#eventModal" class="btn btn-outline-danger fa fa-calendar-plus-o btn-lg" aria-hidden="true" style="min-width: 150px !important; padding: 10px 20px !important;"> ADD EVENT</button>
+
+      </li>
   </ul>
 {% endblock breadcrumb %}
 
@@ -78,7 +79,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button id="modalClose2" type="button" class="btn btn-danger">Close</button>
+                                <button id="modalClose2" data-dismiss="modal" type="button" class="btn btn-danger">Close</button>
                                 <button type="submit" class="btn btn-warning">Save</button>
                             </div>
                         </form>
@@ -147,18 +148,36 @@
 
         //   eventDidMount: function(info) {
         //   var tooltip = new Tooltip(info.el, {
-        //   title: info.eventSource.extendedProps.description,
+        //   title: info.event.extendedProps.description,
         //   placement: 'top',
         //   trigger: 'hover',
         //   container: 'body'
         //   });
         // },
 
-          eventClick: function(arg) {
-            if (confirm('Are you sure you want to delete this event?')) {
-              arg.event.remove()
-            }
-          },
+          // eventClick: function(arg) {
+          //   if (confirm('Are you sure you want to delete this event?')) {
+          //     arg.event.remove()
+          //   }
+          // },
+
+          eventClick: function(info) {
+          var eventObj = info.event;
+
+          if (eventObj.url) {
+            alert(
+              'Clicked ' + eventObj.title + '.\n' +
+              'Will open ' + eventObj.url + ' in a new tab'
+            );
+
+            window.open(eventObj.url);
+
+            info.jsEvent.preventDefault(); // prevents browser from following link in current tab.
+          } else {
+            alert('Clicked ' + eventObj.title);
+          }
+        },
+          
           editable: false, //drag drag drag drag!!!
           dayMaxEvents: true,
           // events: {{ events|safe }},
@@ -183,7 +202,6 @@
           [
             {
               events: {{ student_running_events|safe }},
-              // description:'hahahahahah',
               color: '#7E1215',
             }
           ]

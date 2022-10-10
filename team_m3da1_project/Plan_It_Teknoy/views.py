@@ -321,6 +321,8 @@ class CalendarViewNew(View):
         form = EventForm(request.POST or None)
         if 'user' in request.session:
             current_user = request.session['user']
+            check_teacher = Teachers.objects.filter(TeacherID=current_user)
+            check_student = Students.objects.filter(StudentID=current_user)
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
             running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
@@ -335,13 +337,14 @@ class CalendarViewNew(View):
                 student_running_events.append(
                     {
                     "title":student_event.title,
+                    "description": student_event.description,
                     "start":student_event.start_time.strftime("%Y-%m-%d %H:%M:%S"),
                     "end":student_event.end_time.strftime("%Y-%m-%d %H:%M:%S"),
                     }
                 )
 
             context = {"student_running_events":student_running_events,  
-            "running_events":running_events, "form":form, "student_record":student_record}
+            "running_events":running_events, "form":form, "student_record":student_record, "check_teacher":check_teacher, "check_student": check_student}
 
             return render(request, 'calendarapp/calendar.html', context)
 
@@ -388,6 +391,7 @@ class DashboardView(View):
             student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
             
             context = {
+                        "current_user": current_user,
                         "student_record" : student_record, "form":form, "event":event, "total_event": events,
                         "running_events": running_events,
                         "completed_events": completed_events,
@@ -396,6 +400,23 @@ class DashboardView(View):
                         }
 
         return render(request, 'calendarapp/dashboard.html', context)
+
+    def post(self, request):
+        if request.method == 'POST':
+            if 'btnUpdateEvent' in request.POST:
+                eventID = request.POST.get("eventID")
+                eventTitle = request.POST.get("eventTitle")
+                eventDesc = request.POST.get("eventDesc")
+                eventST = request.POST.get("eventST")
+                eventET = request.POST.get("eventET")
+                Event.objects.filter(EventID = eventID).update(title = eventTitle,
+                    description = eventDesc, start_time = eventST, end_time = eventET)
+
+            if 'btnDeleteEvent' in request.POST:
+                deleventID = request.POST.get("deleventID")
+                Event.objects.filter(EventID = deleventID).delete()
+
+        return redirect('Plan_It_Teknoy:dashboard_view')
     
 class AllEventsListView(ListView):
 
@@ -408,13 +429,15 @@ class AllEventsListView(ListView):
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
             events = Event.objects.get_all_events(StudentID=current_student.StudentID)
+            check_teacher = Teachers.objects.filter(TeacherID=current_user)
+            check_student = Students.objects.filter(StudentID=current_user)
 
 
 
             student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
 
             context = {"student_record" : student_record, "total_event":events,
-                        "events":events,
+                        "events":events, "check_teacher":check_teacher, "check_student":check_student
                         }
 
         return render(request, 'calendarapp/events_list.html', context)
@@ -433,11 +456,13 @@ class RunningEventsListView(ListView):
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
             running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
+            check_teacher = Teachers.objects.filter(TeacherID=current_user)
+            check_student = Students.objects.filter(StudentID=current_user)
 
 
             student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
             
-            context = {"student_record" : student_record, "events":running_events, "running_events":running_events}
+            context = {"student_record" : student_record, "events":running_events, "running_events":running_events, "check_teacher":check_teacher, "check_student":check_student}
 
             return render(request, 'calendarapp/events_list.html', context)
 
@@ -451,11 +476,13 @@ class CompletedEventsListView(ListView):
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
             completed_events = Event.objects.get_completed_events(StudentID=current_student.StudentID)
+            check_teacher = Teachers.objects.filter(TeacherID=current_user)
+            check_student = Students.objects.filter(StudentID=current_user)
 
 
             student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
             
-            context = {"student_record" : student_record, "events":completed_events, "completed_events":completed_events}
+            context = {"student_record" : student_record, "events":completed_events, "completed_events":completed_events, "check_teacher":check_teacher, "check_student":check_student}
 
             return render(request, 'calendarapp/events_list.html', context)
 
@@ -484,12 +511,13 @@ class SProfileSettings(View):
                 saveProPic = Students.objects.get(StudentID = student_id)
                 saveProPic.profile_pic = profile_pic
                 saveProPic.save()
+                messages.success(request, "Profile Picture Successfully Updated!!!", extra_tags='profile_pic_success')
                 print('Student profile picture updated!')
                 return redirect('Plan_It_Teknoy:sprofile-settings_view')   
             
 
             # personal details update feature
-            elif 'btnUpdate' in request.POST:
+            if 'btnUpdate' in request.POST:
                 print('UpdateDetails button clicked!')
                 student_id = request.POST.get("student_id")
                 firstname = request.POST.get("first_name")
@@ -499,20 +527,34 @@ class SProfileSettings(View):
                 hAddress = request.POST.get("home_address")
                 cAddress = request.POST.get("city_address")
                 Students.objects.filter(StudentID = student_id).update(first_name = firstname, last_name = lastname, contact_number = cNumber, gender = sGender, home_address = hAddress, city_address = cAddress)
+                messages.success(request, "Profile Details Successfully Updated!!!", extra_tags='profile_details_success')
                 print('Student account updated!')
 
-            
-            elif 'updateAcademicButton' in request.POST:
+            # student academic details
+            if 'updateAcademicButton' in request.POST:
                 print('UpdateDetails button clicked!')
                 student_id = request.POST.get("student_academic_id")
                 sdepartment = request.POST.get("academic_department")
                 sprogram = request.POST.get("academic_program")
                 syear_level = request.POST.get("academic_year_level")
                 Students.objects.filter(StudentID = student_id).update(department = sdepartment, program = sprogram, year_level = syear_level)
+                messages.success(request, "Academic Details Successfully Updated!!!", extra_tags='academic_details_success')
                 print('Student account academic updated!')
             
+
+            if 'btnDeleteStudent' in request.POST:
+                print('Delete button clicked!')
+                student_id = request.POST.get("current_student_id")
+                Students.objects.filter(StudentID=student_id).delete()
+                if 'user' in request.session:
+                    current_student = request.session['user']
+                    Users.objects.filter(id_number=current_student).delete()
+                    Event.objects.filter(StudentID = current_student).delete()
+                print("Student account deleted")
+                return redirect('Plan_It_Teknoy:logout')
+                        
             
-            elif 'btnSubmitPassword' in request.POST:
+            if 'btnSubmitPassword' in request.POST:
 
                 student_id = request.POST.get("student_id_security")
 
@@ -536,33 +578,16 @@ class SProfileSettings(View):
                     if user_new_pwd == user_confirm_new_pwd:
                         Users.objects.filter(id_number = student_id).update(password = enc_user_new_pwd)
                         print("Password newly created")
+                        messages.success(request, "Account Password Successfully Updated!!!", extra_tags='pass_success')
                         return redirect('Plan_It_Teknoy:sprofile-settings_view')
                     
                     else:
-                        raise Exception("New password and Confirm password did not match") #pwede ni siya ma message para ma send sa html nya mag modal pop up
+                        messages.error(request, 'New password and Confirm password did not matched!', extra_tags='old_new_pass_error')
+                         #pwede ni siya ma message para ma send sa html nya mag modal pop up
 
                 else:
-                    raise Exception("You did not input your correct current password") 
+                    messages.error(request, 'You did not input your correct current password!', extra_tags='current_pass_error')
 
-            else:
-                print("Not updated")
-
-            # personal details update feature
-            if 'updateAcademicButton' in request.POST:
-                print('UpdateDetails button clicked!')
-                student_id = request.POST.get("student_academic_id")
-                sdepartment = request.POST.get("academic_department")
-                sprogram = request.POST.get("academic_program")
-                syear_level = request.POST.get("academic_year_level")
-                Students.objects.filter(StudentID = student_id).update(department = sdepartment, program = sprogram, year_level = syear_level)
-                print('Student account academic updated!')
-            else:
-                print("Not updated")
-
-    
-
-                raise Exception("Account not updated")
-        
             return redirect('Plan_It_Teknoy:sprofile-settings_view')
 
 

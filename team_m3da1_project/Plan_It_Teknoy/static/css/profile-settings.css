@@ -11,6 +11,7 @@
   margin: 60px auto 0 0;
 }
 
+
 .u-section-1 .u-tabs-1 {
   min-height: 547px;
   margin-bottom: 60px;
@@ -151,6 +152,42 @@
 
 .u-section-1 .u-form-group-5 {
   margin-left: 0;
+}
+
+.password-container{
+	width: 568px;
+	position: relative;
+  }
+  .password-container input[type="password"],
+  .password-container input[type="text"]{
+	width: 100%;
+	padding: 12px 36px 12px 12px;
+	box-sizing: border-box;
+  }
+  .fa-eye{
+	position: absolute;
+	top: 60%;
+	right: 4%;
+	cursor: pointer;
+	color: lightgray;
+}
+
+.password-container{
+	width: 568px;
+	position: relative;
+  }
+  .password-container input[type="password"],
+  .password-container input[type="text"]{
+	width: 100%;
+	padding: 12px 36px 12px 12px;
+	box-sizing: border-box;
+  }
+  .fa-eye{
+	position: absolute;
+	top: 60%;
+	right: 4%;
+	cursor: pointer;
+	color: lightgray;
 }
 
 .u-section-1 .u-label-5 {

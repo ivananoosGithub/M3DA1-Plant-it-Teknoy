@@ -7,7 +7,7 @@
   <link rel="icon" href="{% static 'images/favicon.ico' %}">
 	<link rel="stylesheet" href="{% static 'css/signin.css' %}">
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Plan'it Teknoy | Sign In</title>
 </head>
@@ -56,9 +56,10 @@
 					<div class="i"> 
 						 <i class="fas fa-lock"></i>
 					</div>
-					<div class="div">
+					<div class="div password-container">
 						 <h5>Password</h5>
 						 <input type="password" class="input" id="password" name = "password" required>
+             <i class="fa-solid fa-eye" id="eye"></i>
 				 </div>
 			  </div>
 			  	<a class="forgot-pass" href="#" data-bs-toggle="modal" data-bs-target="#forgotPWModal">Forgot Password?</a>
