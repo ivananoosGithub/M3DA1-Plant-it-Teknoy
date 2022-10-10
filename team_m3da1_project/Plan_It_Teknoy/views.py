@@ -10,7 +10,7 @@ from passlib.hash import pbkdf2_sha256
 from django.core.mail import send_mail
 from django.conf import settings
 import uuid
-
+import re
 
 
 #################################### Start of user pages ###################################
@@ -583,7 +583,7 @@ class SProfileSettings(View):
                     
                     else:
                         messages.error(request, 'New password and Confirm password did not matched!', extra_tags='old_new_pass_error')
-                         #pwede ni siya ma message para ma send sa html nya mag modal pop up
+                        #pwede ni siya ma message para ma send sa html nya mag modal pop up
 
                 else:
                     messages.error(request, 'You did not input your correct current password!', extra_tags='current_pass_error')

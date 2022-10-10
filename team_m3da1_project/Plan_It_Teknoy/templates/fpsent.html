@@ -1,4 +1,4 @@
-@@ -1,104 +0,0 @@
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -60,12 +60,24 @@
                   </div>
                 <div class="div password-container">
                   <!-- <input type="password" class="input" id="password" name = "password" required> -->
-                  <input class="input" name="password" type="password" placeholder="Password" id="password">
+                  <input class="input" name="password" type="password" placeholder="Password" id="password"  oninput="check()">
                   <i class="fa-solid fa-eye" id="eye"></i>
-
                 </div>
               </div>
-
+              <div class="u-align-center u-form u-form-3">
+                <div id ="check0" style="color: white; padding-top: 3%;" align ="left">
+                  <i class = "far fa-check-circle"></i> Length more than 8.
+                </div>
+                <div id ="check2" style="color: white; padding-top: 2%;" align ="left">
+                  <i class = "far fa-check-circle" style="padding-top: 2%;"></i> Contains numerical character.
+                </div>
+                <div id ="check3" style="color: white; padding-top: 2%;" align ="left">
+                  <i class = "far fa-check-circle" style="padding-top: 2%;" ></i> Contains special character.
+                </div>
+                <div id ="check4" style="color: gold; padding: 2% 0 3%" align ="left">
+                  <i class = "far fa-check-circle" style="padding-top: 2%;" ></i>  Shouldn't contain spaces.
+                </div>
+              </div>
               <div class="input-div pass">
                 <div class="i"> 
                   <i class="fas fa-lock"></i>
@@ -77,10 +89,11 @@
               </div>
             </div>
             <br>
-            <button type="submit" class="btn" value="Reset password">Reset Password</button>
+            <button type="submit" class="btn" id="btnResetPassword" value="Reset password">Reset Password</button>
         </form>
       </div>
     </div>
+    
     <script>
       const passwordField = document.querySelector("#password");
       const eyeIcon= document.querySelector("#eye");
@@ -90,6 +103,37 @@
       const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
       passwordField.setAttribute("type", type);
       })
+
+      function check(){
+      var input = document.getElementById("password").value;
+      document.getElementById("password").value = input;
+
+
+      if(input.length >= 8){
+         document.getElementById("check0").style.color="gold";
+      }else{
+        var check0 = document.getElementById("check0").style.color="white";
+      }
+
+      if(input.match(/[0-9]/i)){
+        document.getElementById("check2").style.color="gold";
+      }else{
+        var check2 = document.getElementById("check2").style.color="white";
+      }
+
+      if(input.match(/[^A-Za-z0-9-'']/i)){
+        document.getElementById("check3").style.color="gold";
+      }else{
+        var check3 = document.getElementById("check3").style.color="white";  
+      }
+
+      if(input.match(' ')){
+        document.getElementById("check4").style.color="white";
+      }else{
+        var check4 = document.getElementById("check4").style.color="gold";
+      }
+
+    }
     </script>
   
     <script>
@@ -101,6 +145,7 @@
       const type = confirmPasswordField.getAttribute("type") === "password" ? "text" : "password";
       confirmPasswordField.setAttribute("type", type);
       })
+
     </script>
 
        <!-- JavaScript Bundle with Popper -->

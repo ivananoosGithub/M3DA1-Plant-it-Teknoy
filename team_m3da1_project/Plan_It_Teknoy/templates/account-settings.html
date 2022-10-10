@@ -621,11 +621,22 @@
                       <div class="u-form-email u-form-group password-container">
                         <label class="u-custom-font u-font-montserrat u-label u-label-11">New
                           Password</label>
-                        <input type="password"  name="new_password" id="newPassword"
+                        <input type="password"  name="new_password" id="newPassword" oninput="check()"
                           class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-11"
                           required>
                           <i class="fa-solid fa-eye" id="newEye"></i>
-
+                      </div>
+                      <div id ="check0" style="color: red; padding-top: 3%;" align ="left">
+                        <i class = "far fa-check-circle"></i> <span> Length more than 8.</span>
+                      </div>
+                      <div id ="check2" style="color: red;" align ="left">
+                        <i class = "far fa-check-circle"></i> <span> Contains numerical character.</span>
+                      </div>
+                      <div id ="check3" style="color: red;" align ="left">
+                        <i class = "far fa-check-circle"></i> <span> Contains special character.</span>
+                      </div>
+                      <div id ="check4" style="color: green; padding-bottom: 3%" align ="left">
+                        <i class = "far fa-check-circle"></i> <span> Shouldn't contain spaces.</span>
                       </div>
                       <div class="u-form-group u-form-group-14 password-container">
                         <label for="text-ac56" class="u-custom-font u-font-montserrat u-label u-label-12">Confirm
@@ -640,7 +651,7 @@
                         <a 
                           class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-10 u-btn-5">Confirm
                           Changes</a>
-                        <input type="submit" name="btnSubmitPassword" class="u-form-control-hidden">
+                        <input type="submit" name="btnSubmitPassword" id="btnSubmitPassword" class="u-form-control-hidden">
                         
                           {% for message in messages %}  
                             {% if "pass_success" in message.tags %}
@@ -825,6 +836,8 @@
     const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
     passwordField.setAttribute("type", type);
     })
+
+    
   </script>
 
   <script>
@@ -836,6 +849,43 @@
     const type = newPasswordField.getAttribute("type") === "password" ? "text" : "password";
     newPasswordField.setAttribute("type", type);
     })
+
+    function check(){
+      var input = document.getElementById("newPassword").value;
+      document.getElementById("newPassword").value = input;
+      const button = document.querySelector('#btnSubmitPassword');
+      button.disabled = false;
+
+      if(input.length >= 8){
+         document.getElementById("check0").style.color="green";
+      }else{
+        var check0 = document.getElementById("check0").style.color="red";
+      }
+
+      if(input.match(/[0-9]/i)){
+        document.getElementById("check2").style.color="green";
+      }else{
+        var check2 = document.getElementById("check2").style.color="red";
+      }
+
+      if(input.match(/[^A-Za-z0-9-'']/i)){
+        document.getElementById("check3").style.color="green";
+      }else{
+        var check3 = document.getElementById("check3").style.color="red";  
+      }
+
+      if(input.match(' ')){
+        document.getElementById("check4").style.color="red";
+      }else{
+        var check4 = document.getElementById("check4").style.color="green";
+      }
+
+      if(check0 ==="red" || check2 ==="red" || check3 ==="red" || check4 ==="red" ){
+        const button = document.querySelector('#btnSubmitPassword');
+        button.disabled = true;
+      }
+
+    }
   </script>
 
   <script>
