@@ -173,13 +173,17 @@
                           name="city_address" placeholder="City Address" required />
                       </div>
                     </div>
-                    <div class="form-row mt-4">
-                      <div class="col-12 col-sm-6">
-                        <!-- Contact Number -->
-                        <input class="multisteps-form__input form-control" type="text" id="contact_number" oninput="oncheck()"
-                          name="contact_number" placeholder="Contact Number" required />
+
+                      <div class="form-row mt-4">
+                        <div class="col-12 col-sm-6 input-group-prepend">
+                            <div class="input-group-text">+63</div>
+                          <!-- Contact Number -->
+                          <input class="multisteps-form__input form-control" type="text" id="contact_number" oninput="oncheck()"
+                            name="contact_number" placeholder="Contact Number" required />
+                        </div>
                       </div>
-                    </div>
+
+
                     <div class="button-row d-flex mt-4">
                       <button class="btn btn-danger js-btn-prev" type="button" title="Prev">Previous</button>
                       <button class="btn btn-danger ml-auto js-btn-next" type="button" id="btnContactNext" title="Next" disabled>Next</button>
@@ -355,6 +359,49 @@
     confirmPasswordField.setAttribute("type", type);
 
     })
+  </script>
+
+  <script>
+    // Format the phone number as the user types it
+    document.getElementById('contact_number').addEventListener('keyup',function(evt){
+            var contact_number = document.getElementById('contact_number');
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            contact_number.value = phoneFormat(contact_number.value);
+    });
+
+    // We need to manually format the phone number on page load
+    document.getElementById('contact_number').value = phoneFormat(document.getElementById('contact_number').value);
+
+    // A function to determine if the pressed key is an integer
+    function numberPressed(evt){
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if(charCode > 31 && (charCode < 48 || charCode > 57) && (charCode < 36 || charCode > 40)){
+                    return false;
+            }
+            return true;
+    }
+
+    // A function to format text to look like a phone number
+    function phoneFormat(input){
+            // Strip all characters from the input except digits
+            input = input.replace(/\D/g,'');
+            
+            // Trim the remaining input to ten characters, to preserve phone number format
+            input = input.substring(0,10);
+
+            // Based upon the length of the string, we add formatting as necessary
+            var size = input.length;
+            if(size == 0){
+                    input = input;
+            }else if(size < 4){
+                    input = '('+input;
+            }else if(size < 7){
+                    input = '('+input.substring(0,3)+') '+input.substring(3,6);
+            }else{
+                    input = '('+input.substring(0,3)+') '+input.substring(3,6)+' '+input.substring(6,10);
+            }
+            return input; 
+    }
   </script>
 
   <script src="{% static 'js/function-signup-role.js' %}"></script>
