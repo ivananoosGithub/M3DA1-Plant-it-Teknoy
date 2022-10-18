@@ -595,21 +595,17 @@ class TProfileSettings(View):
     def get(self, request):
 
             if 'user' in request.session:
-
                 current_user = request.session['user']
                 confirm_user_id = Users(id_number=current_user)
                 current_teacher = Teachers.objects.filter(TeacherID=confirm_user_id)
-                email_teacher = Users.objects.filter(id_number=confirm_user_id)
-                context = {
-                'current_user': current_user,
-                'current_teacher' : current_teacher,
-                'email_teacher' : email_teacher,
-            }
-            return render(request, 'teacher-account-settings.html', context)
-            
+                email_teacher = Users.objects.filter(id_number=confirm_user_id) 
+
+                return render(request, 'teacher-account-settings.html', {"current_teacher":current_teacher, "email_teacher":email_teacher})
+  
     def post(self, request):
         if request.method == 'POST':
-            # working properly
+
+            # profile pic update feature
             if 'btnUpdateProPic' in request.POST:
                 print('UpdateProPic button clicked!')
                 teacher_id = request.POST.get("teacher_id")
@@ -617,21 +613,13 @@ class TProfileSettings(View):
                 saveProPic = Teachers.objects.get(TeacherID = teacher_id)
                 saveProPic.profile_pic = profile_pic
                 saveProPic.save()
+                messages.success(request, "Profile Picture Successfully Updated!!!", extra_tags='profile_pic_success')
                 print('Teacher profile picture updated!')
-                return redirect('Plan_It_Teknoy:tprofile-settings_view')
+                return redirect('Plan_It_Teknoy:tprofile-settings_view')   
+            
 
-            elif 'btnDeleteTeacher' in request.POST:
-                print('Delete button clicked!')
-                teacher_id = request.POST.get("doctor_id")
-                Teachers.objects.filter(TeacherID=teacher_id).delete()
-                if 'user' in request.session:
-                    current_teacher = request.session['user']
-                    Users.objects.filter(id_number=current_teacher).delete()
-                print("Teacher account deleted")
-                return redirect('Plan_It_Teknoy:logout')
-
-            # teacher personal details update feature
-            elif 'btnUpdateTeacher' in request.POST:
+            # personal details update feature
+            if 'btnUpdate' in request.POST:
                 print('UpdateDetails button clicked!')
                 teacher_id = request.POST.get("teacher_id")
                 firstname = request.POST.get("first_name")
@@ -641,17 +629,68 @@ class TProfileSettings(View):
                 hAddress = request.POST.get("home_address")
                 cAddress = request.POST.get("city_address")
                 Teachers.objects.filter(TeacherID = teacher_id).update(first_name = firstname, last_name = lastname, contact_number = cNumber, gender = sGender, home_address = hAddress, city_address = cAddress)
+                messages.success(request, "Profile Details Successfully Updated!!!", extra_tags='profile_details_success')
                 print('Teacher account updated!')
-                return redirect('Plan_It_Teknoy:tprofile-settings_view')
 
-            elif 'btnUpdateAcad' in request.POST:
-                print('UpdateAcad button clicked!')
-                teacher_id = request.POST.get("teacher_id")
-                department = request.POST.get("department")
-                program = request.POST.get("program")
-                Teachers.objects.filter(TeacherID = teacher_id).update(department = department, program = program)
-                print('Teacher account updated!')
-                return redirect('Plan_It_Teknoy:tprofile-settings_view')
+            # teacher academic details
+            if 'updateAcademicButton' in request.POST:
+                print('UpdateDetails button clicked!')
+                teacher_id = request.POST.get("teacher_academic_id")
+                sdepartment = request.POST.get("academic_department")
+                sprogram = request.POST.get("academic_program")
+                # syear_level = request.POST.get("academic_year_level")
+                Teachers.objects.filter(TeacherID = teacher_id).update(department = sdepartment, program = sprogram)
+                messages.success(request, "Academic Details Successfully Updated!!!", extra_tags='academic_details_success')
+                print('Teacher account academic updated!')
+            
+
+            if 'btnDeleteTeacher' in request.POST:
+                print('Delete button clicked!')
+                teacher_id = request.POST.get("current_teacher_id")
+                Teachers.objects.filter(TeacherID=teacher_id).delete()
+                if 'user' in request.session:
+                    current_teacher = request.session['user']
+                    Users.objects.filter(id_number=current_teacher).delete()
+                    Event.objects.filter(TeacherID = current_teacher).delete()
+                print("Teacher account deleted")
+                return redirect('Plan_It_Teknoy:logout')
+                        
+            
+            if 'btnSubmitPassword' in request.POST:
+
+                teacher_id = request.POST.get("teacher_id_security")
+
+                # get_user_id = Users.objects.get(id_number = student_id)
+
+                user_current_pwd = request.POST.get("current_password")
+
+                check_exact_pwd = Users.objects.filter(id_number = teacher_id).values_list("password", flat=True)
+                pass_list = list(check_exact_pwd)
+                decrypt_pass = pbkdf2_sha256.verify(user_current_pwd, listToString(pass_list))
+
+                if decrypt_pass:
+
+                    print("Current password and newly inputted password matched!")
+
+                    user_new_pwd = request.POST.get("new_password")
+                    enc_user_new_pwd = pbkdf2_sha256.encrypt(user_new_pwd, rounds=12000, salt_size=32)
+
+                    user_confirm_new_pwd = request.POST.get("confirm_password")
+
+                    if user_new_pwd == user_confirm_new_pwd:
+                        Users.objects.filter(id_number = teacher_id).update(password = enc_user_new_pwd)
+                        print("Password newly created")
+                        messages.success(request, "Account Password Successfully Updated!!!", extra_tags='pass_success')
+                        return redirect('Plan_It_Teknoy:tprofile-settings_view')
+                    
+                    else:
+                        messages.error(request, 'New password and Confirm password did not matched!', extra_tags='old_new_pass_error')
+                        #pwede ni siya ma message para ma send sa html nya mag modal pop up
+
+                else:
+                    messages.error(request, 'You did not input your correct current password!', extra_tags='current_pass_error')
+
+            return redirect('Plan_It_Teknoy:tprofile-settings_view')
             
         
 

@@ -80,7 +80,7 @@
           <div class="row">
             <div class="col-12 col-lg-8 m-auto">
               <!-- Form Start -->
-              <form class="multisteps-form__form" id="form" action="" method="POST" autocomplete="off"
+              <form class="multisteps-form__form" id="form" action="" method="POST" autocomplete="off" onload="onCheck()"
                 enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="slideHorz">
@@ -90,22 +90,22 @@
                     <!-- Name -->
                     <div class="form-row mt-4">
                       <div class="col">
-                        <input class="multisteps-form__input form-control" type="text" id="first_name" name="first_name"
+                        <input class="multisteps-form__input form-control" type="text" id="first_name" name="first_name" oninput="oncheck()"
                           placeholder="First Name" required />
                       </div>
                       <div class="col">
-                        <input class="multisteps-form__input form-control" type="text" id="middle_name"
+                        <input class="multisteps-form__input form-control" type="text" id="middle_name" oninput="oncheck()"
                           name="middle_name" placeholder="Middle Name" required />
                       </div>
                       <div class="col">
-                        <input class="multisteps-form__input form-control" type="text" id="last_name" name="last_name"
+                        <input class="multisteps-form__input form-control" type="text" id="last_name" name="last_name" oninput="oncheck()"
                           placeholder="Last Name" required />
                       </div>
                     </div>
                     <!-- Department -->
                     <div class="form-row mt-4">
                       <div class="col-12 col-sm-6">
-                        <select class="multisteps-form__select form-control" id="department" name="department" required>
+                        <select class="multisteps-form__select form-control" id="department" name="department" oninput="oncheck()" required>
                           <option value="" disabled selected>Department</option>
                           <option value="CCS">CCS</option>
                           <option value="CMBS">CMBA</option>
@@ -114,7 +114,7 @@
                       </div>
                       <div class="col-12 col-sm-6 mt-4 mt-sm-0">
                         <!-- Gender -->
-                        <select class="multisteps-form__select form-control" id="gender" name="gender" required>
+                        <select class="multisteps-form__select form-control" id="gender" name="gender" oninput="oncheck()" required>
                           <option value="" disabled selected>Gender</option>
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
@@ -124,7 +124,7 @@
                     <!-- Program -->
                     <div class="form-row mt-4">
                       <div class="col-12 col-sm-6">
-                        <select class="multisteps-form__select form-control" id="program" name="program" required>
+                        <select class="multisteps-form__select form-control" id="program" name="program" oninput="oncheck()" required>
                           <option value="" disabled selected>Program</option>
                           <option value="BSIT">BSIT</option>
                           <option value="BSCS">BSCS</option>
@@ -147,7 +147,7 @@
                       <a class="btn btn-outline-danger" type="button" title="Home"
                         href="{% url 'Plan_It_Teknoy:Home' %}">Return to home</a>
                       <!-- <button class="btn btn-outline-danger" type="button" title="Home">Return to home</button> -->
-                      <button class="btn btn-danger ml-auto js-btn-next" type="button" title="Next">Next</button>
+                      <button class="btn btn-danger ml-auto js-btn-next" type="button" id="btnPersonalNext" name="btnPersonalNext" title="Next" disabled>Next</button>
                     </div>
                   </div>
                 </div>
@@ -159,27 +159,30 @@
                     <div class="form-row mt-4">
                       <div class="col">
                         <!-- City Address -->
-                        <input class="multisteps-form__input form-control" type="text" id="home_address"
+                        <input class="multisteps-form__input form-control" type="text" id="home_address" oninput="oncheck()"
                           name="home_address" placeholder="Home Address" required />
                       </div>
                     </div>
                     <div class="form-row mt-4">
                       <div class="col">
                         <!-- City Address -->
-                        <input class="multisteps-form__input form-control" type="text" id="city_address"
+                        <input class="multisteps-form__input form-control" type="text" id="city_address" oninput="oncheck()"
                           name="city_address" placeholder="City Address" required />
                       </div>
                     </div>
+
                     <div class="form-row mt-4">
-                      <div class="col-12 col-sm-6">
+                      <div class="col-12 col-sm-6 input-group-prepend">
+                          <div class="input-group-text">+63</div>
                         <!-- Contact Number -->
-                        <input class="multisteps-form__input form-control" type="text" id="contact_number"
+                        <input class="multisteps-form__input form-control" type="text" id="contact_number" oninput="oncheck()"
                           name="contact_number" placeholder="Contact Number" required />
                       </div>
                     </div>
+
                     <div class="button-row d-flex mt-4">
                       <button class="btn btn-danger js-btn-prev" type="button" title="Prev">Previous</button>
-                      <button class="btn btn-danger ml-auto js-btn-next" type="button" title="Next">Next</button>
+                      <button class="btn btn-danger ml-auto js-btn-next" type="button" id="btnContactNext" title="Next" disabled>Next</button>
                     </div>
                   </div>
                 </div>
@@ -191,12 +194,12 @@
                     <div class="form-row mt-4">
                       <div class="col-12 col-sm-6">
                         <!-- Email -->
-                        <input class="multisteps-form__input form-control" type="email" id="email" name="email"
+                        <input class="multisteps-form__input form-control" type="email" id="email" name="email" oninput="oncheck()"
                           placeholder="Institutional Email" required />
                       </div>
                       <div class="col-12 col-sm-6 mt-4 mt-sm-0">
                         <!-- ID Number -->
-                        <input class="multisteps-form__input form-control" type="text" id="id_number" name="id_number"
+                        <input class="multisteps-form__input form-control" type="text" id="id_number" name="id_number" oninput="oncheck()"
                           placeholder="ID Number" required />
                       </div>
                     </div>
@@ -204,7 +207,7 @@
                     <div class="form-row mt-4">
                       <div class="col-12 col-sm-6 password-container">
                         <!-- Password -->
-                        <input class="multisteps-form__input form-control" type="password" id="password" name="password"
+                        <input class="multisteps-form__input form-control" type="password" id="password" name="password" oninput="oncheck()"
                           placeholder="Password" required />
                           <i class="fa-solid fa-eye" id="eye"></i>
                       </div>
@@ -215,10 +218,26 @@
                           <i class="fa-solid fa-eye" id="confirmEye"></i>
                       </div>
                     </div>
+
+                    <div class="u-align-center u-form u-form-3">
+                      <div id ="check0" style="padding: 3% 4% 0;" align ="left">
+                        <i class = "far fa-check-circle"></i> Length more than 8.
+                      </div>
+                      <div id ="check2" style="padding: 2% 4% 0;" align ="left">
+                        <i class = "far fa-check-circle"></i> Contains numerical character.
+                      </div>
+                      <div id ="check3" style="padding: 2% 4% 0;" align ="left">
+                        <i class = "far fa-check-circle"  ></i> Contains special character.
+                      </div>
+                      <div id ="check4" style="padding: 2% 4% 0" align ="left">
+                        <i class = "far fa-check-circle"  ></i>  Shouldn't contain spaces.
+                      </div>
+                    </div>
+
                     <div class="button-row d-flex mt-4">
                       <button class="btn btn-danger js-btn-prev" type="button" title="Prev">Previos</button>
                       <!-- Submit Button -->
-                      <button class="btn btn-danger ml-auto" type="submit" title="Register">Sign up</button>
+                      <button class="btn btn-danger ml-auto" type="submit" id="btnSignUp" title="Register" disabled>Sign up</button>
                     </div>
                   </div>
                 </div>
@@ -243,6 +262,81 @@
   </div>
 
   <script>
+    function oncheck(){
+      const buttonPersonalNext = document.querySelector('#btnPersonalNext');
+      const buttonContactNext = document.querySelector('#btnContactNext');
+      const buttonSignUp = document.querySelector('#btnSignUp');
+      // buttonPersonalNext.disabled = false;
+
+      var inputFName = document.getElementById("first_name").value;
+      var inputMName = document.getElementById("middle_name").value;
+      var inputLName = document.getElementById("last_name").value;
+      var inputDepartment = document.getElementById("department").value;
+      var inputGender = document.getElementById("gender").value;
+      var inputProgram = document.getElementById("program").value;
+      // var inputYearLevel = document.getElementById("year_level").value;
+
+      var inputHomeAddress = document.getElementById("home_address").value;
+      var inputCityAddress = document.getElementById("city_address").value;
+      var inputContactNumber = document.getElementById("contact_number").value;
+
+      var inputEmail = document.getElementById("email").value;
+      var inputIdNumber = document.getElementById("id_number").value;
+      var inputPassword = document.getElementById("password").value;
+      var inputConfirmPassword = document.getElementById("confirmPassword").value;
+
+      if(inputFName.length > 0 && inputMName.length > 0 && inputLName.length > 0 && 
+      inputDepartment.length > 0 && inputGender.length > 0 && inputProgram.length > 0){
+         
+        buttonPersonalNext.disabled = false;
+      }
+
+      if(inputHomeAddress.length > 0 && inputCityAddress.length > 0 && inputContactNumber.length > 0){
+         
+        buttonContactNext.disabled = false;
+      }
+
+      if(inputEmail.length > 0 && inputIdNumber.length > 0 && inputPassword.length > 0 && inputConfirmPassword.length > 0){
+         
+        buttonSignUp.disabled = false;
+       }
+ 
+
+      document.getElementById("password").value = inputPassword;
+
+      if(inputPassword.length >= 8){
+         document.getElementById("check0").style.color="green";
+      }else{
+        var check0 = document.getElementById("check0").style.color="red";
+      }
+
+      if(inputPassword.match(/[0-9]/i)){
+        document.getElementById("check2").style.color="green";
+      }else{
+        var check2 = document.getElementById("check2").style.color="red";
+      }
+
+      if(inputPassword.match(/[^A-Za-z0-9-'']/i)){
+        document.getElementById("check3").style.color="green";
+      }else{
+        var check3 = document.getElementById("check3").style.color="red";  
+      }
+
+      if(inputPassword.match(' ')){
+        document.getElementById("check4").style.color="red";
+      }else{
+        var check4 = document.getElementById("check4").style.color="green";
+      }
+
+      if(check0 ==="red" || check2 ==="red" || check3 ==="red" || check4 ==="red" ){
+        const button = document.querySelector('#btnSubmitPassword');
+        button.disabled = true;
+      }
+
+    }
+  </script>
+    
+  <script>
     const passwordField = document.querySelector("#password");
     const eyeIcon= document.querySelector("#eye");
 
@@ -261,7 +355,51 @@
     this.classList.toggle("fa-eye-slash");
     const type = confirmPasswordField.getAttribute("type") === "password" ? "text" : "password";
     confirmPasswordField.setAttribute("type", type);
+
     })
+  </script>
+
+  <script>
+    // Format the phone number as the user types it
+    document.getElementById('contact_number').addEventListener('keyup',function(evt){
+            var contact_number = document.getElementById('contact_number');
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            contact_number.value = phoneFormat(contact_number.value);
+    });
+
+    // We need to manually format the phone number on page load
+    document.getElementById('contact_number').value = phoneFormat(document.getElementById('contact_number').value);
+
+    // A function to determine if the pressed key is an integer
+    function numberPressed(evt){
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if(charCode > 31 && (charCode < 48 || charCode > 57) && (charCode < 36 || charCode > 40)){
+                    return false;
+            }
+            return true;
+    }
+
+    // A function to format text to look like a phone number
+    function phoneFormat(input){
+            // Strip all characters from the input except digits
+            input = input.replace(/\D/g,'');
+            
+            // Trim the remaining input to ten characters, to preserve phone number format
+            input = input.substring(0,10);
+
+            // Based upon the length of the string, we add formatting as necessary
+            var size = input.length;
+            if(size == 0){
+                    input = input;
+            }else if(size < 4){
+                    input = '('+input;
+            }else if(size < 7){
+                    input = '('+input.substring(0,3)+') '+input.substring(3,6);
+            }else{
+                    input = '('+input.substring(0,3)+') '+input.substring(3,6)+' '+input.substring(6,10);
+            }
+            return input; 
+    }
   </script>
 
   <script src="{% static 'js/function-signup-role.js' %}"></script>
