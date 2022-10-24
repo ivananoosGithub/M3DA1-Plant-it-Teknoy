@@ -144,20 +144,39 @@
           <div class="u-layout-row">
             <div class="u-container-style u-layout-cell u-size-30 u-layout-cell-1">
               <div class="u-container-layout u-container-layout-1">
+                {% if user %}
+                <h1
+                  class="u-align-center-xs u-align-left-lg u-align-left-md u-align-left-sm u-align-left-xl u-custom-font u-text u-text-1"
+                  data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500"
+                  data-animation-out="0">Welcome, {{name}}!<br>
+                  <br>
+                </h1>
+                {% else %}
                 <h1
                   class="u-align-center-xs u-align-left-lg u-align-left-md u-align-left-sm u-align-left-xl u-custom-font u-text u-text-1"
                   data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500"
                   data-animation-out="0">Welcome to Plan'it Teknoy<br>
                   <br>
                 </h1>
+                {% endif %}
                 <h4
                   class="u-align-center-xs u-align-left-lg u-align-left-md u-align-left-sm u-align-left-xl u-custom-font u-font-montserrat u-text u-text-2"
                   data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500"
                   data-animation-out="0"> Your place to stay organized, creative and get work done.</h4>
-                <a href="{% url 'Plan_It_Teknoy:signin_view' %}" data-page-id="225305269"
+<!--                 <a href="{% url 'Plan_It_Teknoy:signin_view' %}" data-page-id="225305269"
+                  class="u-align-left u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-2 u-btn-1"
+                  data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-out="0"
+                  data-animation-delay="500">Sign in</a> -->
+
+                  <a href="/microsoft_authentication/login" data-page-id="225305269"
                   class="u-align-left u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-2 u-btn-1"
                   data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-out="0"
                   data-animation-delay="500">Sign in</a>
+
+                    <a href="{% url 'Plan_It_Teknoy:Logout' %}" data-page-id="225305269"
+                  class="u-align-left u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-2 u-btn-1"
+                  data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-out="0"
+                  data-animation-delay="500">Log out</a>
                 <img class="u-expanded-width-xs u-hidden-lg u-hidden-xl u-image u-image-default u-image-1"
                   src="{% static 'images/hello.svg' %}" alt="" data-image-width="979" data-image-height="424">
               </div>

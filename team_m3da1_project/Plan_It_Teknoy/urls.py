@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.conf.urls.static import static
-from django.urls import path
+from django.urls import path, include
 from Plan_It_Teknoy import views
 from django.views.generic.base import RedirectView
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -14,7 +14,12 @@ urlpatterns = [
 
     # Start of user pages
     path('', views.home, name="Home"),
-    path('logout/', views.logout, name='logout'),
+    # for login microsoft
+    path('microsoft_authentication/', include('microsoft_authentication.urls')),
+    path('index/', views.IndexView.as_view(), name="index_view"),
+    path('logout/', views.microsoft_logout, name="Logout"),
+    # end of addition
+    # path('logout/', views.logout, name='logout'),
     path("About/", views.about, name="About"),
     path("Contact/", views.contactView.as_view(), name="contact_view"),
     path("SignIn/", views.SignInView.as_view(), name="signin_view"),

@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.views.generic import View
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .forms import *
 from .models import *
 from passlib.hash import pbkdf2_sha256
@@ -11,6 +11,34 @@ from django.core.mail import send_mail
 from django.conf import settings
 import uuid
 import re
+# added imports below for microsoft authentication
+import msal
+from django.contrib.auth import login, logout
+from microsoft_authentication.auth.auth_utils import (
+    get_sign_in_flow,
+    get_token_from_code,
+    get_user,
+    get_django_user,
+    get_logout_url,
+)
+from Plan_It_Teknoy import graph
+import configparser
+from .graph import Graph
+from microsoft_authentication.auth.auth_decorators import microsoft_login_required
+
+# important don't delete
+
+config = configparser.ConfigParser()
+# config.read(['config.cfg', 'config.dev.cfg'])
+config['azure'] = {'clientId': '0b89f8ff-7f30-471e-9e64-408604ee8002', 
+'clientSecret': 'VL98Q~MZX6QW6~yIu1x3ozto3ehJgEg0srU.JcCP',
+'tenantId' : '823cde44-4433-456d-b801-bdf0ab3d41fc',
+'authTenant' : '823cde44-4433-456d-b801-bdf0ab3d41fc',
+'graphUserScopes' : 'User.Read Mail.Read Mail.Send' }
+azure_settings = config['azure']
+
+graph: Graph = Graph(azure_settings)
+
 
 
 #################################### Start of user pages ###################################
@@ -54,6 +82,22 @@ def listToString(s):
     
     # return string  
     return str1 
+
+# (After Microsoft) Index View
+class IndexView(View):
+    def get(self, request):
+        user = graph.get_user()
+        name = user['displayName']
+        
+        context = {
+            'user': user,
+            'name': name,
+        }
+        return render(request, 'Home.html', context)
+
+def microsoft_logout(request):
+    logout(request)
+    return HttpResponseRedirect(get_logout_url())
 
 # Select Role Page
 class SelectRoleView(View):

@@ -146,3 +146,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 CSRF_TRUSTED_ORIGINS = ['https://*.127.0.0.1']
+
+# microsoft authentication credentials
+MICROSOFT = {
+    "app_id": "0b89f8ff-7f30-471e-9e64-408604ee8002",
+    "app_secret": "VL98Q~MZX6QW6~yIu1x3ozto3ehJgEg0srU.JcCP",
+    "redirect": "http://localhost:8000/microsoft_authentication/callback",
+    "scopes": ["user.read"],
+    "authority": "https://login.microsoftonline.com/823cde44-4433-456d-b801-bdf0ab3d41fc",  # or using tenant "https://login.microsoftonline.com/{tenant}",
+    "valid_email_domains": ["cit.edu"],
+    "logout_uri": "http://localhost:8000/"
+}
+
+LOGIN_URL = "/microsoft_authentication/login"
+LOGIN_REDIRECT_URL = "/index"
