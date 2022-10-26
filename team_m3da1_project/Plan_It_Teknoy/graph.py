@@ -28,7 +28,7 @@ class Graph:
 	def get_user(self):
 		endpoint = '/me'
 		# Only request specific properties
-		select = 'displayName,mail,userPrincipalName'
+		select = 'displayName,mail,userPrincipalName,id'
 		request_url = f'{endpoint}?$select={select}'
 
 		user_response = self.user_client.get(request_url)

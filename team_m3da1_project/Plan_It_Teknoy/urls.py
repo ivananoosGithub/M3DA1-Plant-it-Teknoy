@@ -17,6 +17,7 @@ urlpatterns = [
     # for login microsoft
     path('microsoft_authentication/', include('microsoft_authentication.urls')),
     path('index/', views.IndexView.as_view(), name="index_view"),
+    
     path('logout/', views.microsoft_logout, name="Logout"),
     # end of addition
     # path('logout/', views.logout, name='logout'),

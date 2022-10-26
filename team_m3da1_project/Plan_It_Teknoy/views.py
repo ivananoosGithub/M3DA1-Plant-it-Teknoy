@@ -88,12 +88,67 @@ class IndexView(View):
     def get(self, request):
         user = graph.get_user()
         name = user['displayName']
+        email = user['mail']
+        user_id = user['id']
+        principal_name = user['userPrincipalName']
         
         context = {
+            'user_id':user_id,
+            'email':email,
+            'principal_name':principal_name,
             'user': user,
             'name': name,
         }
         return render(request, 'Home.html', context)
+        
+    def post(self,request):
+        if 'btnAddStudent' in request.POST:
+            if request.POST.get('student_email') and request.POST.get('student_fullname') and request.POST.get('student_id'):
+                
+                add_user = Users()
+                add_student = Students()
+
+                id_number = request.POST.get('student_id')
+
+                if Students.objects.filter(StudentID=id_number).count()>0 or Users.objects.filter(id_number=id_number).count()>0:
+                    return redirect('Plan_It_Teknoy:dashboard_view') 
+
+                else:
+                    add_user.id_number = request.POST.get('student_id')
+                    add_user.email = request.POST.get('student_email')
+                    add_user.save()
+
+                    fk_id_number = Users.objects.get(id_number = id_number)
+
+                    add_student.StudentID = fk_id_number
+                    student_full_name = request.POST.get('student_fullname')
+
+                    name_parts = student_full_name.split()
+
+                    if len(name_parts) ==2 :
+                        print("there is no middle name")
+                        first_name = name_parts[0]
+                        last_name = name_parts[1]
+                        print(f" first name - {first_name}\n  middle name -  last name - {last_name}")
+                    
+                    elif len(name_parts) == 3:
+                        print("there is  middle name")
+                        first_name = name_parts[0]
+                        middle_name = name_parts[1]
+                        last_name = name_parts[2]
+                    
+                    add_student.first_name = first_name
+                    add_student.middle_name = middle_name
+                    add_student.last_name = last_name
+                    
+                    print(f" first name - {first_name}\n middle name - {middle_name} \nlast name - {last_name}")
+
+                    add_student.save()
+
+                    print('Successfully Added an applicant')
+                    return redirect('Plan_It_Teknoy:dashboard_view') 
+        
+    
 
 def microsoft_logout(request):
     logout(request)
@@ -362,42 +417,45 @@ class SignUpTeacherView(View):
 class CalendarViewNew(View):
 
     def get(self, request):
+
+        user = graph.get_user()
         form = EventForm(request.POST or None)
-        if 'user' in request.session:
-            current_user = request.session['user']
-            check_teacher = Teachers.objects.filter(TeacherID=current_user)
-            check_student = Students.objects.filter(StudentID=current_user)
-            confirm_user_id = Users(id_number=current_user)
-            current_student = Students(StudentID=confirm_user_id)
-            running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
+
+        current_user = user['id']
+        check_teacher = Teachers.objects.filter(TeacherID=current_user)
+        check_student = Students.objects.filter(StudentID=current_user)
+        confirm_user_id = Users(id_number=current_user)
+        current_student = Students(StudentID=confirm_user_id)
+        running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
 
 
-            #accessing all student records in the database
-            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level, profile_pic FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
-            
-            student_running_events = []
+        #accessing all student records in the database
+        student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level, profile_pic FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
+        
+        student_running_events = []
 
-            for student_event in running_events:
-                student_running_events.append(
-                    {
-                    "title":student_event.title,
-                    "description": student_event.description,
-                    "start":student_event.start_time.strftime("%Y-%m-%d %H:%M:%S"),
-                    "end":student_event.end_time.strftime("%Y-%m-%d %H:%M:%S"),
-                    }
-                )
+        for student_event in running_events:
+            student_running_events.append(
+                {
+                "title":student_event.title,
+                "description": student_event.description,
+                "start":student_event.start_time.strftime("%Y-%m-%d %H:%M:%S"),
+                "end":student_event.end_time.strftime("%Y-%m-%d %H:%M:%S"),
+                }
+            )
 
-            context = {"student_running_events":student_running_events,  
-            "running_events":running_events, "form":form, "student_record":student_record, "check_teacher":check_teacher, "check_student": check_student}
+        context = {"student_running_events":student_running_events,  
+        "running_events":running_events, "form":form, "student_record":student_record, "check_teacher":check_teacher, "check_student": check_student}
 
-            return render(request, 'calendarapp/calendar.html', context)
+        return render(request, 'calendarapp/calendar.html', context)
 
-    def post(self, request):        
+    def post(self, request):
+        user = graph.get_user()        
         form2 = EventForm(request.POST or None)        
         if request.POST and form2.is_valid():
             # Event Information
             # user = request.session['user']
-            current_user = request.session['user']
+            current_user = user['id']
             confirm_user_id = Users(id_number=current_user)
             current_student = Students(StudentID=confirm_user_id)
             title = form2.cleaned_data["title"]
@@ -417,31 +475,32 @@ class CalendarViewNew(View):
 class DashboardView(View):
     def get(self, request, *args, **kwargs):
         form = EventForm(request.POST or None)
+        
+        user = graph.get_user()
+        current_user = user['id']
 
-        if 'user' in request.session:
-            current_user = request.session['user']
-            confirm_user_id = Users(id_number=current_user)
-            check_teacher = Teachers.objects.filter(TeacherID=current_user)
-            check_student = Students.objects.filter(StudentID=current_user)
-            current_student = Students(StudentID=confirm_user_id)
-            event = Event.objects.filter(StudentID=current_student.StudentID)
+        confirm_user_id = Users(id_number=current_user)
+        check_teacher = Teachers.objects.filter(TeacherID=current_user)
+        check_student = Students.objects.filter(StudentID=current_user)
+        current_student = Students(StudentID=confirm_user_id)
+        event = Event.objects.filter(StudentID=current_student.StudentID)
 
-            # filter [Total Events, Running Events, Completed Events]
-            events = Event.objects.get_all_events(StudentID=current_student.StudentID)
-            running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
-            completed_events = Event.objects.get_completed_events(StudentID=current_student.StudentID)
-            
-            # accessing all student records in the database
-            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
-            
-            context = {
-                        "current_user": current_user,
-                        "student_record" : student_record, "form":form, "event":event, "total_event": events,
-                        "running_events": running_events,
-                        "completed_events": completed_events,
-                        "check_teacher": check_teacher,
-                        "check_student": check_student
-                        }
+        # filter [Total Events, Running Events, Completed Events]
+        events = Event.objects.get_all_events(StudentID=current_student.StudentID)
+        running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
+        completed_events = Event.objects.get_completed_events(StudentID=current_student.StudentID)
+        
+        # accessing all student records in the database
+        student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
+        
+        context = {
+                    "current_user": current_user,
+                    "student_record" : student_record, "form":form, "event":event, "total_event": events,
+                    "running_events": running_events,
+                    "completed_events": completed_events,
+                    "check_teacher": check_teacher,
+                    "check_student": check_student
+                    }
 
         return render(request, 'calendarapp/dashboard.html', context)
 
@@ -468,21 +527,22 @@ class AllEventsListView(ListView):
 
     def get(self, request):
 
-        if 'user' in request.session:
-            current_user = request.session['user']
-            confirm_user_id = Users(id_number=current_user)
-            current_student = Students(StudentID=confirm_user_id)
-            events = Event.objects.get_all_events(StudentID=current_student.StudentID)
-            check_teacher = Teachers.objects.filter(TeacherID=current_user)
-            check_student = Students.objects.filter(StudentID=current_user)
+        user = graph.get_user()
+        current_user = user['id']
+
+        confirm_user_id = Users(id_number=current_user)
+        current_student = Students(StudentID=confirm_user_id)
+        events = Event.objects.get_all_events(StudentID=current_student.StudentID)
+        check_teacher = Teachers.objects.filter(TeacherID=current_user)
+        check_student = Students.objects.filter(StudentID=current_user)
 
 
 
-            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
+        student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
 
-            context = {"student_record" : student_record, "total_event":events,
-                        "events":events, "check_teacher":check_teacher, "check_student":check_student
-                        }
+        context = {"student_record" : student_record, "total_event":events,
+                    "events":events, "check_teacher":check_teacher, "check_student":check_student
+                    }
 
         return render(request, 'calendarapp/events_list.html', context)
         
@@ -494,41 +554,41 @@ class RunningEventsListView(ListView):
     
     def get(self, request):
 
-           if 'user' in request.session:
+        user = graph.get_user()
+        current_user = user['id']
 
-            current_user = request.session['user']
-            confirm_user_id = Users(id_number=current_user)
-            current_student = Students(StudentID=confirm_user_id)
-            running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
-            check_teacher = Teachers.objects.filter(TeacherID=current_user)
-            check_student = Students.objects.filter(StudentID=current_user)
+        confirm_user_id = Users(id_number=current_user)
+        current_student = Students(StudentID=confirm_user_id)
+        running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
+        check_teacher = Teachers.objects.filter(TeacherID=current_user)
+        check_student = Students.objects.filter(StudentID=current_user)
 
 
-            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
-            
-            context = {"student_record" : student_record, "events":running_events, "running_events":running_events, "check_teacher":check_teacher, "check_student":check_student}
+        student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
+        
+        context = {"student_record" : student_record, "events":running_events, "running_events":running_events, "check_teacher":check_teacher, "check_student":check_student}
 
-            return render(request, 'calendarapp/events_list.html', context)
+        return render(request, 'calendarapp/events_list.html', context)
 
 class CompletedEventsListView(ListView):
 
     def get(self, request):
 
-           if 'user' in request.session:
+        user = graph.get_user()
+        current_user = user['id']
 
-            current_user = request.session['user']
-            confirm_user_id = Users(id_number=current_user)
-            current_student = Students(StudentID=confirm_user_id)
-            completed_events = Event.objects.get_completed_events(StudentID=current_student.StudentID)
-            check_teacher = Teachers.objects.filter(TeacherID=current_user)
-            check_student = Students.objects.filter(StudentID=current_user)
+        confirm_user_id = Users(id_number=current_user)
+        current_student = Students(StudentID=confirm_user_id)
+        completed_events = Event.objects.get_completed_events(StudentID=current_student.StudentID)
+        check_teacher = Teachers.objects.filter(TeacherID=current_user)
+        check_student = Students.objects.filter(StudentID=current_user)
 
 
-            student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
-            
-            context = {"student_record" : student_record, "events":completed_events, "completed_events":completed_events, "check_teacher":check_teacher, "check_student":check_student}
+        student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
+        
+        context = {"student_record" : student_record, "events":completed_events, "completed_events":completed_events, "check_teacher":check_teacher, "check_student":check_student}
 
-            return render(request, 'calendarapp/events_list.html', context)
+        return render(request, 'calendarapp/events_list.html', context)
 
 
 # user_profile_settings_views
@@ -536,13 +596,14 @@ class SProfileSettings(View):
 
     def get(self, request):
 
-            if 'user' in request.session:
-                current_user = request.session['user']
-                confirm_user_id = Users(id_number=current_user)
-                current_student = Students.objects.filter(StudentID=confirm_user_id)
-                email_student = Users.objects.filter(id_number=confirm_user_id) 
+        user = graph.get_user()
+        current_user = user['id']
 
-                return render(request, 'account-settings.html', {"current_student":current_student, "email_student":email_student})
+        confirm_user_id = Users(id_number=current_user)
+        current_student = Students.objects.filter(StudentID=confirm_user_id)
+        email_student = Users.objects.filter(id_number=confirm_user_id) 
+
+        return render(request, 'account-settings.html', {"current_student":current_student, "email_student":email_student})
   
     def post(self, request):
         if request.method == 'POST':

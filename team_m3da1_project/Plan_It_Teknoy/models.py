@@ -7,7 +7,7 @@ from django.views.generic import ListView
 
 # Create your models here.
 class Users(models.Model):
-    id_number = models.CharField(primary_key=True, unique=True, max_length = 12)
+    id_number = models.CharField(primary_key=True, unique=True, max_length = 100)
     password = models.CharField(max_length = 256)
     email = models.CharField(max_length = 50)
 
@@ -25,7 +25,7 @@ class Students(models.Model):
     gender = models.CharField(max_length = 20, default="Not set")
     department = models.CharField(max_length = 50, default="Not set")
     program = models.CharField(max_length = 50, default="Not set")
-    year_level = models.IntegerField(default="Not set")
+    year_level = models.IntegerField(default="1")
     contact_number = models.CharField(max_length = 50, default="Not set")
     home_address = models.CharField(max_length = 100, default="Not set")
     city_address = models.CharField(max_length = 100, default="Not set")
