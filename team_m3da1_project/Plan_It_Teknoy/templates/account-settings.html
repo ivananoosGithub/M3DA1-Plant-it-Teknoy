@@ -287,7 +287,11 @@
                                           <div class="u-form-select-wrapper">
                                             <select id="gender" name="gender"
                                               class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-4">
-                                              {% if current_student.gender == 'Female' %}
+                                              {% if current_student.gender == 'Not set' %}
+                                              <option value="" hidden>Not Set</option>
+                                              <option value="Male">Male</option>
+                                              <option value="Female">Female</option>
+                                              {% elif current_student.gender == 'Female' %}
                                               <option value="Female">{{current_student.gender}}</option>
                                               <option value="Male">Male</option>
                                               {% else %}
@@ -501,7 +505,11 @@
                       <div class="u-form-select-wrapper">
                         <select name="academic_department"
                           class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-7">
-                          {% if current_student.department == 'CCS' %}
+                          {% if current_student.department == 'Not set' %}
+                          <option value="" hidden>Not Set</option>
+                          <option value="CCS">CCS</option>
+                          <option value="CMBA">CMBA</option>
+                          {% elif current_student.department == 'CCS' %}
                           <option value="CCS">{{current_student.department}}</option>
                           <option value="CMBA">CMBA</option>
                           {% elif current_student.department == 'CMBA' %}
@@ -536,7 +544,13 @@
                       <div class="u-form-select-wrapper">
                         <select name="academic_year_level"
                           class="u-border-1 u-border-custom-color-2 u-custom-font u-font-montserrat u-input u-input-rectangle u-radius-10 u-white u-input-9">
-                          {% if current_student.year_level == 1 %}
+                          {% if current_student.year_level == 'Not set' %}
+                          <option value="" hidden>Not Set</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          {% elif current_student.year_level == 1 %}
                           <option value="1">{{current_student.year_level}}</option>
                           <option value="2">2</option>
                           <option value="3">3</option>

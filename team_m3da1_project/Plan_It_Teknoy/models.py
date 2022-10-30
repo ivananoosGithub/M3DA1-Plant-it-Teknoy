@@ -25,7 +25,7 @@ class Students(models.Model):
     gender = models.CharField(max_length = 20, default="Not set")
     department = models.CharField(max_length = 50, default="Not set")
     program = models.CharField(max_length = 50, default="Not set")
-    year_level = models.IntegerField(default="1")
+    year_level = models.CharField(max_length = 10, default="Not set")
     contact_number = models.CharField(max_length = 50, default="Not set")
     home_address = models.CharField(max_length = 100, default="Not set")
     city_address = models.CharField(max_length = 100, default="Not set")

@@ -651,12 +651,11 @@ class SProfileSettings(View):
                 print('Delete button clicked!')
                 student_id = request.POST.get("current_student_id")
                 Students.objects.filter(StudentID=student_id).delete()
-                if 'user' in request.session:
-                    current_student = request.session['user']
-                    Users.objects.filter(id_number=current_student).delete()
-                    Event.objects.filter(StudentID = current_student).delete()
+                Users.objects.filter(id_number=student_id).delete()
+                Users.objects.filter(id_number=student_id).delete()
+                Event.objects.filter(StudentID = student_id).delete()
                 print("Student account deleted")
-                return redirect('Plan_It_Teknoy:logout')
+                return redirect('Plan_It_Teknoy:Logout')
                         
             
             if 'btnSubmitPassword' in request.POST:
@@ -758,7 +757,7 @@ class TProfileSettings(View):
                     Users.objects.filter(id_number=current_teacher).delete()
                     Event.objects.filter(TeacherID = current_teacher).delete()
                 print("Teacher account deleted")
-                return redirect('Plan_It_Teknoy:logout')
+                return redirect('Plan_It_Teknoy:Logout')
                         
             
             if 'btnSubmitPassword' in request.POST:
