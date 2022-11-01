@@ -171,14 +171,14 @@
 
                 <form action="" method="POST">
                   {% csrf_token %}
-                  <input type="email" value="{{email}}" name="student_email"    readonly>
-                  <input type="text" value="{{name}}" name="student_fullname"   readonly>
-                  <input type="text" value="{{user_id}}" name="student_id"      readonly>
+                  <input type="email" value="{{email}}" name="student_email" hidden readonly>
+                  <input type="text" value="{{name}}" name="student_fullname" hidden readonly>
+                  <input type="text" value="{{user_id}}" name="student_id" hidden readonly>
 
                   <button data-page-id="225305269"
                   class="u-align-left u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-2 u-btn-1"
                   data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-out="0"
-                  data-animation-delay="500" name="btnAddStudent">Dashboard</button>
+                  data-animation-delay="500" name="btnAddStudent">View Calendar</button>
 
                 </form>
 
@@ -193,11 +193,11 @@
                   class="u-align-left u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-2 u-btn-1"
                   data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-out="0"
                   data-animation-delay="500">Sign in</a>
-
+<!-- 
                     <a href="{% url 'Plan_It_Teknoy:Logout' %}" data-page-id="225305269"
                   class="u-align-left u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-2 u-btn-1"
                   data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-out="0"
-                  data-animation-delay="500">Log out</a>
+                  data-animation-delay="500">Log out</a> -->
                 
                 {% endif %}
 
