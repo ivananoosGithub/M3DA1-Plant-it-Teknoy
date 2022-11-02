@@ -111,7 +111,7 @@ class IndexView(View):
                 id_number = request.POST.get('student_id')
 
                 if Students.objects.filter(StudentID=id_number).count()>0 or Users.objects.filter(id_number=id_number).count()>0:
-                    return redirect('Plan_It_Teknoy:dashboard_view') 
+                    return redirect('Plan_It_Teknoy:calendar_view') 
 
                 else:
                     add_user.id_number = request.POST.get('student_id')
@@ -795,6 +795,10 @@ class TProfileSettings(View):
                     messages.error(request, 'You did not input your correct current password!', extra_tags='current_pass_error')
 
             return redirect('Plan_It_Teknoy:tprofile-settings_view')
+
+class AnnouncementsView(View):
+    def get(self, request):
+        return render(request, 'calendarapp/announcements.html', {})
             
         
 

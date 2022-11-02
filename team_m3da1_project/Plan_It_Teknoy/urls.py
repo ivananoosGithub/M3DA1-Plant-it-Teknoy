@@ -32,6 +32,8 @@ urlpatterns = [
     path("Calendar/", views.CalendarViewNew.as_view(), name="calendar_view"),
     # Dashboard url
     path("Dashboard/", views.DashboardView.as_view(), name="dashboard_view"),
+    # Announcements url
+    path("Announcements/", views.AnnouncementsView.as_view(), name="announcements_view"),
 
     # End of user pages
 

@@ -13,8 +13,11 @@
   <link rel="icon" href="{% static 'images/favicon.ico' %}">
   <link rel="stylesheet" href="{% static 'css/nicepage.css' %}" media="screen">
   <link rel="stylesheet" href="{% static 'css/Home.css' %}" media="screen">
+  <link rel="stylesheet" href="{% static 'css/home-dropdown.css' %}" media="screen">
+  <!-- <link rel="stylesheet" href="{% static 'css/main.css' %}" media="screen"> -->
   <script class="u-script" type="text/javascript" src="{% static 'js/jquery.js' %}" defer=""></script>
   <script class="u-script" type="text/javascript" src="{% static 'js/nicepage.js' %}" defer=""></script>
+  <script class="u-script" type="text/javascript" src="{% static 'js/home.js' %}" defer=""></script>
   <meta name="generator" content="Nicepage 4.12.5, nicepage.com">
   <link id="u-theme-google-font" rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
@@ -124,11 +127,40 @@
           </span>
         </button>
         <input class="u-search-input" type="search" name="search" value="" placeholder="Search">
-      </form><span class="u-file-icon u-hidden-md u-hidden-sm u-hidden-xs u-icon u-text-white u-icon-1"
+      </form>
+      <!-- help icon -->
+      <span class="u-file-icon u-hidden-md u-hidden-sm u-hidden-xs u-icon u-text-white u-icon-1"
         data-href="{% url 'Plan_It_Teknoy:Home' %}" data-page-id="225305269"><img src="{% static 'images/5.png' %}"
-          alt=""></span><span class="u-file-icon u-hidden-md u-hidden-sm u-hidden-xs u-icon u-text-white u-icon-2"
-        data-href="{% url 'Plan_It_Teknoy:signin_view' %}" data-page-id="225305269"><img
-          src="{% static 'images/6.png' %}" alt="Sign Up"></span>
+          alt="">
+      </span>
+      
+      {% if name %}
+      <form action="POST">
+        <input type="text" value="{{name}}" name="student_fullname" hidden readonly>
+      </form>
+      <!-- log out icon -->
+      <span class="u-file-icon u-hidden-md u-hidden-sm u-hidden-xs u-icon u-text-white u-icon-2" 
+      data-href="{% url 'Plan_It_Teknoy:Logout' %}"" data-page-id="225305269">
+      <img style="width: 65%;" src="{% static 'images/8.png' %}" alt="Log out">
+      </span>
+
+      {% else %}
+      <span class="u-file-icon u-hidden-md u-hidden-sm u-hidden-xs u-icon u-text-white u-icon-2" 
+      data-page-id="225305269">
+      <!-- <img style="width: 65%;" src="{% static 'images/8.png' %}" alt="Log out"> -->
+      </span>
+
+      {% endif %}
+
+      <!-- drop down menu / profile / log out -->
+      <!-- <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">dropdown</button>
+        <div id="myDropdown" class="dropdown-content">
+          <a href="#">Profile</a>
+          <a href="#">Log out</a>
+        </div>
+      </div> -->
+      <!-- end dropdown -->
 
       {% if current_user %}
       <h3><a href="{% url 'Plan_It_Teknoy:logout' %}">LOGOUT</a></h3>
@@ -181,11 +213,12 @@
                   data-animation-delay="500" name="btnAddStudent">View Calendar</button>
 
                 </form>
-
-                  <a href="{% url 'Plan_It_Teknoy:Logout' %}" data-page-id="225305269"
+                  
+                <!-- Log out button -->
+                  <!-- <a href="{% url 'Plan_It_Teknoy:Logout' %}" data-page-id="225305269"
                   class="u-align-left u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-custom-font u-font-montserrat u-radius-2 u-btn-1"
                   data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-out="0"
-                  data-animation-delay="500">Log out</a>
+                  data-animation-delay="500">Sign out</a> -->
 
 
                 {% else %}

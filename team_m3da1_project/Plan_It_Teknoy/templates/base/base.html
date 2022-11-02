@@ -29,7 +29,7 @@
     <body class="app sidebar-mini">
         <!-- Navbar-->
         <header class="app-header">
-            <a class="app-header__logo" href="{% url 'Plan_It_Teknoy:dashboard_view' %}"><img src="{% static 'images/LogoMain.png' %}" width="150px" alt="application logo"></a>
+            <a class="app-header__logo" href="{% url 'Plan_It_Teknoy:index_view' %}"><img src="{% static 'images/LogoMain.png' %}" width="150px" alt="application logo"></a>
             <!-- Sidebar toggle button-->
             <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
             <!-- Navbar Right Menu-->
@@ -186,6 +186,9 @@
                             <a class="treeview-item" href="{% url 'Plan_It_Teknoy:all_events' %}"><i class="icon fa fa-circle-o"></i> All</a>
                         </li>
                     </ul>
+                </li>
+                <li>
+                    <a class="app-menu__item" href="{% url 'Plan_It_Teknoy:announcements_view' %}"><i class="app-menu__icon fa fa-bullhorn"></i><span class="app-menu__label">Announcements</span></a>
                 </li>
                 <li>
                     <a class="app-menu__item" href="#"><i class="app-menu__icon fa fa-file-code-o"></i><span class="app-menu__label">Document Generator</span></a>
