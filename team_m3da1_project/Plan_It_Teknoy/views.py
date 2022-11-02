@@ -163,7 +163,7 @@ def microsoft_logout(request):
 # discord messages announcements start
 def retrieve_messages(channelid):
 	headers = {
-		'authorization': 'NzU1MjMwMDk3MDk4OTMyMzA2.GDoSjQ.seHoVarKk7GZPnctKw22oHZRJgiLhYTuBHZ8Ts'
+		'authorization': 'MTAzNTQ0MjU0MzA3MDAyNzgyOA.Gw1IqK.txXNlzuxaveojljcXvOE2TI69x9EJJ9Ke1_TU0'
 	}
 	messages = []
 	r = requests.get(f'https://discord.com/api/v9/channels/{channelid}/messages', headers=headers)
