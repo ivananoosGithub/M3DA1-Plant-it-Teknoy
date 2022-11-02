@@ -163,7 +163,7 @@ def microsoft_logout(request):
 # discord messages announcements start
 def retrieve_messages(channelid):
 	headers = {
-		'authorization': 'NzU1MjMwMDk3MDk4OTMyMzA2.G11NTO.nGG3F5NgQLPghIiD04J7GNAFtfT2-TvZOlYHYo'
+		'authorization': 'NzU1MjMwMDk3MDk4OTMyMzA2.Gg_KwI._jNlJjAVMZP3JhP2lMJZjOZHl-jc8lmNk0Zqkk'
 	}
 	messages = []
 	r = requests.get(f'https://discord.com/api/v9/channels/{channelid}/messages', headers=headers)
@@ -185,21 +185,21 @@ class AnnouncementsView(View):
 	def get(self, request):
 		message = retrieve_messages('1037241163226296383')
 		test = []
-		# df = pd.DataFrame(test)
 		number = 0
+		print(message)
 		for i in message:
 			dictionary = {}
 			dictionary['Username'] = message[number]['author']['username']
 			dictionary['Message'] = message[number]['content']
-			#dictionary['Time'] = message[number]['timestamp']
 			time = message[number]['timestamp']
-			dictionary['Time'] = pd.to_datetime(time)
+			dictionary['Time'] = pd.to_datetime(time)		
 			image = message[number]['attachments']
 			# list of attachments
 			for d in image:
 				dictionary['Image'] = d['proxy_url']
 			test.append(dictionary)
 			number+=1
+			
 
 		image_check = [d['Image'] for d in test if 'Image' in d]
 		print(image_check)
