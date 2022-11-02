@@ -20,7 +20,7 @@
         <div class="tile">
             <!-- Data Table Style -->
             
-            <div class="tile-body">
+<!--             <div class="tile-body">
                 <div class="table-responsive">
                     <div id="sampleTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
                         <div class="row">
@@ -45,14 +45,14 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Data table end -->
 
             <hr>
 
             <!-- main contents block style -->
-            <div class="announcement-holder">
+<!--             <div class="announcement-holder">
                 <h2>Sample Headline</h2>
                 <p class="font-italic">November 2, 2022 | 4:20 pm</p>
                 <img src="" alt="">
@@ -60,27 +60,32 @@
                 accusantium incidunt esse ratione, velit vitae laborum placeat, illo sunt similique eveniet omnis?
                 </p>
                 <p class="text-right">Announcement by: <span class="font-italic">Sample Admin</span></p>
-            </div>
+            </div> -->
             <!-- end content -->
 
             <hr>
 
             <!-- card style -->
+            <!-- {{message}} -->
+            {% for test in test %}
             <div class="card">
-                <h5 class="card-header">November 2, 2022 | 4:20 pm</h5>
+                <h5 class="card-header">{{ test.Time }}</h5>
                 <div class="card-body">
-                    <h2 class="card-title">Sample Headline</h2>
-                    <p>Announcement by: <span class="font-italic">Sample Admin</span></p>
+                    <h2 class="card-title">{{ test.Message }}</h2>
+                    <p>Announcement by: <span class="font-italic">{{ test.Username }}</span></p>
                     <!-- announcment message -->
-                    <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odit blanditiis facilis ab est ea voluptatem eum itaque, 
-                        accusantium incidunt esse ratione, velit vitae laborum placeat, illo sunt similique eveniet omnis?</p>
+                    <p class="card-text">{{ test.Message }}</p>
                     <!-- Lead to source -->
                     <a href="#" class="btn btn-danger">View Source</a>
                     <!-- announcement attachment -->
-                    <img style="width: 40%;" class="rounded mx-auto d-block" src="{% static 'images/announcement-1.jpg' %}" alt="announcement image">
+                    {% if image_check %}
+                    <img style="width: 40%;" class="rounded mx-auto d-block" src="{{test.Image}}" alt="announcement image">
+                    {% endif %}
+                    <!-- <img style="width: 40%;" class="rounded mx-auto d-block" src="{% static 'images/announcement-1.jpg' %}" alt="announcement image"> -->
 
                 </div>
             </div>
+            {% endfor %}
             <!-- end card style -->
 
         </div>

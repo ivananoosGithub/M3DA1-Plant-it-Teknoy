@@ -54,9 +54,10 @@ urlpatterns = [
     # teacher profile settings try
     path("teacher-profile/", views.TProfileSettings.as_view(), name="tprofile-settings_view"),
 
-        # Forgot Password url
+    # Forgot Password url
     path("ForgotPassword/", views.ForgotPasswordView.as_view(), name="fp_view"),
     path("ForgotPassword/<code>/", views.ChangePasswordSentView.as_view(), name="fpt_view"),
+
     
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
