@@ -186,8 +186,7 @@ def heartbeat(interval, ws):
 
 # def retrieve_messages(channelid):
 # 	headers = {
-# 		# 'authorization': 'MTAzNTQ0MjU0MzA3MDAyNzgyOA.Gw1IqK.txXNlzuxaveojljcXvOE2TI69x9EJJ9Ke1_TU0',
-# 		'authorization': 'NzA4OTgyMTM0MTA2NDg4ODU0.GyV7Bf.3oKbR11ww1_SSTfX4I3pvLOcS5Wxva61r9Vr3g'
+# 		'authorization': ''
 # 	}
 # 	messages = []
 # 	r = requests.get(f'https://discord.com/api/v9/channels/{channelid}/messages', headers=headers)
@@ -205,65 +204,68 @@ def image_checker(test_list):
 		else:
 			print("false")
 
+# class AnnouncementsView(View):
+# 	def get(self, request):
+# 		ws = websocket.WebSocket()
+# 		ws.connect('wss://gateway.discord.gg/?v=6&encording=json')
+# 		event = receive_json_response(ws)
+
+# 		# uncomment headers for code testing
+
+# 		headers = {
+# 		'authorization': ''
+# 		}
+# 		messages = []
+# 		message = requests.get(f'https://discord.com/api/v9/channels/1037241163226296383/messages', headers=headers)
+# 		# r = requests.get(f'https://discord.com/api/v9/channels/1037241163226296383/messages')
+# 		jsonn = json.loads(message.text)
+# 		for value in jsonn:
+# 			messages.append(value)
+
+# 		heartbeat_interval = event['d']['heartbeat_interval'] / 1000
+# 		threading._start_new_thread(heartbeat, (heartbeat_interval, ws))
+# 		token = "MTAzOTA3NDY3MjQ5MjQzMzQ3OQ.GnvIRO.k668lQVuKqsInQxrDKagJAd-CuNg9EXcEunStU"
+# 		payload = {
+# 			'op': 2,
+# 			"d": {
+# 				"token": token,
+# 				"properties": {
+# 					"Sos": "windows",
+# 					"Sbrowser": "chrome",
+# 					"Sdevice": 'pc'
+# 				}
+# 			}
+# 		}
+
+# 		send_json_request(ws, payload)
+# 		event = receive_json_response(ws)
+# 		test = []
+# 		number = 0
+# 		for i in messages:
+# 			dictionary = {}
+# 			dictionary['Username'] = messages[number]['author']['username']
+# 			dictionary['Message'] = messages[number]['content']
+# 			time = messages[number]['timestamp']
+# 			dictionary['Time'] = pd.to_datetime(time)		
+# 			image = messages[number]['attachments']
+# 			# list of attachments
+# 			for d in image:
+# 				dictionary['Image'] = d['proxy_url']
+# 			test.append(dictionary)
+# 			number+=1
+
+# 		image_check = [d['Image'] for d in test if 'Image' in d]
+# 		context = {
+# 			'message': message,
+# 			'test': test,
+# 			'dictionary': dictionary,
+# 			'image_check': image_check,
+# 		}
+# 		return render(request, 'calendarapp/announcements.html', context)
+
 class AnnouncementsView(View):
 	def get(self, request):
-		ws = websocket.WebSocket()
-		ws.connect('wss://gateway.discord.gg/?v=6&encording=json')
-		event = receive_json_response(ws)
-
-		# uncomment headers for code testing
-
-		# headers = {
-		# 'authorization': 'MTAzOTA3NDY3MjQ5MjQzMzQ3OQ.GJBOA_.IOZxrY9sWTLYOeat4epCQAKav1yktU1PEdmo38'
-		# }
-		messages = []
-		message = requests.get(f'https://discord.com/api/v9/channels/1037241163226296383/messages', headers=headers)
-		# r = requests.get(f'https://discord.com/api/v9/channels/1037241163226296383/messages')
-		jsonn = json.loads(message.text)
-		for value in jsonn:
-			messages.append(value)
-
-		heartbeat_interval = event['d']['heartbeat_interval'] / 1000
-		threading._start_new_thread(heartbeat, (heartbeat_interval, ws))
-		token = "MTAzOTA3NDY3MjQ5MjQzMzQ3OQ.GnvIRO.k668lQVuKqsInQxrDKagJAd-CuNg9EXcEunStU"
-		payload = {
-			'op': 2,
-			"d": {
-				"token": token,
-				"properties": {
-					"Sos": "windows",
-					"Sbrowser": "chrome",
-					"Sdevice": 'pc'
-				}
-			}
-		}
-
-		send_json_request(ws, payload)
-		event = receive_json_response(ws)
-		test = []
-		number = 0
-		for i in messages:
-			dictionary = {}
-			dictionary['Username'] = messages[number]['author']['username']
-			dictionary['Message'] = messages[number]['content']
-			time = messages[number]['timestamp']
-			dictionary['Time'] = pd.to_datetime(time)		
-			image = messages[number]['attachments']
-			# list of attachments
-			for d in image:
-				dictionary['Image'] = d['proxy_url']
-			test.append(dictionary)
-			number+=1
-
-		image_check = [d['Image'] for d in test if 'Image' in d]
-		context = {
-			'message': message,
-			'test': test,
-			'dictionary': dictionary,
-			'image_check': image_check,
-		}
-		return render(request, 'calendarapp/announcements.html', context)
-
+		return render(request, 'calendarapp/announcements.html', {})
 # discord messages announcements end
 
 # Select Role Page
