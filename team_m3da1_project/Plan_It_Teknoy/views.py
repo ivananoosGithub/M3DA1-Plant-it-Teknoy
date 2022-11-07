@@ -211,9 +211,11 @@ class AnnouncementsView(View):
 		ws.connect('wss://gateway.discord.gg/?v=6&encording=json')
 		event = receive_json_response(ws)
 
-		headers = {
-		'authorization': 'MTAzOTA3NDY3MjQ5MjQzMzQ3OQ.GnvIRO.k668lQVuKqsInQxrDKagJAd-CuNg9EXcEunStU'
-		}
+		# uncomment headers for code testing
+
+		# headers = {
+		# 'authorization': 'MTAzOTA3NDY3MjQ5MjQzMzQ3OQ.GJBOA_.IOZxrY9sWTLYOeat4epCQAKav1yktU1PEdmo38'
+		# }
 		messages = []
 		message = requests.get(f'https://discord.com/api/v9/channels/1037241163226296383/messages', headers=headers)
 		# r = requests.get(f'https://discord.com/api/v9/channels/1037241163226296383/messages')
