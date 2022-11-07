@@ -124,13 +124,8 @@
                             <!-- for testing only -->
                             <!-- NOTE: need pa ug condition if ang user kay student or teacher para maka proceed sa settings -->
                             <!-- for now student setting pa ang ma display -->
-                            {% if check_student %}
+                            
                             <a class="dropdown-item" href="{% url 'Plan_It_Teknoy:sprofile-settings_view' %}"><i class="fa fa-user fa-lg"></i> Profile</a>
-                            {% elif check_teacher %}
-                            <a class="dropdown-item" href="{% url 'Plan_It_Teknoy:tprofile-settings_view' %}"><i class="fa fa-user fa-lg"></i> Profile</a>
-                            {% else %}
-                            <a class="dropdown-item" href="{% url 'Plan_It_Teknoy:tprofile-settings_view' %}"><i class="fa fa-user fa-lg"></i> Profile</a>
-                            {% endif %}
                         </li>
                         <!-- Signout Button -->
                         <li>
