@@ -533,6 +533,7 @@ class CalendarViewNew(View):
 	def get(self, request):
 
 		user = graph.get_user()
+		name = user['displayName']
 		form = EventForm(request.POST or None)
 
 		current_user = user['id']
@@ -558,8 +559,14 @@ class CalendarViewNew(View):
 				}
 			)
 
-		context = {"student_running_events":student_running_events,  
-		"running_events":running_events, "form":form, "student_record":student_record, "check_teacher":check_teacher, "check_student": check_student}
+		context = {
+			"student_running_events":student_running_events,  
+			"running_events":running_events, 
+			"form":form, "student_record":student_record, 
+			"check_teacher":check_teacher, 
+			"check_student": check_student, 
+			'name': name,
+			}
 
 		return render(request, 'calendarapp/calendar.html', context)
 
@@ -591,6 +598,7 @@ class DashboardView(View):
 		form = EventForm(request.POST or None)
 		
 		user = graph.get_user()
+		name = user['displayName']
 		current_user = user['id']
 
 		confirm_user_id = Users(id_number=current_user)
@@ -613,7 +621,8 @@ class DashboardView(View):
 					"running_events": running_events,
 					"completed_events": completed_events,
 					"check_teacher": check_teacher,
-					"check_student": check_student
+					"check_student": check_student,
+					'name': name,
 					}
 
 		return render(request, 'calendarapp/dashboard.html', context)
@@ -642,6 +651,7 @@ class AllEventsListView(ListView):
 	def get(self, request):
 
 		user = graph.get_user()
+		name = user['displayName']
 		current_user = user['id']
 
 		confirm_user_id = Users(id_number=current_user)
@@ -654,9 +664,14 @@ class AllEventsListView(ListView):
 
 		student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
 
-		context = {"student_record" : student_record, "total_event":events,
-					"events":events, "check_teacher":check_teacher, "check_student":check_student
-					}
+		context = {
+			"student_record" : student_record, 
+			"total_event":events,
+			"events":events, 
+			"check_teacher":check_teacher, 
+			"check_student":check_student,
+			'name': name,
+			}
 
 		return render(request, 'calendarapp/events_list.html', context)
 		
@@ -669,6 +684,7 @@ class RunningEventsListView(ListView):
 	def get(self, request):
 
 		user = graph.get_user()
+		name = user['displayName']
 		current_user = user['id']
 
 		confirm_user_id = Users(id_number=current_user)
@@ -680,7 +696,14 @@ class RunningEventsListView(ListView):
 
 		student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
 		
-		context = {"student_record" : student_record, "events":running_events, "running_events":running_events, "check_teacher":check_teacher, "check_student":check_student}
+		context = {
+			"student_record" : student_record, 
+			"events":running_events, 
+			"running_events":running_events, 
+			"check_teacher":check_teacher, 
+			"check_student":check_student,
+			'name': name,
+			}
 
 		return render(request, 'calendarapp/events_list.html', context)
 
@@ -689,6 +712,7 @@ class CompletedEventsListView(ListView):
 	def get(self, request):
 
 		user = graph.get_user()
+		name = user['displayName']
 		current_user = user['id']
 
 		confirm_user_id = Users(id_number=current_user)
@@ -700,7 +724,14 @@ class CompletedEventsListView(ListView):
 
 		student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
 		
-		context = {"student_record" : student_record, "events":completed_events, "completed_events":completed_events, "check_teacher":check_teacher, "check_student":check_student}
+		context = {
+			"student_record" : student_record, 
+			"events":completed_events, 
+			"completed_events":completed_events, 
+			"check_teacher":check_teacher, 
+			"check_student":check_student,
+			'name': name,
+			}
 
 		return render(request, 'calendarapp/events_list.html', context)
 

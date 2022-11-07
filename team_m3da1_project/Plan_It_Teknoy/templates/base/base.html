@@ -118,20 +118,21 @@
                 </li>
                 <!-- User Menu-->
                 <li class="dropdown">
-                    <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i></a>
-                    <ul class="dropdown-menu settings-menu dropdown-menu-right">
-                        <li>
+                    <!-- signout button -->
+                    <a class="app-nav__item" href="{% url 'Plan_It_Teknoy:Logout' %}"><i class="fa fa-sign-out fa-lg"></i></a>
+                    <!-- <ul class="dropdown-menu settings-menu dropdown-menu-right"> -->
+                        <!-- <li> -->
                             <!-- for testing only -->
                             <!-- NOTE: need pa ug condition if ang user kay student or teacher para maka proceed sa settings -->
                             <!-- for now student setting pa ang ma display -->
                             
-                            <a class="dropdown-item" href="{% url 'Plan_It_Teknoy:sprofile-settings_view' %}"><i class="fa fa-user fa-lg"></i> Profile</a>
-                        </li>
+                            <!-- <a class="dropdown-item" href="{% url 'Plan_It_Teknoy:sprofile-settings_view' %}"><i class="fa fa-user fa-lg"></i> Profile</a>
+                        </li> -->
                         <!-- Signout Button -->
-                        <li>
+                        <!-- <li>
                             <a class="dropdown-item" href="{% url 'Plan_It_Teknoy:Logout' %}"><i class="fa fa-sign-out fa-lg"></i> Sign Out</a>
                         </li>
-                    </ul>
+                    </ul> -->
                 </li>
             </ul>
         </header>
@@ -139,16 +140,16 @@
         <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
         <aside class="app-sidebar">
             <div class="app-sidebar__user">
-                    {% for student_records in student_record %}
+                    <!-- {% for student_records in student_record %}
                         {% if student_records.profile_pic.url in student_records.profile_pic.url %}
                         <img class="app-sidebar__user-avatar" src="{{student_records.profile_pic.url}}" alt="User Image" height="50px" width="50px"/>            
-                        {% else %} <!-- Display dummy avatar if there is no uploaded profile pic -->
+                        {% else %}
                         <img class="app-sidebar__user-avatar" src="{% static 'images/default.png' %}" alt="User Image" height="50px" width="50px"/>
-                        {% endif %}
+                        {% endif %} -->
+                        <img class="app-sidebar__user-avatar" src="{% static 'images/default.png' %}" alt="User Image" height="50px" width="50px"/>
                 <div>
                     <!-- User Name -->
-                        <p class="app-sidebar__user-name">{{student_records.first_name}} {{student_records.last_name}}</p>
-                        <!-- User Program -->
+                        <!-- <p class="app-sidebar__user-name">{{student_records.first_name}} {{student_records.last_name}}</p>
                         {% if student_records.year_level == 1 %}
                         <p class="app-sidebar__user-designation">{{student_records.program}} - {{student_records.year_level}}</p>
                         {% elif student_records.year_level == 2 %}
@@ -158,7 +159,11 @@
                         {% else %}
                         <p class="app-sidebar__user-designation">{{student_records.program}} - {{student_records.year_level}}</p>
                         {% endif %}
-                    {% endfor %}
+                    {% endfor %} -->
+
+                        <!-- Full Name and Avatar from ms account -->
+                        <img class="app-sidebar__user-avatar" src="{% static 'images/default.png' %}" alt="User Image" height="50px" width="50px"/>
+                        <p class="app-sidebar__user-name">{{name}}</p>
                 </div>
             </div>
             <ul class="app-menu">
@@ -182,9 +187,11 @@
                         </li>
                     </ul>
                 </li>
-                <li>
+                <!-- announcements sidemenu -->
+                <!-- <li>
                     <a class="app-menu__item" href="{% url 'Plan_It_Teknoy:announcements_view' %}"><i class="app-menu__icon fa fa-bullhorn"></i><span class="app-menu__label">Announcements</span></a>
-                </li>
+                </li> -->
+                <!-- end sidemenu -->
                 <li>
                     <a class="app-menu__item" href="#"><i class="app-menu__icon fa fa-file-code-o"></i><span class="app-menu__label">Document Generator</span></a>
                 </li>

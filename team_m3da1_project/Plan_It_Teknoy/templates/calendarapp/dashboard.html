@@ -225,6 +225,14 @@
 {% endblock content %}
 
 {% block extrascripts %}
+<!-- code for announcements -->
+<script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
+    new Crate({
+      server: '1037241162597154856',
+      channel: '1037241163226296383'
+    })
+  </script>
+  
     <script type="text/javascript" src="{% static 'js/plugins/jquery.dataTables.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/plugins/dataTables.bootstrap.min.js' %}"></script>
     <script type="text/javascript">$('#sampleTable').DataTable();</script>
