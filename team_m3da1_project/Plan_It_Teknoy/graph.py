@@ -34,16 +34,17 @@ class Graph:
 		user_response = self.user_client.get(request_url)
 		return user_response.json()
 
-def display_access_token(graph: Graph):
-	token = graph.get_user_token()
-	print('User token:', token, '\n')
 
-def greet_user(graph: Graph):
-	user = graph.get_user()
-	print('Hello,', user['displayName'])
-	# For Work/school accounts, email is in mail property
-	# Personal accounts, email is in userPrincipalName
-	print('Email:', user['mail'] or user['userPrincipalName'], '\n')
+# def display_access_token(graph: Graph):
+# 	token = graph.get_user_token()
+# 	print('User token:', token, '\n')
+
+# def greet_user(graph: Graph):
+# 	user = graph.get_user()
+# 	print('Hello,', user['displayName'])
+# 	# For Work/school accounts, email is in mail property
+# 	# Personal accounts, email is in userPrincipalName
+# 	print('Email:', user['mail'] or user['userPrincipalName'], '\n')
 
 
 

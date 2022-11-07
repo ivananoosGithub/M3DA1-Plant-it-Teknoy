@@ -29,6 +29,8 @@ from microsoft_authentication.auth.auth_decorators import microsoft_login_requir
 import requests
 import json
 import pandas as pd
+import websocket #pip install websocket-client
+import threading
 
 
 # important don't delete
@@ -141,6 +143,8 @@ class IndexView(View):
 						first_name = name_parts[0]
 						middle_name = name_parts[1]
 						last_name = name_parts[2]
+
+					middle_name = "lol"	
 					
 					add_student.first_name = first_name
 					add_student.middle_name = middle_name
@@ -161,19 +165,38 @@ def microsoft_logout(request):
 
 
 # discord messages announcements start
-def retrieve_messages(channelid):
-	headers = {
-		# 'authorization': 'MTAzNTQ0MjU0MzA3MDAyNzgyOA.Gw1IqK.txXNlzuxaveojljcXvOE2TI69x9EJJ9Ke1_TU0',
-		'authorization': 'NzA4OTgyMTM0MTA2NDg4ODU0.GyV7Bf.3oKbR11ww1_SSTfX4I3pvLOcS5Wxva61r9Vr3g'
-	}
-	messages = []
-	r = requests.get(f'https://discord.com/api/v9/channels/{channelid}/messages', headers=headers)
-	# r = requests.get(f'https://discord.com/api/v9/channels/1037241163226296383/messages')
-	jsonn = json.loads(r.text)
-	for value in jsonn:
-		messages.append(value)
+def send_json_request(ws, request):
+	ws.send(json.dumps(request))
 
-	return messages
+def receive_json_response(ws):
+	response = ws.recv()
+	if response:
+		return json.loads(response)
+
+def heartbeat(interval, ws):
+	print('Heartbeat begin')
+	while True:
+		time.sleep(interval)
+		heartbeatJSON = {
+			"op": 1,
+			"d": "null"
+		}
+		send_json_request(ws, heartbeatJSON)
+		print("Heartbeat sent")
+
+# def retrieve_messages(channelid):
+# 	headers = {
+# 		# 'authorization': 'MTAzNTQ0MjU0MzA3MDAyNzgyOA.Gw1IqK.txXNlzuxaveojljcXvOE2TI69x9EJJ9Ke1_TU0',
+# 		'authorization': 'NzA4OTgyMTM0MTA2NDg4ODU0.GyV7Bf.3oKbR11ww1_SSTfX4I3pvLOcS5Wxva61r9Vr3g'
+# 	}
+# 	messages = []
+# 	r = requests.get(f'https://discord.com/api/v9/channels/{channelid}/messages', headers=headers)
+# 	# r = requests.get(f'https://discord.com/api/v9/channels/1037241163226296383/messages')
+# 	jsonn = json.loads(r.text)
+# 	for value in jsonn:
+# 		messages.append(value)
+
+# 	return messages
 
 def image_checker(test_list):
 	for i in test_list:
@@ -184,26 +207,53 @@ def image_checker(test_list):
 
 class AnnouncementsView(View):
 	def get(self, request):
-		message = retrieve_messages('1037241163226296383')
+		ws = websocket.WebSocket()
+		ws.connect('wss://gateway.discord.gg/?v=6&encording=json')
+		event = receive_json_response(ws)
+
+		headers = {
+		'authorization': 'MTAzOTA3NDY3MjQ5MjQzMzQ3OQ.GnvIRO.k668lQVuKqsInQxrDKagJAd-CuNg9EXcEunStU'
+		}
+		messages = []
+		message = requests.get(f'https://discord.com/api/v9/channels/1037241163226296383/messages', headers=headers)
+		# r = requests.get(f'https://discord.com/api/v9/channels/1037241163226296383/messages')
+		jsonn = json.loads(message.text)
+		for value in jsonn:
+			messages.append(value)
+
+		heartbeat_interval = event['d']['heartbeat_interval'] / 1000
+		threading._start_new_thread(heartbeat, (heartbeat_interval, ws))
+		token = "MTAzOTA3NDY3MjQ5MjQzMzQ3OQ.GnvIRO.k668lQVuKqsInQxrDKagJAd-CuNg9EXcEunStU"
+		payload = {
+			'op': 2,
+			"d": {
+				"token": token,
+				"properties": {
+					"Sos": "windows",
+					"Sbrowser": "chrome",
+					"Sdevice": 'pc'
+				}
+			}
+		}
+
+		send_json_request(ws, payload)
+		event = receive_json_response(ws)
 		test = []
 		number = 0
-		print(message)
-		for i in message:
+		for i in messages:
 			dictionary = {}
-			dictionary['Username'] = message[number]['author']['username']
-			dictionary['Message'] = message[number]['content']
-			time = message[number]['timestamp']
+			dictionary['Username'] = messages[number]['author']['username']
+			dictionary['Message'] = messages[number]['content']
+			time = messages[number]['timestamp']
 			dictionary['Time'] = pd.to_datetime(time)		
-			image = message[number]['attachments']
+			image = messages[number]['attachments']
 			# list of attachments
 			for d in image:
 				dictionary['Image'] = d['proxy_url']
 			test.append(dictionary)
 			number+=1
-			
 
 		image_check = [d['Image'] for d in test if 'Image' in d]
-		print(image_check)
 		context = {
 			'message': message,
 			'test': test,
