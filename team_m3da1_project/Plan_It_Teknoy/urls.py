@@ -34,6 +34,7 @@ urlpatterns = [
     path("Dashboard/", views.DashboardView.as_view(), name="dashboard_view"),
     # Announcements url
     path("Announcements/", views.AnnouncementsView.as_view(), name="announcements_view"),
+    path("DocumentGenerator/", views.DocGenView.as_view(), name="docgen_view"),
 
     # End of user pages
 

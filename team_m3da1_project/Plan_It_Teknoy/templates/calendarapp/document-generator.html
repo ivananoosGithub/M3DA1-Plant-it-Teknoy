@@ -1,0 +1,104 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Plan'it Teknoy | Documents{% endblock title %}
+
+{% block breadcrumb %}
+    <div>
+        <h1><i class="fa fa-file-code-o"></i> Documents</h1>
+        <p>Generate School Documents</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-file-code-o fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="{% url 'Plan_It_Teknoy:docgen_view' %}">Document Generator</a></li>
+    </ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="tile row">
+            <!-- DATA TABLE PANE -->
+            <div class="col-md-8">
+                <h4 class="mb-4">Generated Documents</h4>
+                <!-- left pannel -->
+                <!-- data table -->
+                <div class="tile-body">
+                    <div class="table-responsive">
+                        <div id="sampleTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover table-bordered dataTable no-footer" id="sampleTable" role="grid" aria-describedby="sampleTable_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 300.312px; text-align: center;">Document</th>
+                                                <th class="sorting_asc" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 85px; text-align: center;">Request Date:</th>
+                                                <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px; text-align: center;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <!-- data entries -->
+                                                <tr role="row" class="odd">
+                                                    <td>Promisory Note</td>
+                                                    <td>November 15, 2022</td>
+                                                    <td>
+                                                        <button class="btn btn-danger" style="width: 60px;">View</button>
+                                                    </td>
+                                                </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- data table end-->
+            </div>
+
+            <!-- DOCUMENT GENERATOR PANE -->
+            <div class="col-md-4">
+                <!-- right pannel -->
+                <div id="external-events">
+                    <h4 class="mb-4">Document Generator</h4>
+                      <div>
+                        <form id="form2" action="" method="POST" autocomplete="off" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                <div hidden>
+                                    <label for="recipient-name" class="col-form-label">Doc ID:</label>
+                                    <input class="form-control-plaintext" type="text" id="#" name="#" value="" readonly required>
+                                </div>
+                                <!-- requestor -->
+                                <label for="eventTitle" class="col-form-label" name="name" id="name">Name:</label>
+                                <input class="form-control" type="text" id="#" name="#" value="" required>
+                                <!-- purpose -->
+                                <label for="message-text" class="col-form-label" name="purpose" id="purpose" >Purpose:</label>
+                                <textarea class="form-control" rows="10" id="#" name="#" required></textarea>
+                                <!-- doc req date -->
+                                <label for="eventST" class="col-form-label" name="req_date" id="req_date" >Request Date:</label>
+                                <input class="form-control" type="datetime-local" id="#" name="#" value="" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-warning">Save</button>
+                            </div>
+                        </form>
+                      </div>
+                </div>
+            </div>
+    </div>
+{% endblock content %}
+
+{% block extrascripts %}
+<!-- code for discord announcements -->
+<script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
+  new Crate({
+    server: '1037241162597154856',
+    channel: '1037241163226296383'
+  })
+</script>
+    <script type="text/javascript" src="{% static 'js/plugins/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/plugins/dataTables.bootstrap.min.js' %}"></script>
+    <script type="text/javascript">$('#sampleTable').DataTable();</script>
+{% endblock extrascripts %}

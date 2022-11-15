@@ -268,6 +268,40 @@ class AnnouncementsView(View):
 		return render(request, 'calendarapp/announcements.html', {})
 # discord messages announcements end
 
+class DocGenView(View):
+	def get(self, request, *args, **kwargs):
+		form = EventForm(request.POST or None)
+		
+		user = graph.get_user()
+		name = user['displayName']
+		current_user = user['id']
+
+		confirm_user_id = Users(id_number=current_user)
+		check_teacher = Teachers.objects.filter(TeacherID=current_user)
+		check_student = Students.objects.filter(StudentID=current_user)
+		current_student = Students(StudentID=confirm_user_id)
+		event = Event.objects.filter(StudentID=current_student.StudentID)
+
+		# filter [Total Events, Running Events, Completed Events]
+		events = Event.objects.get_all_events(StudentID=current_student.StudentID)
+		running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
+		completed_events = Event.objects.get_completed_events(StudentID=current_student.StudentID)
+		
+		# accessing all student records in the database
+		student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
+		
+		context = {
+					"current_user": current_user,
+					"student_record" : student_record, "form":form, "event":event, "total_event": events,
+					"running_events": running_events,
+					"completed_events": completed_events,
+					"check_teacher": check_teacher,
+					"check_student": check_student,
+					'name': name,
+					}
+
+		return render(request, 'calendarapp/document-generator.html', context)
+
 # Select Role Page
 class SelectRoleView(View):
 	def get(self, request):
