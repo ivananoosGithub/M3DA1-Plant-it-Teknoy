@@ -9,6 +9,12 @@ from .models import *
 from passlib.hash import pbkdf2_sha256
 from django.core.mail import send_mail
 from django.conf import settings
+from datetime import datetime, timedelta
+
+#notification feature
+from notifications.signals import notify
+
+
 import uuid
 import re
 # added imports below for microsoft authentication
@@ -90,6 +96,27 @@ def listToString(s):
 	# return string  
 	return str1 
 
+#
+# def notification(request):
+# 	user = graph.get_user()        
+# 	current_user = user['id']
+# 	confirm_user_id = Users(id_number=current_user)
+# 	current_student = Students(StudentID=confirm_user_id)
+
+# 	sender = User.objects.get(id = confirm_user_id.users_temp_id)
+# 	receiver = User.objects.get(id = confirm_user_id.users_temp_id)
+# 	get_all_events = Event(StudentID = current_student.StudentID)
+
+# 	now = datetime.now()
+
+# 	if get_all_events.start_time == now:
+# 		message = "Event "+get_all_events.title+" is already running."
+# 		dt_string = now.strftime("%Y-%m-%d %H:%M")
+# 		notify.send(sender,recipient=receiver,verb='Event Running',description=message, timestamp = dt_string)
+
+# 	return redirect('Plan_It_Teknoy:calendar_view')
+
+
 # (After Microsoft) Index View
 class IndexView(View):
 	def get(self, request):
@@ -144,8 +171,6 @@ class IndexView(View):
 						middle_name = name_parts[1]
 						last_name = name_parts[2]
 
-					middle_name = "lol"	
-					
 					add_student.first_name = first_name
 					add_student.middle_name = middle_name
 					add_student.last_name = last_name
@@ -543,7 +568,6 @@ class CalendarViewNew(View):
 		current_student = Students(StudentID=confirm_user_id)
 		running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
 
-
 		#accessing all student records in the database
 		student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level, profile_pic FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
 		
@@ -574,8 +598,6 @@ class CalendarViewNew(View):
 		user = graph.get_user()        
 		form2 = EventForm(request.POST or None)        
 		if request.POST and form2.is_valid():
-			# Event Information
-			# user = request.session['user']
 			current_user = user['id']
 			confirm_user_id = Users(id_number=current_user)
 			current_student = Students(StudentID=confirm_user_id)
@@ -584,7 +606,32 @@ class CalendarViewNew(View):
 			start_time = form2.cleaned_data["start_time"]
 			end_time = form2.cleaned_data["end_time"]
 			form2 = Event(StudentID = current_student.StudentID, title = title, description = description, start_time = start_time, end_time = end_time)
+						
 			form2.save()
+
+			
+			one_min_early = datetime.now()+timedelta(minutes=1)
+			present_time = datetime.now()
+
+			sender = User.objects.get(id = confirm_user_id.users_temp_id)
+			receiver = User.objects.get(id = confirm_user_id.users_temp_id)
+
+			# get_all_events = Event(StudentID = current_student.StudentID, start_time = now)
+
+			get_all_events = Event.objects.filter(StudentID = current_student.StudentID, start_time__gte = datetime.now().date())
+
+
+			print("Present time: ", present_time)
+			print("One min advance: ", get_all_events)
+
+
+			if get_all_events:
+				message = "Event is already running."
+				dt_string = present_time.strftime("%Y-%m-%d %H:%M")
+				notify.send(sender,recipient=receiver,verb='Event Running',description=message, timestamp = dt_string)
+			
+			# dt_string = now.strftime("%Y-%m-%d %H:%M")
+			# notify.send(sender,recipient=receiver,verb='Added New Event',description='You added a new event', timestamp = dt_string)
 			return redirect('Plan_It_Teknoy:calendar_view')
 				
 		else:
@@ -941,8 +988,6 @@ class TProfileSettings(View):
 
 			return redirect('Plan_It_Teknoy:tprofile-settings_view')
 
-			
-		
 
 
 		

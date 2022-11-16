@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "calendarapp.apps.CalendarappConfig",
+    'notifications',
     'Plan_It_Teknoy.apps.PlanItTeknoyConfig',
 ]
 

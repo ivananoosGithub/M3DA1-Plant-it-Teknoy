@@ -4,12 +4,18 @@ from datetime import datetime
 from django.db import models
 from django.urls import reverse
 from django.views.generic import ListView
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Users(models.Model):
+    users_temp_id = models.IntegerField(default=1)
     id_number = models.CharField(primary_key=True, unique=True, max_length = 100)
     password = models.CharField(max_length = 256)
     email = models.CharField(max_length = 50)
+
+    def save(self, *args, **kwargs):
+        self.users_temp_id = self.users_temp_id + 1
+        super().save(*args, **kwargs)  # Call the "real" save() method.
 
     class meta:
         db_table = 'Users'
@@ -18,6 +24,13 @@ class Users(models.Model):
         return self.id_number
 
 class Students(models.Model):
+    students_temp_id = models.IntegerField(default = 1)
+
+    def save(self, *args, **kwargs):
+        self.students_temp_id = self.students_temp_id + 1
+        super().save(*args, **kwargs)  # Call the "real" save() method.
+
+
     StudentID = models.OneToOneField(Users, to_field='id_number', on_delete = models.CASCADE, primary_key=True, unique=True)
     first_name = models.CharField(max_length = 50, default="Not set")
     middle_name = models.CharField(max_length = 50, default="Not set")
@@ -94,6 +107,7 @@ class EventManager(models.Manager):
             ).order_by("start_time")
         
         return completed_events
+
 
 
 class Event(models.Model):

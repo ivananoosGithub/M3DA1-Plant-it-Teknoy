@@ -8,6 +8,8 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
 
 
+
+
 app_name = 'Plan_It_Teknoy'
 
 urlpatterns = [
@@ -57,6 +59,8 @@ urlpatterns = [
     # Forgot Password url
     path("ForgotPassword/", views.ForgotPasswordView.as_view(), name="fp_view"),
     path("ForgotPassword/<code>/", views.ChangePasswordSentView.as_view(), name="fpt_view"),
+
+    
 
     
 
