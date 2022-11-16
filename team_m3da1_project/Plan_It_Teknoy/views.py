@@ -338,7 +338,7 @@ class DocGenView(View):
 			if 'btnViewDocument' in request.POST:
 				getfile = request.POST.get('docview')
 				# temporary file browsing / please replace to local drive when using
-				webbrowser.open_new_tab(f'D:/School 4th year/Capstone/M3DA1-Plant-it-Teknoy/team_m3da1_project/{getfile}')
+				webbrowser.open_new_tab(f'C:/Users/ACER/Documents/GitHub/M3DA1-Plant-it-Teknoy/team_m3da1_project/{getfile}')
 				return redirect('Plan_It_Teknoy:docgen_view')
 
 			if 'btnDeleteDocument' in request.POST:
@@ -347,8 +347,8 @@ class DocGenView(View):
 				docdeletefile = request.POST.get('docdelete')
 				DocumentGen.objects.filter(DocumentID = docdeletefile).delete()
 				# local drive, please change appropriately
-				os.remove(f'D:/School 4th year/Capstone/M3DA1-Plant-it-Teknoy/team_m3da1_project/{getfile}')
-				os.remove(f'D:/School 4th year/Capstone/M3DA1-Plant-it-Teknoy/team_m3da1_project/{getfile2}')
+				os.remove(f'C:/Users/ACER/Documents/GitHub/M3DA1-Plant-it-Teknoy/team_m3da1_project/{getfile}')
+				os.remove(f'C:/Users/ACER/Documents/GitHub/M3DA1-Plant-it-Teknoy/team_m3da1_project/{getfile2}')
 				return redirect('Plan_It_Teknoy:docgen_view')
 
 
