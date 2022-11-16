@@ -25,6 +25,12 @@ class TeachersForm(forms.ModelForm):
         fields = ['TeacherID','first_name','middle_name','last_name','gender','department','program','contact_number','home_address','city_address', 'profile_pic']
         exclude = ['permissions']
 
+class DocumentsForm(forms.ModelForm):
+    class Meta:
+        model = DocumentGen
+        fields = ['DocumentID', 'filename', 'content']
+        exclude = ['content']
+
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact

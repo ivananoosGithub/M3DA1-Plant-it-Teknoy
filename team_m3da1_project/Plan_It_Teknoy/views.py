@@ -38,6 +38,15 @@ import pandas as pd
 import websocket #pip install websocket-client
 import threading
 
+# pip install python-docx
+from docx import Document
+from docx.shared import Inches
+import webbrowser
+# pip install docx2pdf
+from docx2pdf import convert
+# file manipulation
+import os
+
 
 # important don't delete
 
@@ -272,6 +281,82 @@ class AnnouncementsView(View):
 	def get(self, request):
 		return render(request, 'calendarapp/announcements.html', {})
 # discord messages announcements end
+
+class DocGenView(View):
+	def get(self, request, *args, **kwargs):
+		form = EventForm(request.POST or None)
+		
+		user = graph.get_user()
+		name = user['displayName']
+		current_user = user['id']
+
+		confirm_user_id = Users(id_number=current_user)
+		check_teacher = Teachers.objects.filter(TeacherID=current_user)
+		check_student = Students.objects.filter(StudentID=current_user)
+		current_student = Students(StudentID=confirm_user_id)
+		event = Event.objects.filter(StudentID=current_student.StudentID)
+
+		# filter [Total Events, Running Events, Completed Events]
+		events = Event.objects.get_all_events(StudentID=current_student.StudentID)
+		running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
+		completed_events = Event.objects.get_completed_events(StudentID=current_student.StudentID)
+		
+		# accessing all student records in the database
+		student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
+		
+		#document table
+		docs = DocumentGen.objects.all()
+		context = {
+					"current_user": current_user,
+					"student_record" : student_record, "form":form, "event":event, "total_event": events,
+					"running_events": running_events,
+					"completed_events": completed_events,
+					"check_teacher": check_teacher,
+					"check_student": check_student,
+					"docs": docs,
+					'name': name,
+					}
+
+		return render(request, 'calendarapp/document-generator.html', context)
+
+	def post(self,request):
+		if request.method == 'POST':
+			if 'btnAddDoc' in request.POST:
+				document = Document()
+
+				filename = request.POST.get('docfilename')
+				content = request.POST.get('doctext')
+				heading = request.POST.get('docheading', 0)
+
+				document.add_heading(heading)
+				document.add_paragraph(content)
+				file = document.save(filename + ".docx")
+				conv = filename + ".docx"
+				convert(conv)
+
+				add_doc = DocumentGen()
+				add_doc.filename = filename
+				add_doc.content = content
+				add_doc.save()       
+
+				return redirect('Plan_It_Teknoy:docgen_view')
+			if 'btnViewDocument' in request.POST:
+				getfile = request.POST.get('docview')
+				# temporary file browsing / please replace to local drive when using
+				webbrowser.open_new_tab(f'D:/School 4th year/Capstone/M3DA1-Plant-it-Teknoy/team_m3da1_project/{getfile}')
+				return redirect('Plan_It_Teknoy:docgen_view')
+
+			if 'btnDeleteDocument' in request.POST:
+				getfile = request.POST.get('docdeletepdf')
+				getfile2 = request.POST.get('docdeletedocx')
+				docdeletefile = request.POST.get('docdelete')
+				DocumentGen.objects.filter(DocumentID = docdeletefile).delete()
+				# local drive, please change appropriately
+				os.remove(f'D:/School 4th year/Capstone/M3DA1-Plant-it-Teknoy/team_m3da1_project/{getfile}')
+				os.remove(f'D:/School 4th year/Capstone/M3DA1-Plant-it-Teknoy/team_m3da1_project/{getfile2}')
+				return redirect('Plan_It_Teknoy:docgen_view')
+
+
 
 # Select Role Page
 class SelectRoleView(View):

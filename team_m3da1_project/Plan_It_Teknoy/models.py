@@ -132,4 +132,17 @@ class Event(models.Model):
     #     return str(self.EventID)
 
 
+    def __str__(self):
+        return str(self.EventID)
+
+class DocumentGen(models.Model):
+    DocumentID = models.AutoField(primary_key=True, unique=True)
+    filename = models.CharField(max_length = 50, default="Not set")
+    content = models.CharField(max_length=500)
+
+    class meta:
+        db_table = 'DocumentGen'
+
+    def __str__(self):
+        return str(self.DocumentID)
     
