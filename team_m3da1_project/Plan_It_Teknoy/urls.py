@@ -51,6 +51,9 @@ urlpatterns = [
     ),
     path("Completed Events/", views.CompletedEventsListView.as_view(), name="completed_events"),
 
+    
+    # path("Notifications/", views.NotificationsListView.as_view(), name="notifications"),
+
     # student profile settings try
     path("student-profile/", views.SProfileSettings.as_view(), name="sprofile-settings_view"),
     # teacher profile settings try

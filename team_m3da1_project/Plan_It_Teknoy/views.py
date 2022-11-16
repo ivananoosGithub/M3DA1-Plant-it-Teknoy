@@ -9,7 +9,7 @@ from .models import *
 from passlib.hash import pbkdf2_sha256
 from django.core.mail import send_mail
 from django.conf import settings
-from datetime import datetime, timedelta
+from datetime import *
 
 #notification feature
 from notifications.signals import notify
@@ -95,26 +95,6 @@ def listToString(s):
 	
 	# return string  
 	return str1 
-
-#
-# def notification(request):
-# 	user = graph.get_user()        
-# 	current_user = user['id']
-# 	confirm_user_id = Users(id_number=current_user)
-# 	current_student = Students(StudentID=confirm_user_id)
-
-# 	sender = User.objects.get(id = confirm_user_id.users_temp_id)
-# 	receiver = User.objects.get(id = confirm_user_id.users_temp_id)
-# 	get_all_events = Event(StudentID = current_student.StudentID)
-
-# 	now = datetime.now()
-
-# 	if get_all_events.start_time == now:
-# 		message = "Event "+get_all_events.title+" is already running."
-# 		dt_string = now.strftime("%Y-%m-%d %H:%M")
-# 		notify.send(sender,recipient=receiver,verb='Event Running',description=message, timestamp = dt_string)
-
-# 	return redirect('Plan_It_Teknoy:calendar_view')
 
 
 # (After Microsoft) Index View
@@ -553,6 +533,38 @@ class SignUpTeacherView(View):
 			return redirect('Plan_It_Teknoy:signupT_view')
 
 # Calendar View
+
+def get_notifications():
+
+	user = graph.get_user()
+	current_user = user['id']
+	confirm_user_id = Users(id_number=current_user)
+
+	present_time = datetime.now()
+	sender = User.objects.get(id = confirm_user_id.users_temp_id)
+	receiver = User.objects.get(id = confirm_user_id.users_temp_id)
+
+	dt_string = present_time.strftime("%Y-%m-%d %H:%M")
+
+	get_events = Event.objects.filter(StudentID=confirm_user_id,start_time__exact = dt_string)
+
+	queryset  = Event.objects.values_list('title', flat=True).filter(StudentID=confirm_user_id,start_time__exact = dt_string)
+
+	# for event_title in queryset:
+	# 	get_title = event_title.title
+
+	weeeeeee = str(queryset)
+
+	i = 0
+	while i != len(get_events):
+		if get_events:
+			print("TITLE haha: ", weeeeeee)
+			message = "The event '"+weeeeeee+"' is already running seconds ago." 
+			notify.send(sender,recipient=receiver,verb='Event Running',description=message, timestamp = dt_string)
+			i += 1
+
+
+
 class CalendarViewNew(View):
 
 	def get(self, request):
@@ -567,6 +579,7 @@ class CalendarViewNew(View):
 		confirm_user_id = Users(id_number=current_user)
 		current_student = Students(StudentID=confirm_user_id)
 		running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
+		get_notifications()
 
 		#accessing all student records in the database
 		student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level, profile_pic FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
@@ -610,25 +623,27 @@ class CalendarViewNew(View):
 			form2.save()
 
 			
-			one_min_early = datetime.now()+timedelta(minutes=1)
-			present_time = datetime.now()
 
+			present_time = datetime.now()
 			sender = User.objects.get(id = confirm_user_id.users_temp_id)
 			receiver = User.objects.get(id = confirm_user_id.users_temp_id)
 
-			# get_all_events = Event(StudentID = current_student.StudentID, start_time = now)
+			# print(current_user)
+			# print(confirm_user_id)
+			# print(current_student)
+			# print(confirm_user_id.users_temp_id)
+			# print(receiver)
 
-			get_all_events = Event.objects.filter(StudentID = current_student.StudentID, start_time__gte = datetime.now().date())
+			# get_all_events = Event.objects.filter(StudentID = current_student.StudentID, start_time__gt = datetime.now())
 
+			# print("Get All Events: ", get_all_events)
+			# print("Time now: ", datetime.now().date())
+			# print("Present time: ", present_time)
+			# print("LENGHT: ", len(get_all_events))
 
-			print("Present time: ", present_time)
-			print("One min advance: ", get_all_events)
-
-
-			if get_all_events:
-				message = "Event is already running."
-				dt_string = present_time.strftime("%Y-%m-%d %H:%M")
-				notify.send(sender,recipient=receiver,verb='Event Running',description=message, timestamp = dt_string)
+			message = "Congratulations! You just created an event."
+			dt_string = present_time.strftime("%Y-%m-%d %H:%M")
+			notify.send(sender,recipient=receiver,verb='Event Running',description=message, timestamp = dt_string)
 			
 			# dt_string = now.strftime("%Y-%m-%d %H:%M")
 			# notify.send(sender,recipient=receiver,verb='Added New Event',description='You added a new event', timestamp = dt_string)
@@ -727,6 +742,7 @@ class AllEventsListView(ListView):
 class RunningEventsListView(ListView):
 
 	# """ Running events list view """
+
 	
 	def get(self, request):
 
@@ -741,6 +757,22 @@ class RunningEventsListView(ListView):
 		check_student = Students.objects.filter(StudentID=current_user)
 
 
+		# present_time = datetime.now()
+		# sender = User.objects.get(id = confirm_user_id.users_temp_id)
+		# receiver = User.objects.get(id = confirm_user_id.users_temp_id)
+	
+
+		# dt_string = present_time.strftime("%Y-%m-%d %H:%M")
+		# get_events = Event.objects.filter(StudentID=confirm_user_id,start_time__exact = dt_string)
+		# print("HAHAH: ", len(get_events))
+
+		# i = 0
+		# while i != len(get_events):
+		# 	if Event.objects.filter(StudentID=confirm_user_id,start_time__exact = dt_string):
+		# 		message = "One Event is already running seconds ago."
+		# 		notify.send(sender,recipient=receiver,verb='Event Running',description=message, timestamp = dt_string)
+		# 		i += 1
+		
 		student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
 		
 		context = {
@@ -768,7 +800,6 @@ class CompletedEventsListView(ListView):
 		check_teacher = Teachers.objects.filter(TeacherID=current_user)
 		check_student = Students.objects.filter(StudentID=current_user)
 
-
 		student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
 		
 		context = {
@@ -781,6 +812,27 @@ class CompletedEventsListView(ListView):
 			}
 
 		return render(request, 'calendarapp/events_list.html', context)
+
+# class NotificationsListView(ListView):
+
+# 	def get(self, request):
+# 		user = graph.get_user()   
+# 		current_user = user['id']
+# 		present_time = datetime.now()
+# 		confirm_user_id = Users(id_number=current_user)
+	
+# 		present_time = datetime.now()
+# 		sender = User.objects.get(id = confirm_user_id.users_temp_id)
+# 		receiver = User.objects.get(id = confirm_user_id.users_temp_id)
+
+# 		dt_string = present_time.strftime("%Y-%m-%d %H:%M")
+
+# 		if Event.objects.filter(StudentID=confirm_user_id,start_time__exact = dt_string):
+# 			message = "One Event is already running seconds ago."
+# 			notify.send(sender,recipient=receiver,verb='Event Running',description=message, timestamp = dt_string)
+
+
+# 		return render(request, 'base/base.html', {})
 
 
 # user_profile_settings_views

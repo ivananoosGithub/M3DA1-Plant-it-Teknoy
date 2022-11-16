@@ -5,6 +5,9 @@ from django.db import models
 from django.urls import reverse
 from django.views.generic import ListView
 from django.contrib.auth.models import User
+from Plan_It_Teknoy import graph
+from .graph import Graph
+from notifications.signals import notify
 
 # Create your models here.
 class Users(models.Model):
@@ -48,8 +51,8 @@ class Students(models.Model):
     class meta:
         db_table = 'Students'
 
-    def __str__(self):
-        return self.StudentID
+    # def __str__(self):
+    #     return self.StudentID
 
 class Teachers(models.Model):
     TeacherID = models.OneToOneField(Users, to_field='id_number', on_delete = models.CASCADE, primary_key=True, unique=True)
@@ -96,18 +99,17 @@ class EventManager(models.Manager):
             StudentID=StudentID,
             # is_active=True,
             # is_deleted=False,
-            end_time__gte=datetime.now().date(),
-        ).order_by("start_time")
+            end_time__gte=datetime.now()
+        )
         return running_events
     
     def get_completed_events(self, StudentID):
         completed_events = Event.objects.filter(
             StudentID=StudentID, 
-            end_time__lt=datetime.now().date(),
-            ).order_by("start_time")
+            end_time__lt=datetime.now()
+            )
         
         return completed_events
-
 
 
 class Event(models.Model):
@@ -123,6 +125,11 @@ class Event(models.Model):
     class meta:
         db_table = 'Event'
 
-    def __str__(self):
-        return str(self.EventID)
+    # def __str__(self) -> str:
+    #     return self.title
+
+    # def __str__(self):
+    #     return str(self.EventID)
+
+
     
