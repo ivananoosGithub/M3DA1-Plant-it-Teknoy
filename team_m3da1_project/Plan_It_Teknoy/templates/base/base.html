@@ -63,7 +63,7 @@
                 <li class="dropdown">
                     <a class="app-nav__item notification" href="#" data-toggle="dropdown" aria-label="Show notifications"><i class="fa fa-bell-o fa-lg"></i>
                             {% if user.notifications.unread.exists %}
-                        <span class="badge">{% live_notify_badge %}</span>
+                        <span class="badge">!</span>
                             {% endif %}
                     </a>
                     <ul class="app-notification dropdown-menu dropdown-menu-right">
