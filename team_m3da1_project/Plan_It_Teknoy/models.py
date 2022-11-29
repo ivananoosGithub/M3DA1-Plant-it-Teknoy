@@ -4,12 +4,21 @@ from datetime import datetime
 from django.db import models
 from django.urls import reverse
 from django.views.generic import ListView
+from django.contrib.auth.models import User
+from Plan_It_Teknoy import graph
+from .graph import Graph
+from notifications.signals import notify
 
 # Create your models here.
 class Users(models.Model):
+    users_temp_id = models.IntegerField(default=1)
     id_number = models.CharField(primary_key=True, unique=True, max_length = 100)
     password = models.CharField(max_length = 256)
     email = models.CharField(max_length = 50)
+
+    def save(self, *args, **kwargs):
+        self.users_temp_id = self.users_temp_id + 1
+        super().save(*args, **kwargs)  # Call the "real" save() method.
 
     class meta:
         db_table = 'Users'
@@ -18,6 +27,13 @@ class Users(models.Model):
         return self.id_number
 
 class Students(models.Model):
+    students_temp_id = models.IntegerField(default = 1)
+
+    def save(self, *args, **kwargs):
+        self.students_temp_id = self.students_temp_id + 1
+        super().save(*args, **kwargs)  # Call the "real" save() method.
+
+
     StudentID = models.OneToOneField(Users, to_field='id_number', on_delete = models.CASCADE, primary_key=True, unique=True)
     first_name = models.CharField(max_length = 50, default="Not set")
     middle_name = models.CharField(max_length = 50, default="Not set")
@@ -35,8 +51,8 @@ class Students(models.Model):
     class meta:
         db_table = 'Students'
 
-    def __str__(self):
-        return self.StudentID
+    # def __str__(self):
+    #     return self.StudentID
 
 class Teachers(models.Model):
     TeacherID = models.OneToOneField(Users, to_field='id_number', on_delete = models.CASCADE, primary_key=True, unique=True)
@@ -83,15 +99,15 @@ class EventManager(models.Manager):
             StudentID=StudentID,
             # is_active=True,
             # is_deleted=False,
-            end_time__gte=datetime.now().date(),
-        ).order_by("start_time")
+            end_time__gte=datetime.now()
+        )
         return running_events
     
     def get_completed_events(self, StudentID):
         completed_events = Event.objects.filter(
             StudentID=StudentID, 
-            end_time__lt=datetime.now().date(),
-            ).order_by("start_time")
+            end_time__lt=datetime.now()
+            )
         
         return completed_events
 
@@ -108,6 +124,13 @@ class Event(models.Model):
 
     class meta:
         db_table = 'Event'
+
+    # def __str__(self) -> str:
+    #     return self.title
+
+    # def __str__(self):
+    #     return str(self.EventID)
+
 
     def __str__(self):
         return str(self.EventID)

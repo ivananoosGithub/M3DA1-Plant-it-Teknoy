@@ -8,6 +8,8 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
 
 
+
+
 app_name = 'Plan_It_Teknoy'
 
 urlpatterns = [
@@ -50,6 +52,9 @@ urlpatterns = [
     ),
     path("Completed Events/", views.CompletedEventsListView.as_view(), name="completed_events"),
 
+    
+    # path("Notifications/", views.NotificationsListView.as_view(), name="notifications"),
+
     # student profile settings try
     path("student-profile/", views.SProfileSettings.as_view(), name="sprofile-settings_view"),
     # teacher profile settings try
@@ -58,6 +63,8 @@ urlpatterns = [
     # Forgot Password url
     path("ForgotPassword/", views.ForgotPasswordView.as_view(), name="fp_view"),
     path("ForgotPassword/<code>/", views.ChangePasswordSentView.as_view(), name="fpt_view"),
+
+    
 
     
 

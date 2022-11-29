@@ -9,6 +9,14 @@ from .models import *
 from passlib.hash import pbkdf2_sha256
 from django.core.mail import send_mail
 from django.conf import settings
+from datetime import *
+from abc import ABC, abstractmethod
+
+#notification feature
+from notifications.signals import notify
+
+
+
 import uuid
 import re
 # added imports below for microsoft authentication
@@ -35,11 +43,14 @@ import threading
 # pip install python-docx
 from docx import Document
 from docx.shared import Inches
+
 import webbrowser
 # pip install docx2pdf
 from docx2pdf import convert
 # file manipulation
+import win32com.client
 import os
+import pythoncom
 
 
 # important don't delete
@@ -73,7 +84,20 @@ def home(response):
 
 # About Us Page
 def about(response):
-	return render(response, "About.html", {})
+	user = graph.get_user()
+	name = user['displayName']
+	email = user['mail']
+	user_id = user['id']
+	principal_name = user['userPrincipalName']
+	
+	context = {
+		'user_id':user_id,
+		'email':email,
+		'principal_name':principal_name,
+		'user': user,
+		'name': name,
+	}
+	return render(response, "About.html", context)
 
 
 # Password Reset Send Mail Function
@@ -98,6 +122,7 @@ def listToString(s):
 	
 	# return string  
 	return str1 
+
 
 # (After Microsoft) Index View
 class IndexView(View):
@@ -153,8 +178,6 @@ class IndexView(View):
 						middle_name = name_parts[1]
 						last_name = name_parts[2]
 
-					middle_name = "lol"	
-					
 					add_student.first_name = first_name
 					add_student.middle_name = middle_name
 					add_student.last_name = last_name
@@ -318,6 +341,8 @@ class DocGenView(View):
 		if request.method == 'POST':
 			if 'btnAddDoc' in request.POST:
 				document = Document()
+				xl=win32com.client.Dispatch("Excel.Application",pythoncom.CoInitialize())
+
 
 				filename = request.POST.get('docfilename')
 				content = request.POST.get('doctext')
@@ -338,7 +363,7 @@ class DocGenView(View):
 			if 'btnViewDocument' in request.POST:
 				getfile = request.POST.get('docview')
 				# temporary file browsing / please replace to local drive when using
-				webbrowser.open_new_tab(f'D:/School 4th year/Capstone/M3DA1-Plant-it-Teknoy/team_m3da1_project/{getfile}')
+				webbrowser.open_new_tab(f'A:/GitHub/M3DA1-Plant-it-Teknoy/team_m3da1_project/{getfile}')
 				return redirect('Plan_It_Teknoy:docgen_view')
 
 			if 'btnDeleteDocument' in request.POST:
@@ -347,8 +372,8 @@ class DocGenView(View):
 				docdeletefile = request.POST.get('docdelete')
 				DocumentGen.objects.filter(DocumentID = docdeletefile).delete()
 				# local drive, please change appropriately
-				os.remove(f'D:/School 4th year/Capstone/M3DA1-Plant-it-Teknoy/team_m3da1_project/{getfile}')
-				os.remove(f'D:/School 4th year/Capstone/M3DA1-Plant-it-Teknoy/team_m3da1_project/{getfile2}')
+				os.remove(f'A:/GitHub/M3DA1-Plant-it-Teknoy/team_m3da1_project/{getfile}')
+				os.remove(f'A:/GitHub/M3DA1-Plant-it-Teknoy/team_m3da1_project/{getfile2}')
 				return redirect('Plan_It_Teknoy:docgen_view')
 
 
@@ -612,7 +637,83 @@ class SignUpTeacherView(View):
 			messages.info(request, 'Account already exists! Please try another unique one.', extra_tags='try')
 			return redirect('Plan_It_Teknoy:signupT_view')
 
-# Calendar View
+
+""" Strategy Design Pattern for Notifications Feature"""
+class IStrategy(ABC):
+
+	@abstractmethod
+	def getNotifications(self):
+		"""to be implement in the child class"""
+
+class Context():
+
+	_strategy = IStrategy
+
+	def __init__(self, strategy:IStrategy) -> None:
+		self._strategy = strategy
+	
+	def implementNotifications(self):
+		return self._strategy.getNotifications()
+
+
+class ConcreteStrategyFirstNotifications(IStrategy):
+
+	# Notifications for event/s that is occuring/running'
+	def getNotifications(self):
+		user = graph.get_user()
+		current_user = user['id']
+		confirm_user_id = Users(id_number=current_user)
+
+		present_time = datetime.now()
+		sender = User.objects.get(id = confirm_user_id.users_temp_id)
+		receiver = User.objects.get(id = confirm_user_id.users_temp_id)
+
+		dt_string = present_time.strftime("%Y-%m-%d %H:%M")
+
+		get_events = Event.objects.filter(StudentID=confirm_user_id,start_time__exact = dt_string)
+
+		queryset  = Event.objects.values_list('title', flat=True).filter(StudentID=confirm_user_id,start_time__exact = dt_string)
+
+		for eachEvent in queryset:
+			eventTitle = eachEvent
+
+		i = 0
+		while i != len(get_events):
+			if get_events:
+				message = "has just started." 
+				notify.send(sender,recipient=receiver,verb=eventTitle,description=message, timestamp = dt_string)
+				i += 1
+
+class ConcreteStrategySecondNotifications(IStrategy):
+
+	# Notifications for event/s that just finished/done/ended
+	def getNotifications(self):
+		user = graph.get_user()
+		current_user = user['id']
+		confirm_user_id = Users(id_number=current_user)
+
+		present_time = datetime.now()
+		sender = User.objects.get(id = confirm_user_id.users_temp_id)
+		receiver = User.objects.get(id = confirm_user_id.users_temp_id)
+
+		dt_string = present_time.strftime("%Y-%m-%d %H:%M")
+
+		get_events = Event.objects.filter(StudentID=confirm_user_id,end_time__exact = dt_string)
+
+		queryset  = Event.objects.values_list('title', flat=True).filter(StudentID=confirm_user_id,end_time__exact = dt_string)
+
+		for eachEvent in queryset:
+			eventTitle = eachEvent
+
+		i = 0
+		while i != len(get_events):
+			if get_events:
+				message = "has just ended." 
+				notify.send(sender,recipient=receiver,verb=eventTitle,description=message, timestamp = dt_string)
+				i += 1
+
+
+
 class CalendarViewNew(View):
 
 	def get(self, request):
@@ -627,6 +728,16 @@ class CalendarViewNew(View):
 		confirm_user_id = Users(id_number=current_user)
 		current_student = Students(StudentID=confirm_user_id)
 		running_events = Event.objects.get_running_events(StudentID=current_student.StudentID)
+
+
+		# Applying Notification Feature in this Class
+		contextOccuringEvents = Context(ConcreteStrategyFirstNotifications())
+		contextOccuringEvents.implementNotifications()
+
+
+		# Applying Notification Feature in this Class
+		contextEndedEvents = Context(ConcreteStrategySecondNotifications())
+		contextEndedEvents.implementNotifications()
 
 
 		#accessing all student records in the database
@@ -659,8 +770,6 @@ class CalendarViewNew(View):
 		user = graph.get_user()        
 		form2 = EventForm(request.POST or None)        
 		if request.POST and form2.is_valid():
-			# Event Information
-			# user = request.session['user']
 			current_user = user['id']
 			confirm_user_id = Users(id_number=current_user)
 			current_student = Students(StudentID=confirm_user_id)
@@ -668,7 +777,7 @@ class CalendarViewNew(View):
 			description = form2.cleaned_data["description"]
 			start_time = form2.cleaned_data["start_time"]
 			end_time = form2.cleaned_data["end_time"]
-			form2 = Event(StudentID = current_student.StudentID, title = title, description = description, start_time = start_time, end_time = end_time)
+			form2 = Event(StudentID = current_student.StudentID, title = title, description = description, start_time = start_time, end_time = end_time)		
 			form2.save()
 			return redirect('Plan_It_Teknoy:calendar_view')
 				
@@ -765,6 +874,7 @@ class AllEventsListView(ListView):
 class RunningEventsListView(ListView):
 
 	# """ Running events list view """
+
 	
 	def get(self, request):
 
@@ -779,6 +889,22 @@ class RunningEventsListView(ListView):
 		check_student = Students.objects.filter(StudentID=current_user)
 
 
+		# present_time = datetime.now()
+		# sender = User.objects.get(id = confirm_user_id.users_temp_id)
+		# receiver = User.objects.get(id = confirm_user_id.users_temp_id)
+	
+
+		# dt_string = present_time.strftime("%Y-%m-%d %H:%M")
+		# get_events = Event.objects.filter(StudentID=confirm_user_id,start_time__exact = dt_string)
+		# print("HAHAH: ", len(get_events))
+
+		# i = 0
+		# while i != len(get_events):
+		# 	if Event.objects.filter(StudentID=confirm_user_id,start_time__exact = dt_string):
+		# 		message = "One Event is already running seconds ago."
+		# 		notify.send(sender,recipient=receiver,verb='Event Running',description=message, timestamp = dt_string)
+		# 		i += 1
+		
 		student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
 		
 		context = {
@@ -806,7 +932,6 @@ class CompletedEventsListView(ListView):
 		check_teacher = Teachers.objects.filter(TeacherID=current_user)
 		check_student = Students.objects.filter(StudentID=current_user)
 
-
 		student_record = Students.objects.raw('SELECT StudentID_id, first_name, program, last_name, year_level FROM plan_it_teknoy_students WHERE StudentID_id = %s', [current_student.StudentID])
 		
 		context = {
@@ -819,6 +944,27 @@ class CompletedEventsListView(ListView):
 			}
 
 		return render(request, 'calendarapp/events_list.html', context)
+
+# class NotificationsListView(ListView):
+
+# 	def get(self, request):
+# 		user = graph.get_user()   
+# 		current_user = user['id']
+# 		present_time = datetime.now()
+# 		confirm_user_id = Users(id_number=current_user)
+	
+# 		present_time = datetime.now()
+# 		sender = User.objects.get(id = confirm_user_id.users_temp_id)
+# 		receiver = User.objects.get(id = confirm_user_id.users_temp_id)
+
+# 		dt_string = present_time.strftime("%Y-%m-%d %H:%M")
+
+# 		if Event.objects.filter(StudentID=confirm_user_id,start_time__exact = dt_string):
+# 			message = "One Event is already running seconds ago."
+# 			notify.send(sender,recipient=receiver,verb='Event Running',description=message, timestamp = dt_string)
+
+
+# 		return render(request, 'base/base.html', {})
 
 
 # user_profile_settings_views
@@ -1026,8 +1172,6 @@ class TProfileSettings(View):
 
 			return redirect('Plan_It_Teknoy:tprofile-settings_view')
 
-			
-		
 
 
 		
