@@ -12,8 +12,7 @@ from django.conf import settings
 from datetime import *
 from abc import ABC, abstractmethod
 
-# notification feature
-# pip install django-notifications-hq
+#notification feature
 from notifications.signals import notify
 
 
@@ -49,7 +48,9 @@ import webbrowser
 # pip install docx2pdf
 from docx2pdf import convert
 # file manipulation
+import win32com.client
 import os
+import pythoncom
 
 
 # important don't delete
@@ -340,6 +341,8 @@ class DocGenView(View):
 		if request.method == 'POST':
 			if 'btnAddDoc' in request.POST:
 				document = Document()
+				xl=win32com.client.Dispatch("Excel.Application",pythoncom.CoInitialize())
+
 
 				filename = request.POST.get('docfilename')
 				content = request.POST.get('doctext')
