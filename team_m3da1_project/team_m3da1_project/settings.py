@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-$z1*08ztw2+hdn*3=amlt20*p216f#3r=f!fve$331q9cm*++c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1','https://m3da1.azurewebsites.net', '20.118.48.12']
+ALLOWED_HOSTS = ['127.0.0.1','m3da1.azurewebsites.net', '20.118.48.12']
 
 
 # Application definition
@@ -146,7 +146,7 @@ EMAIL_USE_TLS = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-CSRF_TRUSTED_ORIGINS = ['127.0.0.1', 'https://m3da1.azurewebsites.net', '20.118.48.12']
+CSRF_TRUSTED_ORIGINS = ['127.0.0.1', 'm3da1.azurewebsites.net', '20.118.48.12']
 
 # microsoft authentication credentials
 MICROSOFT = {
