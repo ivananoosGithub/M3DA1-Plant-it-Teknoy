@@ -652,9 +652,10 @@ class Context():
 	def implementNotifications(self):
 		return self._strategy.getNotifications()
 
+
 class ConcreteStrategyFirstNotifications(IStrategy):
 
-	# Notifications for event that started 'seconds ago'
+	# Notifications for event/s that is occuring/running'
 	def getNotifications(self):
 		user = graph.get_user()
 		current_user = user['id']
@@ -670,8 +671,33 @@ class ConcreteStrategyFirstNotifications(IStrategy):
 
 		queryset  = Event.objects.values_list('title', flat=True).filter(StudentID=confirm_user_id,start_time__exact = dt_string)
 
-		# for event_title in queryset:
-		# 	get_title = event_title.title
+		for eachEvent in queryset:
+			eventTitle = eachEvent
+
+		i = 0
+		while i != len(get_events):
+			if get_events:
+				message = "has just started." 
+				notify.send(sender,recipient=receiver,verb=eventTitle,description=message, timestamp = dt_string)
+				i += 1
+
+class ConcreteStrategySecondNotifications(IStrategy):
+
+	# Notifications for event/s that just finished/done/ended
+	def getNotifications(self):
+		user = graph.get_user()
+		current_user = user['id']
+		confirm_user_id = Users(id_number=current_user)
+
+		present_time = datetime.now()
+		sender = User.objects.get(id = confirm_user_id.users_temp_id)
+		receiver = User.objects.get(id = confirm_user_id.users_temp_id)
+
+		dt_string = present_time.strftime("%Y-%m-%d %H:%M")
+
+		get_events = Event.objects.filter(StudentID=confirm_user_id,end_time__exact = dt_string)
+
+		queryset  = Event.objects.values_list('title', flat=True).filter(StudentID=confirm_user_id,end_time__exact = dt_string)
 
 		for eachEvent in queryset:
 			eventTitle = eachEvent
@@ -679,24 +705,9 @@ class ConcreteStrategyFirstNotifications(IStrategy):
 		i = 0
 		while i != len(get_events):
 			if get_events:
-				print("TITLE haha: ", eventTitle)
-				message = "The event '"+eventTitle+"' is already running seconds ago." 
-				notify.send(sender,recipient=receiver,verb='Event Running',description=message, timestamp = dt_string)
+				message = "has just ended." 
+				notify.send(sender,recipient=receiver,verb=eventTitle,description=message, timestamp = dt_string)
 				i += 1
-
-class ConcreteStrategySecondNotifications(IStrategy):
-
-	# Notifications for event creation
-	def getNotifications(self):
-		user = graph.get_user()
-		current_user = user['id']
-		confirm_user_id = Users(id_number=current_user)
-		present_time = datetime.now()
-		sender = User.objects.get(id = confirm_user_id.users_temp_id)
-		receiver = User.objects.get(id = confirm_user_id.users_temp_id)
-		message = "Congratulations! You just created an event."
-		dt_string = present_time.strftime("%Y-%m-%d %H:%M")
-		notify.send(sender,recipient=receiver,verb='Event Running',description=message, timestamp = dt_string)
 
 
 
@@ -717,8 +728,13 @@ class CalendarViewNew(View):
 
 
 		# Applying Notification Feature in this Class
-		contextObject = Context(ConcreteStrategyFirstNotifications())
-		contextObject.implementNotifications()
+		contextOccuringEvents = Context(ConcreteStrategyFirstNotifications())
+		contextOccuringEvents.implementNotifications()
+
+
+		# Applying Notification Feature in this Class
+		contextEndedEvents = Context(ConcreteStrategySecondNotifications())
+		contextEndedEvents.implementNotifications()
 
 
 		#accessing all student records in the database
@@ -760,11 +776,6 @@ class CalendarViewNew(View):
 			end_time = form2.cleaned_data["end_time"]
 			form2 = Event(StudentID = current_student.StudentID, title = title, description = description, start_time = start_time, end_time = end_time)		
 			form2.save()
-
-			# Applying Notification Feature in this Class
-			contextObject = Context(ConcreteStrategySecondNotifications())
-			contextObject.implementNotifications()
-
 			return redirect('Plan_It_Teknoy:calendar_view')
 				
 		else:
