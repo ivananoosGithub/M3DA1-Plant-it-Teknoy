@@ -34,12 +34,15 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    steps:
+    
+      steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip' # caching pip dependencies
+      - run: pip install -r requirements.txt
 
-      - name: Set up Python version
-        uses: actions/setup-python@v3.0.0
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip'
