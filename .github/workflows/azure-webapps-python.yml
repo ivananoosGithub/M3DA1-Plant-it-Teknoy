@@ -43,7 +43,6 @@ jobs:
         with:
           python-version: '3.9' 
           cache: 'pip'
-          cache-dependency-path: '**/setup.py'
 
       - name: Create and start virtual environment
         run: |
