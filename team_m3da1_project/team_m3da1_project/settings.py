@@ -125,8 +125,15 @@ USE_TZ = True
 STATIC_URL = '/static/'
 # note: specify static directory location
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), ) 
+PROJECT_ROOT   =   os.path.join(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILE_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Extra lookup directories for collectstatic to find static files
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+)
+
+#  Add configuration for static files storage using whitenoise
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -161,3 +168,7 @@ MICROSOFT = {
 
 LOGIN_URL = "/microsoft_authentication/login"
 LOGIN_REDIRECT_URL = "/index"
+
+import dj_database_url 
+prod_db  =  dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(prod_db)

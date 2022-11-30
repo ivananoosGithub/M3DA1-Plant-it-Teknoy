@@ -144,3 +144,6 @@ Werkzeug==2.2.2
 whitenoise==6.0.0
 widgetsnbextension==3.5.2
 zipp==3.7.0
+dj-database-url==0.4.2
+gunicorn==19.7.1
+psycopg2==2.7.3.2
