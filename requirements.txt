@@ -114,7 +114,7 @@ python-dateutil==2.8.2
 python-docx==0.8.11
 pytz==2020.1
 # pywin32==303
-pywinpty==2.0.2
+# pywinpty==2.0.2
 PyYAML==5.4.1
 pyzmq==22.3.0
 qtconsole==5.2.2
