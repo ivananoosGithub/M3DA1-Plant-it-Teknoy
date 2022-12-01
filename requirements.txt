@@ -26,8 +26,6 @@ decorator==5.1.1
 defusedxml==0.7.1
 distlib==0.3.2
 Django==3.2.14
-
-
 django-doctor==2.5.0
 django-microsoft-authentication==0.1.2
 django-model-utils==4.3.1
