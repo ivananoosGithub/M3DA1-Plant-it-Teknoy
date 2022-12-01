@@ -27,7 +27,7 @@ defusedxml==0.7.1
 distlib==0.3.2
 Django==3.2.14
 
-#comment out doctor
+
 django-doctor==2.5.0
 django-microsoft-authentication==0.1.2
 django-model-utils==4.3.1
@@ -121,8 +121,6 @@ PyYAML==5.4.1
 pyzmq==22.3.0
 qtconsole==5.2.2
 # QtPy==2.0.1
-
-#comment out regex
 regex==2021.7.6
 requests==2.26.0
 rich==10.6.0
