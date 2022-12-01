@@ -670,19 +670,24 @@ class ConcreteStrategyFirstNotifications(IStrategy):
 
 		dt_string = present_time.strftime("%Y-%m-%d %H:%M")
 
-		get_events = Event.objects.filter(StudentID=confirm_user_id,start_time__exact = dt_string)
+		get_events = Event.objects.filter(StudentID=confirm_user_id,start_time__lte = dt_string)
 
-		queryset  = Event.objects.values_list('title', flat=True).filter(StudentID=confirm_user_id,start_time__exact = dt_string)
+		queryset  = Event.objects.values_list('title', flat=True).filter(StudentID=confirm_user_id,start_time__lte = dt_string)
 
 		for eachEvent in queryset:
 			eventTitle = eachEvent
-
+		
 		i = 0
-		while i != len(get_events):
-			if get_events:
-				message = "has just started." 
-				notify.send(sender,recipient=receiver,verb=eventTitle,description=message, timestamp = dt_string)
-				i += 1
+
+		isCounter = True
+
+		if isCounter == True:
+			isCounter = False
+			while i != len(get_events):
+				if get_events:
+					message = "has just started." 
+					notify.send(sender,recipient=receiver,verb=eventTitle,description=message, timestamp = dt_string)
+					i += 1
 
 class ConcreteStrategySecondNotifications(IStrategy):
 
@@ -706,11 +711,14 @@ class ConcreteStrategySecondNotifications(IStrategy):
 			eventTitle = eachEvent
 
 		i = 0
-		while i != len(get_events):
-			if get_events:
-				message = "has just ended." 
-				notify.send(sender,recipient=receiver,verb=eventTitle,description=message, timestamp = dt_string)
-				i += 1
+		global isCounter
+		if isCounter:
+			isCounter = False
+			while i != len(get_events):
+				if get_events:
+					message = "has just ended." 
+					notify.send(sender,recipient=receiver,verb=eventTitle,description=message, timestamp = dt_string)
+					i += 1
 
 
 
